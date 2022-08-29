@@ -17,6 +17,7 @@ const express_1 = __importDefault(require("express"));
 const ManageContent_1 = require("../controllers/ManageContent");
 const contentRouter = express_1.default.Router();
 exports.contentRouter = contentRouter;
+// create new bucket list
 contentRouter.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newBucketList = req.body;
     (0, ManageContent_1.createBucketList)(newBucketList, (err, creationId) => {
@@ -26,6 +27,7 @@ contentRouter.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, fu
         res.status(200).json({ creationId: creationId });
     });
 }));
+// add an activity to a particular bucket list based on id of that list
 contentRouter.post("/add", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newActivity = req.body;
     (0, ManageContent_1.addActivity)(newActivity, (err, addId) => {

@@ -4,6 +4,7 @@ import { BucketList, BucketListContent } from "../types/content";
 
 const contentRouter = express.Router();
 
+// create new bucket list
 contentRouter.post("/create", async (req: Request, res: Response) => {
   const newBucketList: BucketList = req.body;
 
@@ -16,6 +17,7 @@ contentRouter.post("/create", async (req: Request, res: Response) => {
   });
 });
 
+// add an activity to a particular bucket list based on id of that list
 contentRouter.post("/add", async (req: Request, res: Response) => {
   const newActivity: BucketListContent = req.body;
 

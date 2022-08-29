@@ -17,12 +17,23 @@ const express_1 = __importDefault(require("express"));
 const ViewContent_1 = require("../controllers/ViewContent");
 const viewContentRouter = express_1.default.Router();
 exports.viewContentRouter = viewContentRouter;
+// get all lists for a user based on their id
 viewContentRouter.get("/lists/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = Number(req.params.id);
-    (0, ViewContent_1.findBucketLists)(userId, (err, lists) => {
+    (0, ViewContent_1.getBucketLists)(userId, (err, lists) => {
         if (err) {
             return res.status(500).json({ message: err.message });
         }
         res.status(200).json({ data: lists });
+    });
+}));
+// get all activities for a bucket list based on id of bucket list
+viewContentRouter.get("/activities/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const bucketListId = Number(req.params.id);
+    (0, ViewContent_1.getActivities)(bucketListId, (err, activities) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ data: activities });
     });
 }));

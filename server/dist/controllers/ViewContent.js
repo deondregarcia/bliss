@@ -1,12 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findBucketLists = void 0;
+exports.getActivities = exports.getBucketLists = void 0;
 const db_1 = require("../db");
 // view list of all bucket lists user is involved in
-const findBucketLists = (userId, callback) => {
-    console.log(userId);
-    const queryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=${userId}`;
-    db_1.db.query(queryString, (err, result) => {
+const getBucketLists = (userId, callback) => {
+    const queryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=?`;
+    db_1.db.query(queryString, userId, (err, result) => {
         if (err) {
             callback(err);
         }
@@ -27,4 +26,30 @@ const findBucketLists = (userId, callback) => {
         callback(null, lists);
     });
 };
-exports.findBucketLists = findBucketLists;
+exports.getBucketLists = getBucketLists;
+// view all activities in a bucket list
+const getActivities = (trackerId, callback) => {
+    const queryString = `SELECT * FROM bucket_list_content WHERE tracker_id=?`;
+    db_1.db.query(queryString, trackerId, (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const rows = result;
+        const activities = [];
+        rows.forEach((row) => {
+            const activity = {
+                id: row.id,
+                tracker_id: row.tracker_id,
+                activity: row.activity,
+                description: row.description,
+                is_completed: row.boolean,
+                user_id: row.user_id,
+                date_added: row.date_added,
+                date_completed: row.date_completed,
+            };
+            activities.push(activity);
+        });
+        callback(null, activities);
+    });
+};
+exports.getActivities = getActivities;
