@@ -37,3 +37,13 @@ contentRouter.post("/add", (req, res) => __awaiter(void 0, void 0, void 0, funct
         res.status(200).json({ addId: addId });
     });
 }));
+// update an activity in a bucket list
+contentRouter.put("/update-activity", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const updatedActivity = req.body;
+    (0, ManageContent_1.updateActivity)(updatedActivity, (err, updatedId) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ updatedId: updatedId });
+    });
+}));

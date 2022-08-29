@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addActivity = exports.createBucketList = void 0;
+exports.updateActivity = exports.addActivity = exports.createBucketList = void 0;
 // controller callback functions for CRUD operations on bucket list content
 const db_1 = require("../db");
 // creates the bucket list tracker
@@ -41,3 +41,15 @@ const addActivity = (activity, callback) => {
     });
 };
 exports.addActivity = addActivity;
+// update an activity's description (but not is_completed status) in a bucket list
+const updateActivity = (newActivity, callback) => {
+    const queryString = "UPDATE bucket_list_content SET activity=?, description=? WHERE id=?";
+    db_1.db.query(queryString, [newActivity.activity, newActivity.description, newActivity.id], (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const insertId = result.insertId;
+        callback(null, insertId);
+    });
+};
+exports.updateActivity = updateActivity;

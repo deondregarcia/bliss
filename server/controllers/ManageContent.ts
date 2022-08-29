@@ -60,3 +60,25 @@ export const addActivity = (
     }
   );
 };
+
+// update an activity's description (but not is_completed status) in a bucket list
+export const updateActivity = (
+  newActivity: BucketListContent,
+  callback: Function
+) => {
+  const queryString =
+    "UPDATE bucket_list_content SET activity=?, description=? WHERE id=?";
+
+  db.query(
+    queryString,
+    [newActivity.activity, newActivity.description, newActivity.id],
+    (err, result) => {
+      if (err) {
+        callback(err);
+      }
+
+      const insertId = (<OkPacket>result).insertId;
+      callback(null, insertId);
+    }
+  );
+};

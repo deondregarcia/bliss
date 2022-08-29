@@ -1,5 +1,9 @@
 import express, { Request, Response } from "express";
-import { createBucketList, addActivity } from "../controllers/ManageContent";
+import {
+  createBucketList,
+  addActivity,
+  updateActivity,
+} from "../controllers/ManageContent";
 import { BucketList, BucketListContent } from "../types/content";
 
 const contentRouter = express.Router();
@@ -27,6 +31,19 @@ contentRouter.post("/add", async (req: Request, res: Response) => {
     }
 
     res.status(200).json({ addId: addId });
+  });
+});
+
+// update an activity in a bucket list
+contentRouter.put("/update-activity", async (req: Request, res: Response) => {
+  const updatedActivity: BucketListContent = req.body;
+
+  updateActivity(updatedActivity, (err: Error, updatedId: number) => {
+    if (err) {
+      return res.status(500).json({ message: err.message });
+    }
+
+    res.status(200).json({ updatedId: updatedId });
   });
 });
 
