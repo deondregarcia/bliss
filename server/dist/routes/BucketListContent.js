@@ -21,8 +21,17 @@ contentRouter.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, fu
     const newBucketList = req.body;
     (0, BucketListContent_1.createBucketList)(newBucketList, (err, creationId) => {
         if (err) {
-            return res.status(500).json({ "message": err.message });
+            return res.status(500).json({ message: err.message });
         }
-        res.status(200).json({ "creationId": creationId });
+        res.status(200).json({ creationId: creationId });
+    });
+}));
+contentRouter.post("/add", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const newActivity = req.body;
+    (0, BucketListContent_1.addActivity)(newActivity, (err, addId) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ addId: addId });
     });
 }));
