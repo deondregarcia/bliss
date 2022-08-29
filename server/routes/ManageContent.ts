@@ -1,8 +1,5 @@
 import express, { Request, Response } from "express";
-import {
-  createBucketList,
-  addActivity,
-} from "../controllers/BucketListContent";
+import { createBucketList, addActivity } from "../controllers/ManageContent";
 import { BucketList, BucketListContent } from "../types/content";
 
 const contentRouter = express.Router();

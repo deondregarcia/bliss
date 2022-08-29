@@ -2,8 +2,8 @@
 import { db } from "../db";
 import { OkPacket, RowDataPacket } from "mysql2";
 import { BucketList, BucketListContent } from "../types/content";
-import { callbackify } from "util";
 
+// creates the bucket list tracker
 export const createBucketList = (
   bucketList: BucketList,
   callback: Function
@@ -32,6 +32,7 @@ export const createBucketList = (
   );
 };
 
+// adds new activity to a bucket list corresponding to bucket_list_tracker; is_completed should be set to 0 and date_added is NULL by default
 export const addActivity = (
   activity: BucketListContent,
   callback: Function

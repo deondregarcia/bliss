@@ -29,11 +29,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv = __importStar(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const bodyParser = __importStar(require("body-parser"));
-const BucketListContent_1 = require("./routes/BucketListContent");
+const ManageContent_1 = require("./routes/ManageContent");
+const ViewContent_1 = require("./routes/ViewContent");
 const app = (0, express_1.default)();
 dotenv.config();
 app.use(bodyParser.json());
-app.use("/content", BucketListContent_1.contentRouter);
+app.use("/content", ManageContent_1.contentRouter);
+app.use("/view", ViewContent_1.viewContentRouter);
 app.listen(process.env.PORT, () => {
     console.log(`Node server started running on Port ${process.env.PORT}`);
 });
