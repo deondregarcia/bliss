@@ -1,8 +1,13 @@
 .bucket-list-container {
-    width: 90%;
+    width: 95%;
     height: 100px;
-    background-color: white;
-    margin-top: 30px;
+    margin-top: 15px;
     flex-shrink: 0;
+    border: 1px solid rgb(168, 168, 168);
     border-radius: 8px;
+    padding: 5px 10px;
+}
+
+.bucket-list-title {
+    border-bottom: var(--border-style);
 }
