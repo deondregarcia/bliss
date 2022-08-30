@@ -18,7 +18,6 @@ export const getBucketLists = (userId: number, callback: Function) => {
       const list: BucketList = {
         id: row.id,
         owner_id: row.owner_id,
-        collab_type: row.collab_type,
         privacy_type: row.privacy_type,
         created_at: row.created_at,
         title: row.title,

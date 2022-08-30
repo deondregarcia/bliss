@@ -31,15 +31,6 @@
     display: none;
 }
 
-.test-list {
-    width: 90%;
-    height: 100px;
-    background-color: white;
-    margin-top: 30px;
-    flex-shrink: 0;
-    border-radius: 8px;
-}
-
 .friend-feed {
     background-color: yellow;
     grid-column: 10/14;

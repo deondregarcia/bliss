@@ -1,4 +1,4 @@
-export interface BucketList {
+export interface BucketListType {
   id?: number;
   owner_id: number;
   privacy_type: string;
@@ -7,7 +7,7 @@ export interface BucketList {
   description: string;
 }
 
-export interface BucketListContent {
+export interface BucketListContentType {
   id?: number;
   tracker_id: number;
   activity: string;

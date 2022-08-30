@@ -1,0 +1,8 @@
+.bucket-list-container {
+    width: 90%;
+    height: 100px;
+    background-color: white;
+    margin-top: 30px;
+    flex-shrink: 0;
+    border-radius: 8px;
+}

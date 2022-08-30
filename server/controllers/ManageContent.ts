@@ -15,7 +15,6 @@ export const createBucketList = (
     queryString,
     [
       bucketList.owner_id,
-      bucketList.collab_type,
       bucketList.privacy_type,
       new Date(),
       bucketList.title,
