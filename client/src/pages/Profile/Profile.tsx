@@ -35,7 +35,8 @@ const Profile = () => {
   return (
     <>
       <div className="home-container">
-        <div className="control-panel"></div>
+        {/* first row of elements */}
+        <div className="profile-info"></div>
         <div className="content-container public">
           {bucketListArray
             .filter((bList) => {
@@ -46,7 +47,12 @@ const Profile = () => {
             })}
         </div>
         <div className="friend-feed"></div>
+        {/* second row of elements */}
+        <div className="control-panel"></div>
         <div className="content-container friends"></div>
+
+        {/* third row of elements */}
+        <div className="content-container private"></div>
         <div className="test" />
         <div className="test" />
         <div className="test" />
