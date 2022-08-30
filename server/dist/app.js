@@ -39,7 +39,11 @@ const isLoggedIn = (req, res, next) => {
     req.user ? next() : res.sendStatus(401);
 };
 const app = (0, express_1.default)();
-app.use((0, express_session_1.default)({ secret: process.env.SESSION_SECRET }));
+app.use((0, express_session_1.default)({
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+}));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 dotenv.config();

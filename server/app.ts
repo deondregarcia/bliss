@@ -14,7 +14,13 @@ const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
 
 const app = express();
 
-app.use(session({ secret: process.env.SESSION_SECRET! }));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET!,
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 dotenv.config();

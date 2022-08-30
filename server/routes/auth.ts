@@ -24,6 +24,7 @@ passport.use(
       //   function (err, user) {
       //     return cb(err, user);
       //   });
+      //   console.log(accessToken);
       return done(null, profile);
       // return cb(err, profile);
     }

@@ -40,6 +40,7 @@ passport_1.default.use(new GoogleStrategy({
     //   function (err, user) {
     //     return cb(err, user);
     //   });
+    //   console.log(accessToken);
     return done(null, profile);
     // return cb(err, profile);
 }));
