@@ -1,7 +1,7 @@
 .home-container {
     display: grid;
     grid-template-columns: repeat(18, 1fr);
-    grid-template-rows: repeat(6, 350px);
+    grid-template-rows: repeat(6, 400px);
     justify-content: center;
     grid-gap: 15px
 }
@@ -14,6 +14,7 @@
 }
 
 .content-container {
+    position: relative;
     background-color: var(--content-bg-color);
     grid-column: 6/13;
     display: flex;

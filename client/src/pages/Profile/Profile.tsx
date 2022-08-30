@@ -8,6 +8,7 @@ import { BucketListType } from "../../types/content";
 // import components
 import BucketList from "../../components/BucketList/BucketList";
 import EmptyArrayMessage from "../../components/EmptyArrayMessage/EmptyArrayMessage";
+import ContentContainerHeader from "../../components/ContentContainerHeader/ContentContainerHeader";
 
 const Profile = () => {
   const [userID, setUserID] = useState<number>(0);
@@ -59,6 +60,7 @@ const Profile = () => {
         {/* first row of elements */}
         <div className="profile-info"></div>
         <div className="content-container public">
+          <ContentContainerHeader category="Public" />
           {/* if publicBucketListArray is true, render, if null, display message */}
           {publicBucketListArray.length > 0 ? (
             publicBucketListArray.map((bucketList, index) => {
@@ -73,6 +75,7 @@ const Profile = () => {
         {/* second row of elements */}
         <div className="control-panel"></div>
         <div className="content-container shared">
+          <ContentContainerHeader category="Shared" />
           {sharedBucketListArray.length > 0 ? (
             sharedBucketListArray.map((bucketList, index) => {
               return <BucketList bucketList={bucketList} key={index} />;
@@ -83,6 +86,7 @@ const Profile = () => {
         </div>
         {/* third row of elements */}
         <div className="content-container private">
+          <ContentContainerHeader category="Private" />
           {privateBucketListArray.length > 0 ? (
             privateBucketListArray.map((bucketList, index) => {
               return <BucketList bucketList={bucketList} key={index} />;
