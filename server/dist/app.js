@@ -34,11 +34,15 @@ const ViewContent_1 = require("./routes/ViewContent");
 const passport_1 = __importDefault(require("passport"));
 const express_session_1 = __importDefault(require("express-session"));
 const cors = require("cors");
+// import { url: URL } from 'url';
+const url = require("url");
 require("./routes/auth");
+dotenv.config();
 const isLoggedIn = (req, res, next) => {
     req.user ? next() : res.sendStatus(401);
 };
 const app = (0, express_1.default)();
+app.use(cors());
 app.use((0, express_session_1.default)({
     secret: process.env.SESSION_SECRET,
     resave: true,
@@ -46,22 +50,27 @@ app.use((0, express_session_1.default)({
 }));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
-dotenv.config();
-app.use(cors());
 app.use(bodyParser.json());
 app.use("/content", ManageContent_1.contentRouter);
 app.use("/view", ViewContent_1.viewContentRouter);
 // auth testing
 app.get("/auth/google", passport_1.default.authenticate("google", { scope: ["email", "profile"] }));
-// app.get(
-//   "/google/callback",
-//   passport.authenticate("google", { failureRedirect: "/auth/failure" }),
-//   (req: Request, res: Response) => {
-//     res.redirect("/");
-//   }
-// );
 app.get("/auth/google/callback", passport_1.default.authenticate("google", { failureRedirect: "/auth/failure" }), (req, res) => {
-    res.redirect("/");
+    var _a;
+    console.log(req.user);
+    res.redirect(`http://localhost:3001/${(_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id}`);
+    // console.log(req.user);
+    // console.log(res);
+    // res.status(200).json({ user_object: req.user });
+    // res.redirect("http://localhost:3001/");
+    //   res.redirect(
+    //     url.format({
+    //       pathname: "http://localhost:3001/",
+    //       query: {
+    //         user_object: req.user,
+    //       },
+    //     })
+    //   );
 });
 app.get("/", (req, res) => {
     res.send('<a href="/auth/google">Authenticate with Google</a>');
@@ -70,7 +79,11 @@ app.get("/auth/failure", (req, res) => {
     res.send("something went wrong...");
 });
 app.get("/protected", isLoggedIn, (req, res) => {
-    res.send("Hello!");
+    res.send(req.user);
+});
+app.get("/logout", (req, res, err) => {
+    req.logout(err);
+    res.send("Goodbye!");
 });
 // auth testing ----
 app.listen(process.env.PORT, () => {

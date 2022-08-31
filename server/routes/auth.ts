@@ -21,18 +21,17 @@ passport.use(
       profile: Profile,
       done: VerifyCallback
     ) {
-      //   function (err, user) {
-      //     return cb(err, user);
-      //   });
-      //   console.log(accessToken);
+      // User.findOrCreate({ googleId: profile.id },
       return done(null, profile);
-      // return cb(err, profile);
     }
   )
 );
 
+// serialize and deserialize user
 passport.serializeUser(function (user: Express.User, done) {
-  done(null, user);
+  return done(null, {
+    id: user.id,
+  });
 });
 
 passport.deserializeUser(function (user: Express.User, done) {

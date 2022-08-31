@@ -23,9 +23,8 @@ const Profile = () => {
     BucketListType[]
   >([]);
 
-  console.log(sharedBucketListArray);
-
-  useEffect(() => {
+  // grab bucket_list_tracker data
+  const getBucketListData = () => {
     // hardcode userID for now
     // Axios.get(`http://localhost:3000/view/lists/${userID}`)
     Axios.get(`http://localhost:3000/view/lists/2`)
@@ -50,6 +49,12 @@ const Profile = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  //
+
+  useEffect(() => {
+    getBucketListData();
 
     return () => {};
   }, []);

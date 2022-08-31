@@ -37,15 +37,15 @@ passport_1.default.use(new GoogleStrategy({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/auth/google/callback",
 }, function (accessToken, refreshToken, profile, done) {
-    //   function (err, user) {
-    //     return cb(err, user);
-    //   });
-    //   console.log(accessToken);
+    // User.findOrCreate({ googleId: profile.id },
+    console.log(profile);
     return done(null, profile);
-    // return cb(err, profile);
 }));
+// serialize and deserialize user
 passport_1.default.serializeUser(function (user, done) {
-    done(null, user);
+    return done(null, {
+        id: user.id,
+    });
 });
 passport_1.default.deserializeUser(function (user, done) {
     done(null, user);

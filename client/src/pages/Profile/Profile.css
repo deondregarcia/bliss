@@ -1,9 +1,10 @@
 .home-container {
     display: grid;
     grid-template-columns: repeat(18, 1fr);
-    grid-template-rows: repeat(6, 400px);
+    grid-template-rows: repeat(3, 400px);
     justify-content: center;
-    grid-gap: 15px
+    grid-gap: 15px;
+    margin-bottom: 60px;
 }
 
 .profile-info {
