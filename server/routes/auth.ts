@@ -5,6 +5,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const SessionStrategy = require("passport-strategy");
 
 const authRouter = express.Router();
 
@@ -22,7 +23,11 @@ passport.use(
       done: VerifyCallback
     ) {
       // User.findOrCreate({ googleId: profile.id },
-      return done(null, profile);
+      return done(null, {
+        id: profile.id,
+        profile: profile,
+        accessToken: accessToken,
+      });
     }
   )
 );
@@ -31,6 +36,7 @@ passport.use(
 passport.serializeUser(function (user: Express.User, done) {
   return done(null, {
     id: user.id,
+    accessToken: user.accessToken,
   });
 });
 

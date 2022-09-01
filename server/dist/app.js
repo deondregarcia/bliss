@@ -29,24 +29,40 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv = __importStar(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const bodyParser = __importStar(require("body-parser"));
+// import routes files
 const ManageContent_1 = require("./routes/ManageContent");
 const ViewContent_1 = require("./routes/ViewContent");
 const passport_1 = __importDefault(require("passport"));
 const express_session_1 = __importDefault(require("express-session"));
+// import packages for MySQl session store
+const mysql = require("mysql2/promise");
+const MySQLStore = require("express-mysql-session")(express_session_1.default);
 const cors = require("cors");
-// import { url: URL } from 'url';
+const cookieParser = require("cookie-parser");
 const url = require("url");
 require("./routes/auth");
 dotenv.config();
-const isLoggedIn = (req, res, next) => {
-    req.user ? next() : res.sendStatus(401);
+// set up express-mysql-session for sessionStore
+const sessionStoreOptions = {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PWD,
+    database: process.env.DB_NAME,
 };
+// const connection = mysql.createPool(sessionStoreOptions);
+const connection = mysql.createPool(sessionStoreOptions);
+const sessionStore = new MySQLStore({}, connection);
 const app = (0, express_1.default)();
-app.use(cors());
+app.use(cors({ credentials: true }));
+app.use(cookieParser());
+// this middleware fires for every consecutive request to the server
 app.use((0, express_session_1.default)({
     secret: process.env.SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
+    store: sessionStore,
+    // cookie: { secure: false },
 }));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
@@ -54,25 +70,24 @@ app.use(bodyParser.json());
 app.use("/content", ManageContent_1.contentRouter);
 app.use("/view", ViewContent_1.viewContentRouter);
 // auth testing
+const isLoggedIn = (req, res, next) => {
+    req.user ? next() : res.sendStatus(401);
+};
 app.get("/auth/google", passport_1.default.authenticate("google", { scope: ["email", "profile"] }));
 app.get("/auth/google/callback", passport_1.default.authenticate("google", { failureRedirect: "/auth/failure" }), (req, res) => {
     var _a;
-    console.log(req.user);
     res.redirect(`http://localhost:3001/${(_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id}`);
-    // console.log(req.user);
-    // console.log(res);
-    // res.status(200).json({ user_object: req.user });
-    // res.redirect("http://localhost:3001/");
-    //   res.redirect(
-    //     url.format({
-    //       pathname: "http://localhost:3001/",
-    //       query: {
-    //         user_object: req.user,
-    //       },
-    //     })
-    //   );
+});
+app.get("/auth/user", passport_1.default.authenticate("google", { scope: ["email", "profile"] }), (req, res) => {
+    // console.log(req.sessionStore["sessions"]);
+    console.log(req.user);
+    // console.log(req.cookies);
+    res.json({ user: req.user });
 });
 app.get("/", (req, res) => {
+    console.log(req.session.id);
+    console.log(req.session.cookie);
+    // req.session.isAuth = true;
     res.send('<a href="/auth/google">Authenticate with Google</a>');
 });
 app.get("/auth/failure", (req, res) => {
@@ -83,7 +98,11 @@ app.get("/protected", isLoggedIn, (req, res) => {
 });
 app.get("/logout", (req, res, err) => {
     req.logout(err);
-    res.send("Goodbye!");
+    req.session.destroy((err) => {
+        if (err)
+            throw err;
+        res.redirect("/");
+    });
 });
 // auth testing ----
 app.listen(process.env.PORT, () => {

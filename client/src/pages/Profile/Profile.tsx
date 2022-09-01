@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ReactNode } from "react";
 import Axios from "axios";
 import "./Profile.css";
+import Cookies from "js-cookie";
 
 // import types
 import { BucketListType } from "../../types/content";
@@ -27,7 +28,7 @@ const Profile = () => {
   const getBucketListData = () => {
     // hardcode userID for now
     // Axios.get(`http://localhost:3000/view/lists/${userID}`)
-    Axios.get(`http://localhost:3000/view/lists/2`)
+    Axios.get(`/view/lists/2`)
       .then((response) => {
         console.log(response.data.data);
         setPublicBucketListArray(
@@ -59,11 +60,25 @@ const Profile = () => {
     return () => {};
   }, []);
 
+  // delete this later
+  const interactWithServer = () => {
+    Axios.get("/test")
+      .then((res) => {
+        console.log(res);
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <div className="home-container">
         {/* first row of elements */}
-        <div className="profile-info"></div>
+        <div className="profile-info">
+          <button onClick={interactWithServer}> Interact with Server </button>
+        </div>
         <div className="content-container public">
           <ContentContainerHeader category="Public" />
           {/* if publicBucketListArray is true, render, if null, display message */}

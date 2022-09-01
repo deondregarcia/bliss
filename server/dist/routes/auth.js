@@ -31,6 +31,7 @@ const passport_1 = __importDefault(require("passport"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const SessionStrategy = require("passport-strategy");
 const authRouter = express_1.default.Router();
 passport_1.default.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -38,13 +39,35 @@ passport_1.default.use(new GoogleStrategy({
     callbackURL: "http://localhost:3000/auth/google/callback",
 }, function (accessToken, refreshToken, profile, done) {
     // User.findOrCreate({ googleId: profile.id },
-    console.log(profile);
-    return done(null, profile);
+    return done(null, {
+        id: profile.id,
+        profile: profile,
+        accessToken: accessToken,
+    });
 }));
+// passport.use(new SessionStrategy(options, deserializeUser){
+//   if (typeof options == 'function') {
+//     deserializeUser = options;
+//     options = undefined;
+//   }
+//   options = options || {};
+// } )
+// function SessionStrategy(options, deserializeUser) {
+//   if (typeof options == "function") {
+//     deserializeUser = options;
+//     options = undefined;
+//   }
+//   options = options || {};
+//   Strategy.call(this);
+//   this.name = "session";
+//   this._key = options.key || "passport";
+//   this._deserializeUser = deserializeUser;
+// }
 // serialize and deserialize user
 passport_1.default.serializeUser(function (user, done) {
     return done(null, {
         id: user.id,
+        accessToken: user.accessToken,
     });
 });
 passport_1.default.deserializeUser(function (user, done) {
