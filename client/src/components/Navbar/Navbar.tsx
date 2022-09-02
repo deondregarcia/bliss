@@ -4,9 +4,10 @@ import useAuth from "../../hooks/useAuth";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
 
   const logout = () => {
+    setAuth({});
     Axios.get("/logout")
       .then((res) => {
         console.log(res);

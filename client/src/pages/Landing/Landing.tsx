@@ -16,9 +16,11 @@ const Landing = () => {
         // console.log(res.data);
 
         // if session id in response does not exist
-        if (res.data) {
+        if (res.data.session_info) {
+          console.log("logged in");
           setAuth(res.data);
         } else {
+          console.log("not logged in");
           return false;
         }
       })
@@ -26,19 +28,12 @@ const Landing = () => {
         console.log(err);
       });
 
-    // setIsLoggedIn(true);
+    setIsLoggedIn(true);
     // navigate("profile", { replace: true });
   };
 
   useEffect(() => {
-    checkForAuth();
-    // setAuth({
-    //   session_info: {
-    //     session_id: "hi",
-    //     expires: 2,
-    //     data: "hellodata",
-    //   },
-    // });
+    // checkForAuth();
     // setIsLoggedIn(true);
     // console.log("i should fire only once");
     // console.log(auth);

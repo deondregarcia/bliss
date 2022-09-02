@@ -5,7 +5,7 @@ import Axios from "axios";
 
 const RequireAuth = () => {
   const { auth, setAuth } = useAuth();
-  //   const [didCheckRun, setDidCheckRun] = useState(false);
+  const [didCheckRun, setDidCheckRun] = useState(false);
   const location = useLocation();
   //   const navigate = useNavigate();
 
@@ -14,52 +14,50 @@ const RequireAuth = () => {
   console.log(auth.session_info ? "true" : "false");
   console.log("auth wrapper");
 
-  //   // make request to server to check if auth credentials exist (i.e. if google login was achieved)
-  //   const checkForAuth = async () => {
-  //     // if user is logged in, should send session id; CHECK WHAT HAPPENS IF USER IS NOT LOGGED IN
-  //     await Axios.get("/verify")
-  //       .then((res) => {
-  //         console.log(res.data);
+  // make request to server to check if auth credentials exist (i.e. if google login was achieved)
+  const checkForAuth = async () => {
+    // if user is logged in, should send session id; CHECK WHAT HAPPENS IF USER IS NOT LOGGED IN
+    await Axios.get("/verify")
+      .then((res) => {
+        console.log(res.data);
 
-  //         // if session id in response does not exist
-  //         if (res.data) {
-  //           setAuth(res.data);
-  //           console.log("auth wrapper setting");
-  //           console.log(auth);
-  //           console.log("auth wrapper setting");
-  //           setDidCheckRun(true);
-  //           navigate("profile", { replace: true });
-  //           // setIsLoggedIn(true);
-  //         } else {
-  //           return false;
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   };
+        // if session id in response does not exist
+        if (res.data) {
+          setAuth(res.data);
+          setDidCheckRun(true);
+          // setIsLoggedIn(true);
+        } else {
+          return false;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  //   useEffect(() => {
-  //     checkForAuth();
-  //   });
+  useEffect(() => {
+    checkForAuth();
+  }, []);
 
-  return auth.session_info ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/" state={{ from: location }} replace />
-    // <Navigate to="/" />
-    // <Navigate to="bucket-list" state={{ from: location }} replace />
-  );
-  //   return (
-  //     <>
-  //       {didCheckRun &&
-  //         (auth?.user ? (
-  //           <Outlet />
-  //         ) : (
-  //           <Navigate to="bucket-list" state={{ from: location }} replace />
-  //         ))}
-  //     </>
+  //   return auth.session_info ? (
+  //     <Outlet />
+  //   ) : (
+  //     <Navigate to="/" state={{ from: location }} replace />
+  //     // <Navigate to="/" />
+  //     // <Navigate to="bucket-list" state={{ from: location }} replace />
   //   );
+  return (
+    <>
+      {didCheckRun &&
+        (auth.session_info ? (
+          <Outlet />
+        ) : (
+          //   <Navigate to="profile" />
+          //   <Navigate to="/" />
+          <Navigate to="/" state={{ from: location }} replace />
+        ))}
+    </>
+  );
 };
 
 export default RequireAuth;

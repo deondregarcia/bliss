@@ -35,7 +35,7 @@ function App() {
           {/* protected routes */}
           <Route element={<RequireAuth />}>
             <Route
-              path="profile"
+              path="profile/:id"
               element={<Profile checkSessionID={checkSessionID} />}
             />
           </Route>

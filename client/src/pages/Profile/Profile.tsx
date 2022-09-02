@@ -2,6 +2,7 @@ import React, { useState, useEffect, ReactNode } from "react";
 import Axios from "axios";
 import "./Profile.css";
 import Cookies from "js-cookie";
+import { useParams } from "react-router-dom";
 
 // import types
 import { BucketListType } from "../../types/content";
@@ -17,6 +18,10 @@ const Profile = ({
   checkSessionID: React.MouseEventHandler<HTMLButtonElement>;
 }) => {
   const [userID, setUserID] = useState<number>(0);
+  const { id } = useParams();
+
+  console.log(id);
+
   // separate the bucket list arrays for easier nullish checks in render
   const [publicBucketListArray, setPublicBucketListArray] = useState<
     BucketListType[]
@@ -31,8 +36,8 @@ const Profile = ({
   // grab bucket_list_tracker data
   const getBucketListData = () => {
     // hardcode userID for now
-    // Axios.get(`http://localhost:3000/view/lists/${userID}`)
-    Axios.get(`/view/lists/2`)
+    // set to google id in the future
+    Axios.get(`/view/lists/${id}`)
       .then((response) => {
         console.log(response.data.data);
         setPublicBucketListArray(
