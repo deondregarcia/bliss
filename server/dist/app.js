@@ -29,6 +29,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv = __importStar(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const bodyParser = __importStar(require("body-parser"));
+// import some controllers; extract these to the controllers folder later
+const VerifySession_1 = require("./controllers/VerifySession");
 // import routes files
 const ManageContent_1 = require("./routes/ManageContent");
 const ViewContent_1 = require("./routes/ViewContent");
@@ -75,8 +77,8 @@ const isLoggedIn = (req, res, next) => {
 };
 app.get("/auth/google", passport_1.default.authenticate("google", { scope: ["email", "profile"] }));
 app.get("/auth/google/callback", passport_1.default.authenticate("google", { failureRedirect: "/auth/failure" }), (req, res) => {
-    var _a;
-    res.redirect(`http://localhost:3001/${(_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id}`);
+    // res.redirect(`http://localhost:3001/${req?.user?.id}`);
+    res.redirect(`http://localhost:3001`);
 });
 app.get("/auth/user", passport_1.default.authenticate("google", { scope: ["email", "profile"] }), (req, res) => {
     // console.log(req.sessionStore["sessions"]);
@@ -85,8 +87,8 @@ app.get("/auth/user", passport_1.default.authenticate("google", { scope: ["email
     res.json({ user: req.user });
 });
 app.get("/", (req, res) => {
-    console.log(req.session.id);
-    console.log(req.session.cookie);
+    // console.log(req.session.id);
+    // console.log(req.session.cookie);
     // req.session.isAuth = true;
     res.send('<a href="/auth/google">Authenticate with Google</a>');
 });
@@ -95,6 +97,19 @@ app.get("/auth/failure", (req, res) => {
 });
 app.get("/protected", isLoggedIn, (req, res) => {
     res.send(req.user);
+});
+// for testing client-server interactions
+app.get("/verify", (req, res) => {
+    const reqSessionID = req.session.id;
+    (0, VerifySession_1.verifySession)(reqSessionID, (err, sessions) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        console.log(sessions);
+        res.status(200).json({ session_info: sessions[0] });
+    });
+    // console.log(req.sessionStore);
+    // res.status(200).json({ sessionID: req.session.id });
 });
 app.get("/logout", (req, res, err) => {
     req.logout(err);

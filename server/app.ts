@@ -2,6 +2,10 @@ import * as dotenv from "dotenv";
 import express, { NextFunction, Request, Response } from "express";
 import * as bodyParser from "body-parser";
 
+// import some controllers; extract these to the controllers folder later
+import { verifySession } from "./controllers/VerifySession";
+import { SessionType } from "./types/session";
+
 // import routes files
 import { contentRouter } from "./routes/ManageContent";
 import { viewContentRouter } from "./routes/ViewContent";
@@ -69,7 +73,8 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/auth/failure" }),
   (req: Request, res: Response) => {
-    res.redirect(`http://localhost:3001/${req?.user?.id}`);
+    // res.redirect(`http://localhost:3001/${req?.user?.id}`);
+    res.redirect(`http://localhost:3001`);
   }
 );
 
@@ -85,8 +90,8 @@ app.get(
 );
 
 app.get("/", (req: Request, res: Response) => {
-  console.log(req.session.id);
-  console.log(req.session.cookie);
+  // console.log(req.session.id);
+  // console.log(req.session.cookie);
   // req.session.isAuth = true;
   res.send('<a href="/auth/google">Authenticate with Google</a>');
 });
@@ -100,10 +105,18 @@ app.get("/protected", isLoggedIn, (req: Request, res: Response) => {
 });
 
 // for testing client-server interactions
-app.get("/test", (req: Request, res: Response) => {
-  // console.log(req);
-  // console.log(req.headers.cookie[1]);
-  res.send("ok");
+app.get("/verify", (req: Request, res: Response) => {
+  const reqSessionID = req.session.id;
+  verifySession(reqSessionID, (err: Error, sessions: SessionType[]) => {
+    if (err) {
+      return res.status(500).json({ message: err.message });
+    }
+
+    console.log(sessions);
+    res.status(200).json({ session_info: sessions[0] });
+  });
+  // console.log(req.sessionStore);
+  // res.status(200).json({ sessionID: req.session.id });
 });
 
 app.get("/logout", (req: Request, res: Response, err: any) => {

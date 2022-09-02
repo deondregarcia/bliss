@@ -1,0 +1,26 @@
+
+.bucket-list-view-wrapper {
+    /* background-color: red; */
+    height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+    /* height: 500px; */
+  }
+  
+  .bucket-list-view-container {
+    height: calc(100% - 50px);
+    background-color: var(--content-bg-color);
+    /* min-width: 500px; */
+    width: 40%;
+    border-radius: var(--border-radius);
+  }
+  
+  .bucket-list-view-header-container {
+    background-color: red;
+    height: 40px;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+  }
+  
+  .bucket-list-view-header {
+    text-align: center;
+  }

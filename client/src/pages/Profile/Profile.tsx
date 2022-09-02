@@ -11,7 +11,11 @@ import BucketList from "../../components/BucketList/BucketList";
 import EmptyArrayMessage from "../../components/EmptyArrayMessage/EmptyArrayMessage";
 import ContentContainerHeader from "../../components/ContentContainerHeader/ContentContainerHeader";
 
-const Profile = () => {
+const Profile = ({
+  checkSessionID,
+}: {
+  checkSessionID: React.MouseEventHandler<HTMLButtonElement>;
+}) => {
   const [userID, setUserID] = useState<number>(0);
   // separate the bucket list arrays for easier nullish checks in render
   const [publicBucketListArray, setPublicBucketListArray] = useState<
@@ -60,24 +64,12 @@ const Profile = () => {
     return () => {};
   }, []);
 
-  // delete this later
-  const interactWithServer = () => {
-    Axios.get("/test")
-      .then((res) => {
-        console.log(res);
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   return (
     <>
       <div className="home-container">
         {/* first row of elements */}
         <div className="profile-info">
-          <button onClick={interactWithServer}> Interact with Server </button>
+          <button onClick={checkSessionID}> Console Log Cookie </button>
         </div>
         <div className="content-container public">
           <ContentContainerHeader category="Public" />

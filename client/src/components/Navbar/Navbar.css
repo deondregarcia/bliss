@@ -14,3 +14,16 @@
     /* background-color: red; */
     font-size: 40px;
 }
+
+.login {
+    position: absolute;
+    right: 200px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: green;
+}

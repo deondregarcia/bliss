@@ -45,24 +45,6 @@ passport_1.default.use(new GoogleStrategy({
         accessToken: accessToken,
     });
 }));
-// passport.use(new SessionStrategy(options, deserializeUser){
-//   if (typeof options == 'function') {
-//     deserializeUser = options;
-//     options = undefined;
-//   }
-//   options = options || {};
-// } )
-// function SessionStrategy(options, deserializeUser) {
-//   if (typeof options == "function") {
-//     deserializeUser = options;
-//     options = undefined;
-//   }
-//   options = options || {};
-//   Strategy.call(this);
-//   this.name = "session";
-//   this._key = options.key || "passport";
-//   this._deserializeUser = deserializeUser;
-// }
 // serialize and deserialize user
 passport_1.default.serializeUser(function (user, done) {
     return done(null, {
