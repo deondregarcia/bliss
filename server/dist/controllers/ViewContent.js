@@ -3,9 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getActivities = exports.getBucketLists = void 0;
 const db_1 = require("../db");
 // view list of all bucket lists user is involved in
-const getBucketLists = (userId, callback) => {
-    const queryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=?`;
-    db_1.db.query(queryString, userId, (err, result) => {
+const getBucketLists = (googleId, callback) => {
+    const getUserQueryString = "SELECT id FROM users WHERE google_id=?";
+    const queryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=(${getUserQueryString})`;
+    console.log(queryString);
+    db_1.db.query(queryString, googleId, (err, result) => {
         if (err) {
             callback(err);
         }

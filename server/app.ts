@@ -109,29 +109,29 @@ app.get("/protected", isLoggedIn, (req: Request, res: Response) => {
 // for testing client-server interactions
 app.get("/verify", (req: Request, res: Response) => {
   const reqSessionID = req.session.id;
-  // verifySession(reqSessionID, (err: Error, sessions: SessionType[]) => {
-  //   if (err) {
-  //     return res.status(500).json({ message: err.message });
-  //   }
+  verifySession(reqSessionID, (err: Error, sessions: SessionType[]) => {
+    if (err) {
+      return res.status(500).json({ message: err.message });
+    }
 
-  //   console.log(sessions);
-  //   res.status(200).json({ session_info: sessions[0] });
-  // });
+    res.status(200).json({ session_info: sessions[0] });
+  });
 
   // hardcode temporarily to limit db queries
-  res.status(200).json({
-    session_info: {
-      session_id: "DtDNNsn5o7tTXZdzRda8vRpUN9noNs_j",
-      expires: 1662231774,
-      data: '{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":{"id":"117205234781311561243","accessToken":"ya29.a0AVA9y1sWy75ksqPTB95dr18--t8M1dZSn8OvpRUr6ERBGgYBzpjakKJhkhaVXH7XqWtFhj4RcquioT3tEPhbgSqzxBJLh9tPWXaKQvnFKMQuuTDBApf9hXl9ONIZWCTWUG3aZfi78p0fbXiZQAC_qqXOQVGPaCgYKATASAQASFQE65dr8mIteswPy-ii2QadbSmtcBg0163"}}}',
-    },
-  });
+  // res.status(200).json({
+  //   session_info: {
+  //     session_id: "DtDNNsn5o7tTXZdzRda8vRpUN9noNs_j",
+  //     expires: 1662231774,
+  //     data: '{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":{"id":"117205234781311561243","accessToken":"ya29.a0AVA9y1sWy75ksqPTB95dr18--t8M1dZSn8OvpRUr6ERBGgYBzpjakKJhkhaVXH7XqWtFhj4RcquioT3tEPhbgSqzxBJLh9tPWXaKQvnFKMQuuTDBApf9hXl9ONIZWCTWUG3aZfi78p0fbXiZQAC_qqXOQVGPaCgYKATASAQASFQE65dr8mIteswPy-ii2QadbSmtcBg0163"}}}',
+  //   },
+  // });
 });
 
 app.get("/logout", (req: Request, res: Response, err: any) => {
   req.logout(err);
   req.session.destroy((err) => {
     if (err) throw err;
+    console.log(req.session);
     res.redirect("/");
   });
 });

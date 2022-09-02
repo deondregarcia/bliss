@@ -7,7 +7,6 @@ export const getBucketLists = (googleId: string, callback: Function) => {
   const getUserQueryString = "SELECT id FROM users WHERE google_id=?";
   const queryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=(${getUserQueryString})`;
 
-  console.log(queryString);
   db.query(queryString, googleId, (err, result) => {
     if (err) {
       callback(err);

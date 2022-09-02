@@ -77,8 +77,11 @@ const isLoggedIn = (req, res, next) => {
 };
 app.get("/auth/google", passport_1.default.authenticate("google", { scope: ["email", "profile"] }));
 app.get("/auth/google/callback", passport_1.default.authenticate("google", { failureRedirect: "/auth/failure" }), (req, res) => {
+    var _a, _b;
     // res.redirect(`http://localhost:3001/${req?.user?.id}`);
-    res.redirect(`http://localhost:3001`);
+    console.log((_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
+    // in the future, redirect to profile by /profile/:id
+    res.redirect(`http://localhost:3001/profile/${(_b = req.user) === null || _b === void 0 ? void 0 : _b.id}`);
 });
 app.get("/auth/user", passport_1.default.authenticate("google", { scope: ["email", "profile"] }), (req, res) => {
     // console.log(req.sessionStore["sessions"]);
@@ -108,8 +111,14 @@ app.get("/verify", (req, res) => {
         console.log(sessions);
         res.status(200).json({ session_info: sessions[0] });
     });
-    // console.log(req.sessionStore);
-    // res.status(200).json({ sessionID: req.session.id });
+    // hardcode temporarily to limit db queries
+    // res.status(200).json({
+    //   session_info: {
+    //     session_id: "DtDNNsn5o7tTXZdzRda8vRpUN9noNs_j",
+    //     expires: 1662231774,
+    //     data: '{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":{"id":"117205234781311561243","accessToken":"ya29.a0AVA9y1sWy75ksqPTB95dr18--t8M1dZSn8OvpRUr6ERBGgYBzpjakKJhkhaVXH7XqWtFhj4RcquioT3tEPhbgSqzxBJLh9tPWXaKQvnFKMQuuTDBApf9hXl9ONIZWCTWUG3aZfi78p0fbXiZQAC_qqXOQVGPaCgYKATASAQASFQE65dr8mIteswPy-ii2QadbSmtcBg0163"}}}',
+    //   },
+    // });
 });
 app.get("/logout", (req, res, err) => {
     req.logout(err);
