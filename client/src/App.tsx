@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar/Navbar";
 // import pages
 import Profile from "./pages/Profile/Profile";
 import Landing from "./pages/Landing/Landing";
+import BucketListView from "./pages/BucketListView/BucketListView";
 
 function App() {
   // Auth Context for Google Login
@@ -25,6 +26,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/bucketlist" element={<BucketListView />} />
       </Routes>
     </>
   );
