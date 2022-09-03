@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 import express, { NextFunction, Request, Response } from "express";
 import * as bodyParser from "body-parser";
+import Axios from "axios";
 
 // import some controllers; extract these to the controllers folder later
 import { verifySession, checkIfFriend } from "./controllers/VerifySession";
@@ -115,15 +116,36 @@ app.get("/verify", (req: Request, res: Response) => {
 
     res.status(200).json({ session_info: sessions[0] });
   });
+});
 
-  // hardcode temporarily to limit db queries
-  // res.status(200).json({
-  //   session_info: {
-  //     session_id: "DtDNNsn5o7tTXZdzRda8vRpUN9noNs_j",
-  //     expires: 1662231774,
-  //     data: '{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":{"id":"117205234781311561243","accessToken":"ya29.a0AVA9y1sWy75ksqPTB95dr18--t8M1dZSn8OvpRUr6ERBGgYBzpjakKJhkhaVXH7XqWtFhj4RcquioT3tEPhbgSqzxBJLh9tPWXaKQvnFKMQuuTDBApf9hXl9ONIZWCTWUG3aZfi78p0fbXiZQAC_qqXOQVGPaCgYKATASAQASFQE65dr8mIteswPy-ii2QadbSmtcBg0163"}}}',
-  //   },
-  // });
+app.post("/get-recipes", (req: Request, res: Response) => {
+  const recipeSearch = req.body.query;
+  let recipeResponse;
+  const recipeOptions = {
+    params: {
+      query: recipeSearch,
+      number: 1,
+      sort: "popularity",
+      ranking: 2,
+    },
+    headers: {
+      "X-RapidAPI-Key": String(process.env.RAPID_API_KEY),
+      "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+    },
+  };
+  Axios.get(
+    "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch",
+    recipeOptions
+  )
+    .then((response) => {
+      console.log(response.data.results);
+      recipeResponse = response.data.results;
+      res.status(200).json({ data: response.data.results });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  console.log(recipeResponse);
 });
 
 app.post("/checkiffriend", (req: Request, res: Response) => {
