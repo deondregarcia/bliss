@@ -11,28 +11,14 @@ const RecipeInput = ({
 }) => {
   const [recipeSearch, setRecipeSearch] = useState<string>("tacos");
 
-  // request recipes with spoonacular api
+  // request recipes with spoonacular api from backend
   const getRecipes = () => {
-    const recipeOptions = {
-      params: {
-        query: recipeSearch,
-        number: 4,
-        sort: "popularity",
-        ranking: 2,
-      },
-      headers: {
-        "X-RapidAPI-Key": "7b783e3ddfmsh0489e8cc42e6687p135823jsn125c1ac6400e",
-        "X-RapidAPI-Host":
-          "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-      },
-    };
-    Axios.get(
-      "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch",
-      recipeOptions
-    )
+    Axios.post("/get-recipes", {
+      query: recipeSearch,
+    })
       .then((res) => {
-        console.log(res);
-        setRecipeArray(res.data.results);
+        console.log(res.data.data);
+        setRecipeArray(res.data.data);
       })
       .catch((err) => {
         console.log(err);

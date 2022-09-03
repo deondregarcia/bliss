@@ -30,7 +30,7 @@ export const GetRecipesButton = ({
   getRecipes: React.MouseEventHandler<HTMLDivElement>;
 }) => {
   return (
-    <div className="outline-button get-recipes-button">
+    <div onClick={getRecipes} className="outline-button get-recipes-button">
       <h3 className="get-recipes-button-text">Search</h3>
     </div>
   );
