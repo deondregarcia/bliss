@@ -17,3 +17,8 @@ export interface BucketListContent {
   date_added?: string;
   date_completed?: string;
 }
+
+export interface FriendPairType {
+  friend_one_id: number;
+  friend_two_id: number;
+}

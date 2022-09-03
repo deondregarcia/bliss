@@ -70,9 +70,9 @@ const Profile = () => {
   const getGoogleUserInfo = () => {
     Axios.get("/googleuser")
       .then((res) => {
-        console.log(res.data.google_user.photos);
+        console.log(res.data.google_user);
         setGoogleUserObject(res.data.google_user);
-        console.log(googleUserObject.photos);
+        // console.log(googleUserObject.photos);
       })
       .catch((err) => {
         console.log(err);
@@ -85,12 +85,6 @@ const Profile = () => {
 
     return () => {};
   }, []);
-
-  const temp_recipe = {
-    image_url: "https://spoonacular.com/recipeImages/47950-312x231.jpg",
-    likes: 35,
-    title: "Cinnamon Apple Crisp",
-  };
 
   return (
     <>
@@ -146,10 +140,10 @@ const Profile = () => {
           <div className="recipe-api-content">
             {recipeArray?.map((recipe, index) => {
               return (
-                <>
-                  <RecipeDisplay recipe={recipe} key={index} />
+                <div key={index}>
+                  <RecipeDisplay recipe={recipe} />
                   <div className="recipe-separator" />
-                </>
+                </div>
               );
             })}
           </div>

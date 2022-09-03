@@ -14,3 +14,8 @@ export interface GoogleUserObjectType {
   emails: Object[];
   photos: Object[];
 }
+
+export interface StatusType {
+  owner: string;
+  friend: string;
+}

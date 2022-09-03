@@ -25,23 +25,15 @@ const Landing = () => {
       .catch((err) => {
         console.log(err);
       });
-
-    setIsLoggedIn(true);
-    // navigate("profile", { replace: true });
   };
 
   useEffect(() => {
-    // checkForAuth();
+    checkForAuth();
   }, []);
 
   return (
     <div>
-      {/* if user is logged in, redirect to profile page */}
-      {isLoggedIn && <Navigate to="profile" replace={true} />}
       <div>
-        <button onClick={() => setIsLoggedIn(true)}>
-          Set Logged In to True
-        </button>
         <h1>Landing Page Under Construction</h1>
       </div>
     </div>

@@ -3,7 +3,7 @@ import express, { NextFunction, Request, Response } from "express";
 import * as bodyParser from "body-parser";
 
 // import some controllers; extract these to the controllers folder later
-import { verifySession } from "./controllers/VerifySession";
+import { verifySession, checkIfFriend } from "./controllers/VerifySession";
 import { SessionType } from "./types/session";
 
 // import routes files
@@ -12,6 +12,7 @@ import { viewContentRouter } from "./routes/ViewContent";
 
 import passport from "passport";
 import session from "express-session";
+import { FriendPairType } from "./types/content";
 
 // import packages for MySQl session store
 const mysql = require("mysql2/promise");
@@ -76,7 +77,7 @@ app.get(
     // res.redirect(`http://localhost:3001/${req?.user?.id}`);
     console.log(req.user);
     // in the future, redirect to profile by /profile/:id
-    res.redirect(`http://localhost:3001/profile/${req.user?.id}`);
+    res.redirect(`http://localhost:3001/my-profile/${req.user?.id}`);
   }
 );
 
@@ -123,6 +124,23 @@ app.get("/verify", (req: Request, res: Response) => {
   //     data: '{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":{"id":"117205234781311561243","accessToken":"ya29.a0AVA9y1sWy75ksqPTB95dr18--t8M1dZSn8OvpRUr6ERBGgYBzpjakKJhkhaVXH7XqWtFhj4RcquioT3tEPhbgSqzxBJLh9tPWXaKQvnFKMQuuTDBApf9hXl9ONIZWCTWUG3aZfi78p0fbXiZQAC_qqXOQVGPaCgYKATASAQASFQE65dr8mIteswPy-ii2QadbSmtcBg0163"}}}',
   //   },
   // });
+});
+
+app.post("/checkiffriend", (req: Request, res: Response) => {
+  const reqUserID = String(req.user?.id);
+  const urlID = req.body.urlID;
+
+  checkIfFriend(
+    reqUserID,
+    urlID,
+    (err: Error, friendPairs: FriendPairType[]) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ friendPairsInfo: friendPairs });
+    }
+  );
 });
 
 app.get("/googleuser", (req: Request, res: Response) => {

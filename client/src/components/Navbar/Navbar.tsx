@@ -3,9 +3,11 @@ import Axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import "./Navbar.css";
 import { LogoutButton, LoginButton } from "../Buttons/Buttons";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const { auth, setAuth } = useAuth();
+  const navigate = useNavigate();
 
   const logout = () => {
     setAuth({});
@@ -16,6 +18,8 @@ const Navbar = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    navigate("../");
   };
 
   return (
