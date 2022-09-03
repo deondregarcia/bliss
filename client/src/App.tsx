@@ -12,17 +12,6 @@ import Profile from "./pages/Profile/Profile";
 import Landing from "./pages/Landing/Landing";
 import BucketListView from "./pages/BucketListView/BucketListView";
 
-const checkSessionID = () => {
-  Axios.get("/test")
-    .then((res) => {
-      console.log("cookie response below");
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-
 function App() {
   return (
     <>
@@ -34,10 +23,7 @@ function App() {
 
           {/* protected routes */}
           <Route element={<RequireAuth />}>
-            <Route
-              path="profile/:id"
-              element={<Profile checkSessionID={checkSessionID} />}
-            />
+            <Route path="profile/:id" element={<Profile />} />
           </Route>
         </Route>
       </Routes>

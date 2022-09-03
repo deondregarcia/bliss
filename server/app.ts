@@ -74,7 +74,7 @@ app.get(
   passport.authenticate("google", { failureRedirect: "/auth/failure" }),
   (req: Request, res: Response) => {
     // res.redirect(`http://localhost:3001/${req?.user?.id}`);
-    console.log(req.user?.id);
+    console.log(req.user);
     // in the future, redirect to profile by /profile/:id
     res.redirect(`http://localhost:3001/profile/${req.user?.id}`);
   }
@@ -92,9 +92,7 @@ app.get(
 );
 
 app.get("/", (req: Request, res: Response) => {
-  // console.log(req.session.id);
-  // console.log(req.session.cookie);
-  // req.session.isAuth = true;
+  console.log(req.session.id);
   res.send('<a href="/auth/google">Authenticate with Google</a>');
 });
 
@@ -125,6 +123,11 @@ app.get("/verify", (req: Request, res: Response) => {
   //     data: '{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":{"id":"117205234781311561243","accessToken":"ya29.a0AVA9y1sWy75ksqPTB95dr18--t8M1dZSn8OvpRUr6ERBGgYBzpjakKJhkhaVXH7XqWtFhj4RcquioT3tEPhbgSqzxBJLh9tPWXaKQvnFKMQuuTDBApf9hXl9ONIZWCTWUG3aZfi78p0fbXiZQAC_qqXOQVGPaCgYKATASAQASFQE65dr8mIteswPy-ii2QadbSmtcBg0163"}}}',
   //   },
   // });
+});
+
+app.get("/googleuser", (req: Request, res: Response) => {
+  // console.log(req.user?.profile);
+  res.status(200).json({ google_user: req.user?.profile });
 });
 
 app.get("/logout", (req: Request, res: Response, err: any) => {

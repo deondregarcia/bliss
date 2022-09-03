@@ -108,7 +108,6 @@ app.get("/verify", (req, res) => {
         if (err) {
             return res.status(500).json({ message: err.message });
         }
-        console.log(sessions);
         res.status(200).json({ session_info: sessions[0] });
     });
     // hardcode temporarily to limit db queries
@@ -125,6 +124,7 @@ app.get("/logout", (req, res, err) => {
     req.session.destroy((err) => {
         if (err)
             throw err;
+        console.log(req.session);
         res.redirect("/");
     });
 });

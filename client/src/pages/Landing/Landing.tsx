@@ -13,8 +13,6 @@ const Landing = () => {
     // if user is logged in, should send session id; CHECK WHAT HAPPENS IF USER IS NOT LOGGED IN
     await Axios.get("/verify")
       .then((res) => {
-        // console.log(res.data);
-
         // if session id in response does not exist
         if (res.data.session_info) {
           console.log("logged in");
@@ -34,9 +32,6 @@ const Landing = () => {
 
   useEffect(() => {
     // checkForAuth();
-    // setIsLoggedIn(true);
-    // console.log("i should fire only once");
-    // console.log(auth);
   }, []);
 
   return (

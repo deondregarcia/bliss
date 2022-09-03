@@ -39,21 +39,12 @@ const RequireAuth = () => {
     checkForAuth();
   }, []);
 
-  //   return auth.session_info ? (
-  //     <Outlet />
-  //   ) : (
-  //     <Navigate to="/" state={{ from: location }} replace />
-  //     // <Navigate to="/" />
-  //     // <Navigate to="bucket-list" state={{ from: location }} replace />
-  //   );
   return (
     <>
       {didCheckRun &&
         (auth.session_info ? (
           <Outlet />
         ) : (
-          //   <Navigate to="profile" />
-          //   <Navigate to="/" />
           <Navigate to="/" state={{ from: location }} replace />
         ))}
     </>

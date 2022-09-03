@@ -3,21 +3,25 @@ import Axios from "axios";
 import "./Profile.css";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
+import { GoogleUserObjectType } from "../../types/authTypes";
 
 // import types
-import { BucketListType } from "../../types/content";
+import { BucketListType, RecipeContentType } from "../../types/content";
 
 // import components
 import BucketList from "../../components/BucketList/BucketList";
 import EmptyArrayMessage from "../../components/EmptyArrayMessage/EmptyArrayMessage";
 import ContentContainerHeader from "../../components/ContentContainerHeader/ContentContainerHeader";
+import RecipeDisplay from "../../components/ProfileComponents/RecipeDisplay/RecipeDisplay";
+import RecipeInput from "../../components/ProfileComponents/RecipeInput/RecipeInput";
 
-const Profile = ({
-  checkSessionID,
-}: {
-  checkSessionID: React.MouseEventHandler<HTMLButtonElement>;
-}) => {
+const Profile = () => {
   const [userID, setUserID] = useState<number>(0);
+  const [googleUserObject, setGoogleUserObject] = useState<
+    GoogleUserObjectType | any
+  >();
+
+  const [recipeArray, setRecipeArray] = useState<RecipeContentType[]>([]);
   const { id } = useParams();
 
   console.log(id);
@@ -35,8 +39,7 @@ const Profile = ({
 
   // grab bucket_list_tracker data
   const getBucketListData = () => {
-    // hardcode userID for now
-    // set to google id in the future
+    // google_id
     Axios.get(`/view/lists/${id}`)
       .then((response) => {
         console.log(response.data.data);
@@ -61,20 +64,43 @@ const Profile = ({
       });
   };
 
-  //
+  // get google user info
+  const getGoogleUserInfo = () => {
+    Axios.get("/googleuser")
+      .then((res) => {
+        console.log(res.data.google_user.photos);
+        setGoogleUserObject(res.data.google_user);
+        console.log(googleUserObject.photos);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     getBucketListData();
+    getGoogleUserInfo();
 
     return () => {};
   }, []);
+
+  const temp_recipe = {
+    image_url: "https://spoonacular.com/recipeImages/47950-312x231.jpg",
+    likes: 35,
+    title: "Cinnamon Apple Crisp",
+  };
 
   return (
     <>
       <div className="home-container">
         {/* first row of elements */}
         <div className="profile-info">
-          <button onClick={checkSessionID}> Console Log Cookie </button>
+          <img
+            src={googleUserObject?.photos[0].value}
+            alt="google profile pic"
+            className="profile-pic"
+          />
+          <h3>{googleUserObject?.displayName}</h3>
         </div>
         <div className="content-container public">
           <ContentContainerHeader category="Public" />
@@ -87,7 +113,9 @@ const Profile = ({
             <EmptyArrayMessage />
           )}
         </div>
-        <div className="friend-feed"></div>
+        <div className="right-column-container friend-feed">
+          <h2>Recent Friend Activities</h2>
+        </div>
 
         {/* second row of elements */}
         <div className="control-panel"></div>
@@ -100,6 +128,21 @@ const Profile = ({
           ) : (
             <EmptyArrayMessage />
           )}
+        </div>
+        <div className="right-column-container recipe-api-container">
+          <h2>Find a Recipe</h2>
+          <RecipeInput setRecipeArray={setRecipeArray} />
+          <button onClick={() => console.log(recipeArray)}>
+            Log recipe array
+          </button>
+          <div className="recipe-api-content">
+            {recipeArray?.map((recipe, index) => {
+              return <RecipeDisplay recipe={recipe} key={index} />;
+            })}
+            {/* <RecipeDisplay recipe={temp_recipe} />
+            <RecipeDisplay recipe={temp_recipe} />
+            <RecipeDisplay recipe={temp_recipe} /> */}
+          </div>
         </div>
         {/* third row of elements */}
         <div className="content-container private">

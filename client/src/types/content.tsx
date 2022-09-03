@@ -17,3 +17,9 @@ export interface BucketListContentType {
   date_added?: string;
   date_completed?: string;
 }
+
+export interface RecipeContentType {
+  image: string;
+  likes: number;
+  title: string;
+}

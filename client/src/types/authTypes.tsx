@@ -7,9 +7,10 @@ export interface SessionType {
   };
 }
 
-// export interface authContextType {
-//   auth: {
-//     user_id: number;
-//     session_id: string;
-//   };
-// }
+export interface GoogleUserObjectType {
+  id: string;
+  displayName: string;
+  name: Object;
+  emails: Object[];
+  photos: Object[];
+}

@@ -37,6 +37,7 @@ passport.serializeUser(function (user: Express.User, done) {
   return done(null, {
     id: user.id,
     accessToken: user.accessToken,
+    profile: user.profile,
   });
 });
 
