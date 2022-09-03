@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Axios from "axios";
+import { BucketListContentType } from "../../types/content";
 import "./BucketListView.css";
-import useAuth from "../../hooks/useAuth";
 import UnauthorizedBucketListView from "../../auth/Unauthorized/UnauthorizedBucketListView";
+import BucketListContent from "../../components/BucketListContent/BucketListContent";
 
 const BucketListView = () => {
   const [privacyType, setPrivacyType] = useState<string | null>(null);
   const [ownerID, setOwnerID] = useState<number | null>(null);
+  const [bucketListContent, setBucketListContent] = useState<
+    BucketListContentType[]
+  >([]);
   const [unauthorizedType, setUnauthorizedType] = useState<string | null>(null);
-
-  // not even sure if i want the userStatus variable; consult the Planning docs (Security)
-  const [userStatus, setUserStatus] = useState<string | null>(null);
   const { id } = useParams();
-  const { auth } = useAuth();
-
-  console.log(id);
 
   // pull bucket list content based on id
   const getBucketListContent = () => {
     Axios.get(`/view/activities/${id}`)
       .then((res) => {
-        console.log("bucket list content below");
-        console.log(res);
+        setBucketListContent(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -115,16 +112,16 @@ const BucketListView = () => {
 
   useEffect(() => {
     verifyPermissions();
-    // getPrivacyType();
-    // getBucketListContent();
-    // console.log(auth);
-  });
+  }, []);
 
   return (
     <div className="bucket-list-view-wrapper">
       <div className="bucket-list-view-container">
         <div className="bucket-list-view-header-container">
           <h1 className="bucket-list-view-header">[Bucket List Title]</h1>
+          {bucketListContent.map((content, index) => (
+            <BucketListContent content={content} key={index} />
+          ))}
         </div>
       </div>
     </div>

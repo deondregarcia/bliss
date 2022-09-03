@@ -44,7 +44,10 @@ const Profile = () => {
       .then((response) => {
         setPublicBucketListArray(
           response.data.data.filter((bucketList: BucketListType) => {
-            return bucketList.privacy_type === "public";
+            return (
+              bucketList.privacy_type === "public_friends" ||
+              bucketList.privacy_type === "public_random"
+            );
           })
         );
         setSharedBucketListArray(
