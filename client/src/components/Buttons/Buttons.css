@@ -38,3 +38,32 @@ a {
 .logout-button:hover .logout-button-text, .login-button:hover a {
     color: white;
 }
+
+.outline-button {
+    border: 2px solid var(--main-color);
+    justify-content: center;
+    align-items: center;
+}
+
+.get-recipes-button {
+    width: 100px;
+    height: 30px;
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+}
+
+.get-recipes-button:hover {
+    cursor: pointer;
+    background-color: var(--main-color);
+}
+
+.get-recipes-button-text {
+    color: var(--main-color);
+}
+
+.get-recipes-button:hover .get-recipes-button-text {
+    color: #FFF;
+}

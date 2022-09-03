@@ -10,7 +10,7 @@ const BucketList = ({ bucketList }: { bucketList: BucketListType }) => {
   return (
     <div className="bucket-list-container">
       <h1 className="bucket-list-title">{bucketList.title}</h1>
-      <p>{bucketList.description}</p>
+      <p className="bucket-list-text">Description: {bucketList.description}</p>
     </div>
   );
 };

@@ -11,8 +11,7 @@ const RecipeDisplay = ({ recipe }: { recipe: RecipeContentType }) => {
         className="recipe-display-image"
       />
       <div className="recipe-display-info">
-        <h3 className="recipe-display-info-title">{recipe.title}</h3>
-        <p className="recipe-display-info-text">Likes: {recipe.likes}</p>
+        <p className="recipe-display-info-title">{recipe.title}</p>
       </div>
     </div>
   );

@@ -77,11 +77,11 @@ const isLoggedIn = (req, res, next) => {
 };
 app.get("/auth/google", passport_1.default.authenticate("google", { scope: ["email", "profile"] }));
 app.get("/auth/google/callback", passport_1.default.authenticate("google", { failureRedirect: "/auth/failure" }), (req, res) => {
-    var _a, _b;
+    var _a;
     // res.redirect(`http://localhost:3001/${req?.user?.id}`);
-    console.log((_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
+    console.log(req.user);
     // in the future, redirect to profile by /profile/:id
-    res.redirect(`http://localhost:3001/profile/${(_b = req.user) === null || _b === void 0 ? void 0 : _b.id}`);
+    res.redirect(`http://localhost:3001/profile/${(_a = req.user) === null || _a === void 0 ? void 0 : _a.id}`);
 });
 app.get("/auth/user", passport_1.default.authenticate("google", { scope: ["email", "profile"] }), (req, res) => {
     // console.log(req.sessionStore["sessions"]);
@@ -90,9 +90,7 @@ app.get("/auth/user", passport_1.default.authenticate("google", { scope: ["email
     res.json({ user: req.user });
 });
 app.get("/", (req, res) => {
-    // console.log(req.session.id);
-    // console.log(req.session.cookie);
-    // req.session.isAuth = true;
+    console.log(req.session.id);
     res.send('<a href="/auth/google">Authenticate with Google</a>');
 });
 app.get("/auth/failure", (req, res) => {
@@ -118,6 +116,11 @@ app.get("/verify", (req, res) => {
     //     data: '{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":{"id":"117205234781311561243","accessToken":"ya29.a0AVA9y1sWy75ksqPTB95dr18--t8M1dZSn8OvpRUr6ERBGgYBzpjakKJhkhaVXH7XqWtFhj4RcquioT3tEPhbgSqzxBJLh9tPWXaKQvnFKMQuuTDBApf9hXl9ONIZWCTWUG3aZfi78p0fbXiZQAC_qqXOQVGPaCgYKATASAQASFQE65dr8mIteswPy-ii2QadbSmtcBg0163"}}}',
     //   },
     // });
+});
+app.get("/googleuser", (req, res) => {
+    var _a;
+    // console.log(req.user?.profile);
+    res.status(200).json({ google_user: (_a = req.user) === null || _a === void 0 ? void 0 : _a.profile });
 });
 app.get("/logout", (req, res, err) => {
     req.logout(err);

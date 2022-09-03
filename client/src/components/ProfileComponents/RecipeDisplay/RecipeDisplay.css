@@ -2,7 +2,7 @@
     width: 100%;
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    /* margin-bottom: 15px; */
     /* background-color: blue; */
 }
 
@@ -15,10 +15,11 @@
 
 .recipe-display-info {
     text-align: center;
-    /* background-color: red; */
     width: 150px;
 }
 
 .recipe-display-info-title {
     font-size: 18px;
+    font-family: var(--text-font);
+    color: var(--text-color);
 }

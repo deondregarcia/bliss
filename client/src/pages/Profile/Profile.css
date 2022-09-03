@@ -1,7 +1,7 @@
 .home-container {
     display: grid;
     grid-template-columns: repeat(18, 1fr);
-    grid-template-rows: repeat(3, 400px);
+    grid-template-rows: repeat(4, 400px);
     justify-content: center;
     grid-gap: 15px;
     margin-bottom: 60px;
@@ -39,6 +39,33 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: scroll;
+}
+
+.right-column-container::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* these should be h2 tags */
+.side-container-header {
+    font-family: "Sarabun";
+    color: var(--main-color);
+}
+
+.side-container-header-separator {
+    width: 90%;
+    height: 2px;
+    margin-top: 3px;
+    background-color: var(--border-style-color);
+    flex-shrink: 0; /* randomly need this for some of the divs to show up */
+}
+
+.recipe-separator {
+    width: 100%;
+    height: 2px;
+    background-color: var(--border-style-color);
+    margin: 15px auto;
 }
 
 .control-panel {
@@ -61,10 +88,6 @@
     margin-top: 20px;
 }
 
-.recipe-api-container {
-    overflow-y: scroll;
-}
-
-.recipe-api-container::-webkit-scrollbar {
-    display: none;
+.test {
+    background-color: red;
 }

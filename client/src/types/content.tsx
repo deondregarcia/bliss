@@ -20,6 +20,5 @@ export interface BucketListContentType {
 
 export interface RecipeContentType {
   image: string;
-  likes: number;
   title: string;
 }

@@ -50,6 +50,7 @@ passport_1.default.serializeUser(function (user, done) {
     return done(null, {
         id: user.id,
         accessToken: user.accessToken,
+        profile: user.profile,
     });
 });
 passport_1.default.deserializeUser(function (user, done) {

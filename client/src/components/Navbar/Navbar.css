@@ -10,7 +10,7 @@
 }
 
 .navbar-header {
-    grid-column-start: 5;
+    grid-column-start: 6;
     font-size: 40px;
     color: var(--main-color);
     /* font-family: 'Lucida Sans'; */

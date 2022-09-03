@@ -1,10 +1,12 @@
 :root {
   --border-radius: 12px;
   --border-style: 1px solid #b9b9b9;
+  --border-style-color: #b9b9b9;
   --content-bg-color: #FFF;
   /* --main-color: #581bc0; */
   --main-color: #8442f7;
   --text-color: rgb(41, 41, 41);
+  --text-font: Arial;
 }
 
 * {

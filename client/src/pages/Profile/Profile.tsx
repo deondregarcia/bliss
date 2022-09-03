@@ -14,6 +14,7 @@ import EmptyArrayMessage from "../../components/EmptyArrayMessage/EmptyArrayMess
 import ContentContainerHeader from "../../components/ContentContainerHeader/ContentContainerHeader";
 import RecipeDisplay from "../../components/ProfileComponents/RecipeDisplay/RecipeDisplay";
 import RecipeInput from "../../components/ProfileComponents/RecipeInput/RecipeInput";
+import { RecipeInputDefault } from "../../components/ProfileComponents/RecipeInput/RecipeInputDefault";
 
 const Profile = () => {
   const [userID, setUserID] = useState<number>(0);
@@ -21,7 +22,8 @@ const Profile = () => {
     GoogleUserObjectType | any
   >();
 
-  const [recipeArray, setRecipeArray] = useState<RecipeContentType[]>([]);
+  const [recipeArray, setRecipeArray] =
+    useState<RecipeContentType[]>(RecipeInputDefault);
   const { id } = useParams();
 
   console.log(id);
@@ -114,7 +116,8 @@ const Profile = () => {
           )}
         </div>
         <div className="right-column-container friend-feed">
-          <h2>Recent Friend Activities</h2>
+          <h2 className="side-container-header">Recent Friend Activities</h2>
+          <div className="side-container-header-separator" />
         </div>
 
         {/* second row of elements */}
@@ -129,19 +132,19 @@ const Profile = () => {
             <EmptyArrayMessage />
           )}
         </div>
-        <div className="right-column-container recipe-api-container">
-          <h2>Find a Recipe</h2>
+        <div className="right-column-container ">
+          <h2 className="side-container-header">Recipe Suggestions</h2>
+          <div className="side-container-header-separator" />
           <RecipeInput setRecipeArray={setRecipeArray} />
-          <button onClick={() => console.log(recipeArray)}>
-            Log recipe array
-          </button>
           <div className="recipe-api-content">
             {recipeArray?.map((recipe, index) => {
-              return <RecipeDisplay recipe={recipe} key={index} />;
+              return (
+                <>
+                  <RecipeDisplay recipe={recipe} key={index} />
+                  <div className="recipe-separator" />
+                </>
+              );
             })}
-            {/* <RecipeDisplay recipe={temp_recipe} />
-            <RecipeDisplay recipe={temp_recipe} />
-            <RecipeDisplay recipe={temp_recipe} /> */}
           </div>
         </div>
         {/* third row of elements */}

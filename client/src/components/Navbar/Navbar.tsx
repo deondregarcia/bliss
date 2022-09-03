@@ -22,11 +22,9 @@ const Navbar = () => {
     <div className="navbar-container">
       <h1 className="navbar-header">Bliss</h1>
 
-      <div onClick={() => console.log("button test")}>Log</div>
-
       <div className="login-logout-container">
         {auth.session_info ? (
-          <LogoutButton />
+          <LogoutButton logout={logout} />
         ) : (
           <LoginButton googleLink="http://localhost:3000/auth/google" />
         )}

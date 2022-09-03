@@ -1,10 +1,27 @@
 .recipe-api-input-wrapper {
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
     margin-bottom: 20px;
+    width: 100%;
+}
+
+.recipe-api-text {
+    font-size: 15px;
+    font-family: var(--text-font);
 }
 
 .recipe-api-input-interactables {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    /* background-color: red; */
 }
+
+.recipe-api-input-text {
+    width: 150px;
+    font-size: 20px;
+    padding-left: 8px;
+}
+
