@@ -4,7 +4,7 @@
     flex-shrink: 0;
     padding: 5px 10px;
     border-bottom: 1px solid lightgray;
-    background-color: var(--main-font-color);
+    background-color: var(--main-color);
 }
 
 .content-container-header-text {

@@ -10,20 +10,19 @@
 }
 
 .navbar-header {
-    grid-column-start: 6;
+    grid-column-start: 5;
     font-size: 40px;
-    color: var(--main-font-color);
+    color: var(--main-color);
+    /* font-family: 'Lucida Sans'; */
+    font-family: Georgia;
+}
+
+.login-logout-container {
+    grid-column-start: 13;
+    align-self: center;
 }
 
 .login {
     position: absolute;
-    right: 200px;
-}
-
-a {
-    text-decoration: none;
-}
-
-a:hover {
-    color: green;
+    right: 100px;
 }

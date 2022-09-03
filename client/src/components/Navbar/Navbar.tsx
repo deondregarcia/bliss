@@ -2,6 +2,7 @@ import React from "react";
 import Axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import "./Navbar.css";
+import { LogoutButton, LoginButton } from "../Buttons/Buttons";
 
 const Navbar = () => {
   const { auth, setAuth } = useAuth();
@@ -20,6 +21,16 @@ const Navbar = () => {
   return (
     <div className="navbar-container">
       <h1 className="navbar-header">Bliss</h1>
+
+      <div onClick={() => console.log("button test")}>Log</div>
+
+      <div className="login-logout-container">
+        {auth.session_info ? (
+          <LogoutButton />
+        ) : (
+          <LoginButton googleLink="http://localhost:3000/auth/google" />
+        )}
+      </div>
 
       <div className="login">
         <button onClick={logout}>Logout</button>

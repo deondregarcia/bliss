@@ -1,0 +1,40 @@
+.logout-button {
+    width: 100px;
+    height: 30px;
+    border: 2px solid var(--main-color);
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.logout-button-text {
+    text-align: center;
+    color: var(--main-color)
+}
+
+.login-button {
+    width: 170px;
+    height: 30px;
+    border: 2px solid var(--main-color);
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-button-text {
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: var(--main-color);
+}
+
+.logout-button:hover, .login-button:hover {
+    background-color: var(--main-color);
+    cursor: pointer;
+}
+
+.logout-button:hover .logout-button-text, .login-button:hover a {
+    color: white;
+}
