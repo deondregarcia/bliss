@@ -1,7 +1,12 @@
 .content-container-header-container {
-    background-color: red;
     width: 100%;
     height: 50px;
     flex-shrink: 0;
     padding: 5px 10px;
+    border-bottom: 1px solid lightgray;
+    background-color: var(--main-font-color);
+}
+
+.content-container-header-text {
+    color: #FFF;
 }

@@ -9,5 +9,8 @@
 }
 
 .bucket-list-title {
+    font-family: "Sarabun";
+    /* font-family: "Arial"; */
+    color: var(--text-color);
     border-bottom: var(--border-style);
 }

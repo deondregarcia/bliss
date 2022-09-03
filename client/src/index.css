@@ -1,7 +1,10 @@
 :root {
-  --border-radius: 8px;
-  --border-style: 1px solid #cfcfcf;
+  --border-radius: 12px;
+  --border-style: 1px solid #b9b9b9;
   --content-bg-color: #FFF;
+  /* --main-font-color: #581bc0; */
+  --main-font-color: #8442f7;
+  --text-color: rgb(41, 41, 41);
 }
 
 * {
@@ -11,5 +14,12 @@
   }
 
 body {
-  background-color: #e7e7e7;
+  /* background-color: #dad7df; */
+  /* background-color: #ececec; */
+  background-color: #e0e0e0;
+}
+
+@font-face {
+  font-family: "Sarabun";
+  src: url("./assets/fonts/Sarabun/Sarabun-Light.ttf") format("truetype");
 }

@@ -11,8 +11,8 @@
 
 .navbar-header {
     grid-column-start: 6;
-    /* background-color: red; */
     font-size: 40px;
+    color: var(--main-font-color);
 }
 
 .login {
