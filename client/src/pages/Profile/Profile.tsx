@@ -102,7 +102,11 @@ const Profile = () => {
             alt="google profile pic"
             className="profile-pic"
           />
-          <h3>{googleUserObject?.displayName}</h3>
+          <h3 className="profile-info-name">{googleUserObject?.displayName}</h3>
+          <div className="profile-bio-container">
+            <h3 className="profile-bio-container-header">Bio</h3>
+            <div className="profile-separator" />
+          </div>
         </div>
         <div className="content-container public">
           <ContentContainerHeader category="Public" />
@@ -121,7 +125,10 @@ const Profile = () => {
         </div>
 
         {/* second row of elements */}
-        <div className="control-panel"></div>
+        <div className="today-i-should-container">
+          <h2 className="side-container-header">Today, I should...</h2>
+          <div className="side-container-header-separator" />
+        </div>
         <div className="content-container shared">
           <ContentContainerHeader category="Shared" />
           {sharedBucketListArray.length > 0 ? (
