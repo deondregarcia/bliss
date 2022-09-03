@@ -148,13 +148,17 @@ app.post("/get-recipes", (req: Request, res: Response) => {
   console.log(recipeResponse);
 });
 
-app.post("/checkiffriend", (req: Request, res: Response) => {
+app.post("/check-if-friend", (req: Request, res: Response) => {
   const reqUserID = String(req.user?.id);
-  const urlID = req.body.urlID;
+  const secondID = req.body.secondID;
+
+  if (!req.user) {
+    res.status(200).json({ friendPairsInfo: [] });
+  }
 
   checkIfFriend(
     reqUserID,
-    urlID,
+    secondID,
     (err: Error, friendPairs: FriendPairType[]) => {
       if (err) {
         return res.status(500).json({ message: err.message });

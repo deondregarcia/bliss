@@ -35,7 +35,7 @@ const RequireAuth = () => {
   return (
     <>
       {didAuthRun &&
-        (auth.session_info ? <Outlet /> : <Navigate to="unauthorized" />)}
+        (auth?.session_info ? <Outlet /> : <Navigate to="unauthorized" />)}
     </>
   );
 };

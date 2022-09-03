@@ -26,8 +26,6 @@ const Profile = () => {
     useState<RecipeContentType[]>(RecipeInputDefault);
   const { id } = useParams();
 
-  console.log(id);
-
   // separate the bucket list arrays for easier nullish checks in render
   const [publicBucketListArray, setPublicBucketListArray] = useState<
     BucketListType[]
@@ -44,7 +42,6 @@ const Profile = () => {
     // google_id
     Axios.get(`/view/lists/${id}`)
       .then((response) => {
-        console.log(response.data.data);
         setPublicBucketListArray(
           response.data.data.filter((bucketList: BucketListType) => {
             return bucketList.privacy_type === "public";
@@ -70,9 +67,7 @@ const Profile = () => {
   const getGoogleUserInfo = () => {
     Axios.get("/googleuser")
       .then((res) => {
-        console.log(res.data.google_user);
         setGoogleUserObject(res.data.google_user);
-        // console.log(googleUserObject.photos);
       })
       .catch((err) => {
         console.log(err);

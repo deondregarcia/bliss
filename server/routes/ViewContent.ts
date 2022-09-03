@@ -1,6 +1,16 @@
 import express, { Request, Response } from "express";
-import { getBucketLists, getActivities } from "../controllers/ViewContent";
-import { BucketList, BucketListContent } from "../types/content";
+import {
+  getBucketLists,
+  getActivities,
+  getPrivacyTypeAndOwner,
+  checkIfShared,
+} from "../controllers/ViewContent";
+import {
+  BucketList,
+  BucketListContent,
+  PrivacyAndOwnerType,
+  SharedListUserType,
+} from "../types/content";
 
 // /view prefix in url
 const viewContentRouter = express.Router();
@@ -33,6 +43,43 @@ viewContentRouter.get(
         }
 
         res.status(200).json({ data: activities });
+      }
+    );
+  }
+);
+
+// get privacy type of bucket list based on its bucket_list_tracker id and get owner google idowner-
+viewContentRouter.get(
+  "/privacy-type-and-owner-google-id/:id",
+  async (req: Request, res: Response) => {
+    const bucketListID = Number(req.params.id);
+    getPrivacyTypeAndOwner(
+      bucketListID,
+      (err: Error, privacyAndOwners: PrivacyAndOwnerType[]) => {
+        if (err) {
+          return res.status(500).json({ message: err.message });
+        }
+
+        res.status(200).json({ data: privacyAndOwners });
+      }
+    );
+  }
+);
+
+viewContentRouter.get(
+  "/check-if-user-in-shared-list/:id",
+  async (req: Request, res: Response) => {
+    const userID = String(req.user?.id);
+    const bucketListID = Number(req.params.id);
+    checkIfShared(
+      userID,
+      bucketListID,
+      (err: Error, sharedListUsers: SharedListUserType[]) => {
+        if (err) {
+          return res.status(500).json({ message: err.message });
+        }
+
+        res.status(200).json({ data: sharedListUsers });
       }
     );
   }

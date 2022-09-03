@@ -8,18 +8,15 @@ const CheckUserOrFriend = ({ status }: { status: string }) => {
   const { auth } = useAuth();
   const { id } = useParams();
   const [didCheckRun, setDidCheckRun] = useState(false);
-  //   const [googleID, setGoogleID] = useState<string | null>(null);
-  const [googleID, setGoogleID] = useState<string | null>(
-    "103665465028555601310"
-  );
+  const [googleID, setGoogleID] = useState<string | null>(null);
   const [userStatus, setUserStatus] = useState<string | null>(null);
   const [isFriends, setIsFriends] = useState(false);
 
   // combine all funcs to ensure they get called before continuing
   const runAllChecks = async () => {
     // take the google id's and check if they are friends
-    await Axios.post("/checkiffriend", {
-      urlID: id,
+    await Axios.post("/check-if-friend", {
+      secondID: id,
     })
       .then((res) => {
         if (res.data.friendPairsInfo[0]) {
@@ -45,11 +42,9 @@ const CheckUserOrFriend = ({ status }: { status: string }) => {
     if (googleID === id) {
       setUserStatus("owner");
       setDidCheckRun(true);
-      console.log(userStatus);
     } else if (isFriends) {
       setUserStatus("friend");
       setDidCheckRun(true);
-      console.log(userStatus);
     }
   });
 

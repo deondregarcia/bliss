@@ -1,6 +1,11 @@
 import { db } from "../db";
 import { OkPacket, RowDataPacket } from "mysql2";
-import { BucketList, BucketListContent } from "../types/content";
+import {
+  BucketList,
+  BucketListContent,
+  PrivacyAndOwnerType,
+  SharedListUserType,
+} from "../types/content";
 
 // view list of all bucket lists user is involved in
 export const getBucketLists = (googleId: string, callback: Function) => {
@@ -56,5 +61,59 @@ export const getActivities = (trackerId: number, callback: Function) => {
       activities.push(activity);
     });
     callback(null, activities);
+  });
+};
+
+// get privacy type of BL based on bucket_list_tracker id
+export const getPrivacyTypeAndOwner = (
+  trackerID: number,
+  callback: Function
+) => {
+  const queryString =
+    "SELECT privacy_type, owner_id FROM bucket_list_tracker WHERE id=?";
+
+  db.query(queryString, trackerID, (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const rows = <RowDataPacket[]>result;
+    const privacyAndOwners: PrivacyAndOwnerType[] = [];
+    rows.forEach((row) => {
+      const privacyAndOwner: PrivacyAndOwnerType = {
+        privacy_type: row.privacy_type,
+        owner_id: row.owner_id,
+      };
+      privacyAndOwners.push(privacyAndOwner);
+    });
+    callback(null, privacyAndOwners);
+  });
+};
+
+// given the user's google id, check if user is in shared_list_users
+export const checkIfShared = (
+  userID: string,
+  bucketListID: number,
+  callback: Function
+) => {
+  const queryString =
+    "SELECT * FROM shared_list_users WHERE contributor_id=(SELECT id FROM users WHERE google_id=?) AND bucket_list_id=?";
+
+  db.query(queryString, [userID, bucketListID], (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const rows = <RowDataPacket[]>result;
+    const sharedListUsers: SharedListUserType[] = [];
+    rows.forEach((row) => {
+      const sharedListUser: SharedListUserType = {
+        id: row.id,
+        bucket_list_id: row.bucket_list_id,
+        contributor_id: row.contributor_id,
+      };
+      sharedListUsers.push(sharedListUser);
+    });
+    callback(null, sharedListUsers);
   });
 };

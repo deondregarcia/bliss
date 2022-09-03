@@ -22,3 +22,14 @@ export interface FriendPairType {
   friend_one_id: number;
   friend_two_id: number;
 }
+
+export interface PrivacyAndOwnerType {
+  privacy_type: string;
+  owner_id: number;
+}
+
+export interface SharedListUserType {
+  id: number;
+  bucket_list_id: number;
+  contributor_id: number;
+}

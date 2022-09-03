@@ -38,12 +38,21 @@ function App() {
             </Route>
 
             <Route element={<CheckUserOrFriend status={STATUS.friend} />}>
-              {/* <Route path="friend-profile/:id" element={<FriendProfile />} /> */}
               <Route path="profile/:id" element={<FriendProfile />} />
             </Route>
 
             {/* add route to check if owner or in shared_list_users */}
-            <Route path="bucket-list" element={<BucketListView />} />
+            <Route path="bucket-list">
+              <Route path=":id" element={<BucketListView />} />
+            </Route>
+
+            {/* could have different protected routes for each of the types */}
+
+            {/* <Route path=":private" element={} />
+            
+            <Route path=":shared" element={} />
+            
+            <Route path=":public" element={} /> */}
           </Route>
         </Route>
       </Routes>
