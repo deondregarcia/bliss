@@ -4,7 +4,11 @@ import * as bodyParser from "body-parser";
 import Axios from "axios";
 
 // import some controllers; extract these to the controllers folder later
-import { verifySession, checkIfFriend } from "./controllers/VerifySession";
+import {
+  verifySession,
+  checkIfFriend,
+  checkIfFriendWithUserID,
+} from "./controllers/VerifySession";
 import { SessionType } from "./types/session";
 
 // import routes files
@@ -148,7 +152,7 @@ app.post("/get-recipes", (req: Request, res: Response) => {
   console.log(recipeResponse);
 });
 
-app.post("/check-if-friend", (req: Request, res: Response) => {
+app.post("/check-if-friend-with-google-id", (req: Request, res: Response) => {
   const reqUserID = String(req.user?.id);
   const secondID = req.body.secondID;
 
@@ -157,6 +161,26 @@ app.post("/check-if-friend", (req: Request, res: Response) => {
   }
 
   checkIfFriend(
+    reqUserID,
+    secondID,
+    (err: Error, friendPairs: FriendPairType[]) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ friendPairsInfo: friendPairs });
+    }
+  );
+});
+app.post("/check-if-friend-with-user-id", (req: Request, res: Response) => {
+  const reqUserID = String(req.user?.id);
+  const secondID = req.body.secondID;
+
+  if (!req.user) {
+    res.status(200).json({ friendPairsInfo: [] });
+  }
+
+  checkIfFriendWithUserID(
     reqUserID,
     secondID,
     (err: Error, friendPairs: FriendPairType[]) => {

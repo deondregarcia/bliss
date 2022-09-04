@@ -15,7 +15,7 @@ const CheckUserOrFriend = ({ status }: { status: string }) => {
   // combine all funcs to ensure they get called before continuing
   const runAllChecks = async () => {
     // take the google id's and check if they are friends
-    await Axios.post("/check-if-friend", {
+    await Axios.post("/check-if-friend-with-google-id", {
       secondID: id,
     })
       .then((res) => {

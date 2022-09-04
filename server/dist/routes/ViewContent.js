@@ -38,3 +38,24 @@ viewContentRouter.get("/activities/:id", (req, res) => __awaiter(void 0, void 0,
         res.status(200).json({ data: activities });
     });
 }));
+// get privacy type of bucket list based on its bucket_list_tracker id and get owner google idowner-
+viewContentRouter.get("/privacy-type-and-owner-google-id/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const bucketListID = Number(req.params.id);
+    (0, ViewContent_1.getPrivacyTypeAndOwner)(bucketListID, (err, privacyAndOwners) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ data: privacyAndOwners });
+    });
+}));
+viewContentRouter.get("/check-if-user-in-shared-list/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const userID = String((_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
+    const bucketListID = Number(req.params.id);
+    (0, ViewContent_1.checkIfShared)(userID, bucketListID, (err, sharedListUsers) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ data: sharedListUsers });
+    });
+}));

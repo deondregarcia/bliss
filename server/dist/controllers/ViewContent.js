@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getActivities = exports.getBucketLists = void 0;
+exports.checkIfShared = exports.getPrivacyTypeAndOwner = exports.getActivities = exports.getBucketLists = void 0;
 const db_1 = require("../db");
 // view list of all bucket lists user is involved in
 const getBucketLists = (googleId, callback) => {
@@ -53,3 +53,44 @@ const getActivities = (trackerId, callback) => {
     });
 };
 exports.getActivities = getActivities;
+// get privacy type of BL based on bucket_list_tracker id
+const getPrivacyTypeAndOwner = (trackerID, callback) => {
+    const queryString = "SELECT privacy_type, owner_id FROM bucket_list_tracker WHERE id=?";
+    db_1.db.query(queryString, trackerID, (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const rows = result;
+        const privacyAndOwners = [];
+        rows.forEach((row) => {
+            const privacyAndOwner = {
+                privacy_type: row.privacy_type,
+                owner_id: row.owner_id,
+            };
+            privacyAndOwners.push(privacyAndOwner);
+        });
+        callback(null, privacyAndOwners);
+    });
+};
+exports.getPrivacyTypeAndOwner = getPrivacyTypeAndOwner;
+// given the user's google id, check if user is in shared_list_users
+const checkIfShared = (userID, bucketListID, callback) => {
+    const queryString = "SELECT * FROM shared_list_users WHERE contributor_id=(SELECT id FROM users WHERE google_id=?) AND bucket_list_id=?";
+    db_1.db.query(queryString, [userID, bucketListID], (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const rows = result;
+        const sharedListUsers = [];
+        rows.forEach((row) => {
+            const sharedListUser = {
+                id: row.id,
+                bucket_list_id: row.bucket_list_id,
+                contributor_id: row.contributor_id,
+            };
+            sharedListUsers.push(sharedListUser);
+        });
+        callback(null, sharedListUsers);
+    });
+};
+exports.checkIfShared = checkIfShared;

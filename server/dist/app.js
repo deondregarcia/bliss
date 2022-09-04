@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv = __importStar(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const bodyParser = __importStar(require("body-parser"));
+const axios_1 = __importDefault(require("axios"));
 // import some controllers; extract these to the controllers folder later
 const VerifySession_1 = require("./controllers/VerifySession");
 // import routes files
@@ -81,7 +82,7 @@ app.get("/auth/google/callback", passport_1.default.authenticate("google", { fai
     // res.redirect(`http://localhost:3001/${req?.user?.id}`);
     console.log(req.user);
     // in the future, redirect to profile by /profile/:id
-    res.redirect(`http://localhost:3001/profile/${(_a = req.user) === null || _a === void 0 ? void 0 : _a.id}`);
+    res.redirect(`http://localhost:3001/my-profile/${(_a = req.user) === null || _a === void 0 ? void 0 : _a.id}`);
 });
 app.get("/auth/user", passport_1.default.authenticate("google", { scope: ["email", "profile"] }), (req, res) => {
     // console.log(req.sessionStore["sessions"]);
@@ -108,14 +109,46 @@ app.get("/verify", (req, res) => {
         }
         res.status(200).json({ session_info: sessions[0] });
     });
-    // hardcode temporarily to limit db queries
-    // res.status(200).json({
-    //   session_info: {
-    //     session_id: "DtDNNsn5o7tTXZdzRda8vRpUN9noNs_j",
-    //     expires: 1662231774,
-    //     data: '{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":{"id":"117205234781311561243","accessToken":"ya29.a0AVA9y1sWy75ksqPTB95dr18--t8M1dZSn8OvpRUr6ERBGgYBzpjakKJhkhaVXH7XqWtFhj4RcquioT3tEPhbgSqzxBJLh9tPWXaKQvnFKMQuuTDBApf9hXl9ONIZWCTWUG3aZfi78p0fbXiZQAC_qqXOQVGPaCgYKATASAQASFQE65dr8mIteswPy-ii2QadbSmtcBg0163"}}}',
-    //   },
-    // });
+});
+app.post("/get-recipes", (req, res) => {
+    const recipeSearch = req.body.query;
+    let recipeResponse;
+    const recipeOptions = {
+        params: {
+            query: recipeSearch,
+            number: 1,
+            sort: "popularity",
+            ranking: 2,
+        },
+        headers: {
+            "X-RapidAPI-Key": String(process.env.RAPID_API_KEY),
+            "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+        },
+    };
+    axios_1.default.get("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch", recipeOptions)
+        .then((response) => {
+        console.log(response.data.results);
+        recipeResponse = response.data.results;
+        res.status(200).json({ data: response.data.results });
+    })
+        .catch((err) => {
+        console.log(err);
+    });
+    console.log(recipeResponse);
+});
+app.post("/check-if-friend", (req, res) => {
+    var _a;
+    const reqUserID = String((_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
+    const secondID = req.body.secondID;
+    if (!req.user) {
+        res.status(200).json({ friendPairsInfo: [] });
+    }
+    (0, VerifySession_1.checkIfFriend)(reqUserID, secondID, (err, friendPairs) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ friendPairsInfo: friendPairs });
+    });
 });
 app.get("/googleuser", (req, res) => {
     var _a;

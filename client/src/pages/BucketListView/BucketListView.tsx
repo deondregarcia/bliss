@@ -19,6 +19,7 @@ const BucketListView = () => {
   const getBucketListContent = () => {
     Axios.get(`/view/activities/${id}`)
       .then((res) => {
+        console.log(res);
         setBucketListContent(res.data.data);
       })
       .catch((err) => {
@@ -31,24 +32,34 @@ const BucketListView = () => {
   const verifyPermissions = () => {
     Axios.get(`/view/privacy-type-and-owner-google-id/${id}`)
       .then((res) => {
-        console.log("privacy_type and owner below");
-        console.log(res.data.data);
-        setPrivacyType(res.data.data.privacy_type);
+        // console.log(res);
+        // console.log("privacy_type and owner below");
+        // console.log(res.data.data[0].privacy_type);
+        setPrivacyType(res.data.data[0].privacy_type);
         setOwnerID(res.data.data.owner_id);
-        // let privacy_type = res.data.data.privacy_type;
+        // let privacyType = res.data.data.privacy_type;
 
         // console.log("ownerID");
         // console.log(ownerID);
         // console.log("privacyType");
         // console.log(privacyType);
 
+        // return res.data.data[0].privacy_type;
+        return {
+          privacy_type: res.data.data[0].privacy_type,
+          owner_id: res.data.data[0].owner_id,
+        };
+      })
+      .then((res) => {
+        // console.log("return res below");
+        // console.log(res);
         // check if User google_id === Owner google_id
-        if (privacyType === "private") {
+        if (res.privacy_type === "private") {
           // get user's google id from server for verification
           Axios.get("/googleuser")
-            .then((res) => {
+            .then((response) => {
               // if User is owner
-              if (res.data.google_user.id === ownerID) {
+              if (response.data.google_user.id === res.owner_id) {
                 getBucketListContent();
               } else {
                 setUnauthorizedType("private");
@@ -59,18 +70,18 @@ const BucketListView = () => {
             });
 
           // check if User google_id === Owner google_id or in shared_list_users
-        } else if (privacyType === "shared") {
+        } else if (res.privacy_type === "shared") {
           // check google_id's first then shared_list_users
           Axios.get("/googleuser")
-            .then((res) => {
+            .then((response) => {
               // if User is owner
-              if (res.data.google_user.id === ownerID) {
+              if (response.data.google_user.id === res.owner_id) {
                 getBucketListContent();
               } else {
                 // check if shared_list_user
                 Axios.get(`/view/check-if-user-in-shared-list/${id}`)
-                  .then((res) => {
-                    if (res.data.data.sharedListUsers[0]) {
+                  .then((response) => {
+                    if (response.data.data.sharedListUsers[0]) {
                       getBucketListContent();
                     } else {
                       setUnauthorizedType("shared");
@@ -85,13 +96,17 @@ const BucketListView = () => {
               console.log(err);
             });
           // check if User google_id is friends with Owner google_id
-        } else if (privacyType === "public_friends") {
-          Axios.post("/check-if-friend", {
-            secondID: ownerID,
+        } else if (res.privacy_type === "public_friends") {
+          console.log("owner_id");
+          console.log(res.owner_id);
+          Axios.post("/check-if-friend-with-user-id", {
+            secondID: res.owner_id,
           })
-            .then((res) => {
+            .then((response) => {
+              console.log(response.data.friendPairsInfo[0] ? "true" : "false");
               // if true then they are friends; pull public_friends content
-              if (res.data.friendPairsInfo[0]) {
+              if (response.data.friendPairsInfo[0]) {
+                console.log("testy test");
                 getBucketListContent();
               } else {
                 setUnauthorizedType("public_friends");
@@ -119,6 +134,7 @@ const BucketListView = () => {
       <div className="bucket-list-view-container">
         <div className="bucket-list-view-header-container">
           <h1 className="bucket-list-view-header">[Bucket List Title]</h1>
+          <p>{unauthorizedType}</p>
           {bucketListContent.map((content, index) => (
             <BucketListContent content={content} key={index} />
           ))}
