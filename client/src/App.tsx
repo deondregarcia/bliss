@@ -15,6 +15,7 @@ import Unauthorized from "./auth/Unauthorized/Unauthorized";
 import CheckUserOrFriend from "./auth/CheckUserOrFriend";
 import FriendProfile from "./pages/FriendProfile/FriendProfile";
 import { StatusType } from "./types/authTypes";
+import SetAuth from "./auth/SetAuth";
 
 const STATUS: StatusType = {
   owner: "owner",
@@ -24,25 +25,27 @@ const STATUS: StatusType = {
 function App() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route path="/" element={<Landing />} />
-          <Route path="unauthorized" element={<Unauthorized />} />
-          {/* add route to check if owner or in shared_list_users */}
-          <Route path="bucket-list">
-            <Route path=":id" element={<BucketListView />} />
-          </Route>
-
-          {/* checks if user is logged in */}
-          <Route element={<RequireAuth />}>
-            {/* add route to check if friends or user or something else */}
-            <Route element={<CheckUserOrFriend status={STATUS.owner} />}>
-              <Route path="my-profile/:id" element={<Profile />} />
+        <Route element={<SetAuth />}>
+          <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Landing />} />
+            <Route path="unauthorized" element={<Unauthorized />} />
+            {/* add route to check if owner or in shared_list_users */}
+            <Route path="bucket-list">
+              <Route path=":id" element={<BucketListView />} />
             </Route>
 
-            <Route element={<CheckUserOrFriend status={STATUS.friend} />}>
-              <Route path="profile/:id" element={<FriendProfile />} />
+            {/* checks if user is logged in */}
+            <Route element={<RequireAuth />}>
+              {/* add route to check if friends or user or something else */}
+              <Route element={<CheckUserOrFriend status={STATUS.owner} />}>
+                <Route path="my-profile/:id" element={<Profile />} />
+              </Route>
+
+              <Route element={<CheckUserOrFriend status={STATUS.friend} />}>
+                <Route path="profile/:id" element={<FriendProfile />} />
+              </Route>
             </Route>
           </Route>
         </Route>

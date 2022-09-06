@@ -21,7 +21,6 @@ exports.viewContentRouter = viewContentRouter;
 // get all lists for a user based on their google_id
 viewContentRouter.get("/lists/:google_id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const googleID = String(req.params.google_id);
-    console.log(googleID);
     (0, ViewContent_1.getBucketLists)(googleID, (err, lists) => {
         if (err) {
             return res.status(500).json({ message: err.message });

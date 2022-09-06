@@ -19,7 +19,6 @@ const BucketListView = () => {
   const getBucketListContent = () => {
     Axios.get(`/view/activities/${id}`)
       .then((res) => {
-        console.log(res);
         setBucketListContent(res.data.data);
       })
       .catch((err) => {
@@ -79,7 +78,8 @@ const BucketListView = () => {
                 // check if shared_list_user
                 Axios.get(`/view/check-if-user-in-shared-list/${id}`)
                   .then((response) => {
-                    if (response.data.data.sharedListUsers[0]) {
+                    console.log(response);
+                    if (response.data.data[0]) {
                       getBucketListContent();
                     } else {
                       setUnauthorizedType("shared");
@@ -150,9 +150,13 @@ const BucketListView = () => {
         <div className="bucket-list-view-header-container">
           <h1 className="bucket-list-view-header">[Bucket List Title]</h1>
           <p>{unauthorizedType}</p>
-          {bucketListContent.map((content, index) => (
-            <BucketListContent content={content} key={index} />
-          ))}
+          {bucketListContent ? (
+            bucketListContent.map((content, index) => (
+              <BucketListContent content={content} key={index} />
+            ))
+          ) : (
+            <h1>No Content</h1>
+          )}
         </div>
       </div>
     </div>

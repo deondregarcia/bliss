@@ -80,18 +80,15 @@ app.get("/auth/google", passport_1.default.authenticate("google", { scope: ["ema
 app.get("/auth/google/callback", passport_1.default.authenticate("google", { failureRedirect: "/auth/failure" }), (req, res) => {
     var _a;
     // res.redirect(`http://localhost:3001/${req?.user?.id}`);
-    console.log(req.user);
     // in the future, redirect to profile by /profile/:id
     res.redirect(`http://localhost:3001/my-profile/${(_a = req.user) === null || _a === void 0 ? void 0 : _a.id}`);
 });
 app.get("/auth/user", passport_1.default.authenticate("google", { scope: ["email", "profile"] }), (req, res) => {
     // console.log(req.sessionStore["sessions"]);
-    console.log(req.user);
     // console.log(req.cookies);
     res.json({ user: req.user });
 });
 app.get("/", (req, res) => {
-    console.log(req.session.id);
     res.send('<a href="/auth/google">Authenticate with Google</a>');
 });
 app.get("/auth/failure", (req, res) => {
@@ -127,14 +124,12 @@ app.post("/get-recipes", (req, res) => {
     };
     axios_1.default.get("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch", recipeOptions)
         .then((response) => {
-        console.log(response.data.results);
         recipeResponse = response.data.results;
         res.status(200).json({ data: response.data.results });
     })
         .catch((err) => {
         console.log(err);
     });
-    console.log(recipeResponse);
 });
 app.post("/check-if-friend-with-google-id", (req, res) => {
     var _a;
@@ -152,12 +147,13 @@ app.post("/check-if-friend-with-google-id", (req, res) => {
 });
 app.post("/check-if-friend-with-user-id", (req, res) => {
     var _a;
-    const reqUserID = String((_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
+    const reqUserGoogleID = String((_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
     const secondID = req.body.secondID;
+    console.log("reqUserID: " + reqUserGoogleID + " , " + "secondID: " + secondID);
     if (!req.user) {
         res.status(200).json({ friendPairsInfo: [] });
     }
-    (0, VerifySession_1.checkIfFriendWithUserID)(reqUserID, secondID, (err, friendPairs) => {
+    (0, VerifySession_1.checkIfFriendWithUserID)(reqUserGoogleID, secondID, (err, friendPairs) => {
         if (err) {
             return res.status(500).json({ message: err.message });
         }
@@ -168,6 +164,20 @@ app.get("/googleuser", (req, res) => {
     var _a;
     // console.log(req.user?.profile);
     res.status(200).json({ google_user: (_a = req.user) === null || _a === void 0 ? void 0 : _a.profile });
+});
+// gets user id from google id
+app.get("/get-user-id", (req, res) => {
+    var _a;
+    if (!req.user) {
+        return res.status(200).json({ userID: [] });
+    }
+    const userGoogleID = (_a = req.user) === null || _a === void 0 ? void 0 : _a.profile.id;
+    (0, VerifySession_1.getUserID)(userGoogleID, (err, userID) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ userID: userID });
+    });
 });
 app.get("/logout", (req, res, err) => {
     req.logout(err);

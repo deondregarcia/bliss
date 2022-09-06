@@ -9,38 +9,16 @@ const Navbar = () => {
   const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
 
-  // // make request to server to check if auth credentials exist (i.e. if google login was achieved)
-  // const checkForAuth = async () => {
-  //   // if user is logged in, should send session id; CHECK WHAT HAPPENS IF USER IS NOT LOGGED IN
-  //   await Axios.get("/verify")
-  //     .then((res) => {
-  //       console.log(res.data);
-
-  //       // if session id in response does not exist
-  //       if (res.data) {
-  //         setAuth(res.data);
-  //       } else {
-  //         return false;
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   checkForAuth();
-  // }, []);
-
-  const logout = () => {
-    setAuth({});
-    Axios.get("/logout")
+  const logout = async () => {
+    await Axios.get("/logout")
       .then((res) => {
         console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
+
+    setAuth({});
 
     navigate("../");
   };
