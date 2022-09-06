@@ -32,34 +32,27 @@ const BucketListView = () => {
   const verifyPermissions = () => {
     Axios.get(`/view/privacy-type-and-owner-google-id/${id}`)
       .then((res) => {
-        // console.log(res);
-        // console.log("privacy_type and owner below");
-        // console.log(res.data.data[0].privacy_type);
         setPrivacyType(res.data.data[0].privacy_type);
-        setOwnerID(res.data.data.owner_id);
-        // let privacyType = res.data.data.privacy_type;
+        setOwnerID(res.data.data[0].owner_id);
 
-        // console.log("ownerID");
-        // console.log(ownerID);
-        // console.log("privacyType");
-        // console.log(privacyType);
-
-        // return res.data.data[0].privacy_type;
         return {
           privacy_type: res.data.data[0].privacy_type,
           owner_id: res.data.data[0].owner_id,
         };
       })
       .then((res) => {
-        // console.log("return res below");
-        // console.log(res);
         // check if User google_id === Owner google_id
         if (res.privacy_type === "private") {
           // get user's google id from server for verification
-          Axios.get("/googleuser")
+          Axios.get("/get-user-id")
             .then((response) => {
-              // if User is owner
-              if (response.data.google_user.id === res.owner_id) {
+              // check if user is logged in
+              if (!response.data.userID[0]) {
+                setUnauthorizedType("not_logged_in");
+              } else if (
+                // if User is owner
+                response.data.userID[0].id === res.owner_id
+              ) {
                 getBucketListContent();
               } else {
                 setUnauthorizedType("private");
@@ -71,11 +64,16 @@ const BucketListView = () => {
 
           // check if User google_id === Owner google_id or in shared_list_users
         } else if (res.privacy_type === "shared") {
-          // check google_id's first then shared_list_users
-          Axios.get("/googleuser")
+          // check if user is owner, then check if in shared_list_users
+          Axios.get("/get-user-id")
             .then((response) => {
-              // if User is owner
-              if (response.data.google_user.id === res.owner_id) {
+              // check if user is logged in
+              if (!response.data.userID[0]) {
+                setUnauthorizedType("not_logged_in");
+              } else if (
+                // if User is owner
+                response.data.userID[0].id === res.owner_id
+              ) {
                 getBucketListContent();
               } else {
                 // check if shared_list_user
@@ -95,26 +93,43 @@ const BucketListView = () => {
             .catch((err) => {
               console.log(err);
             });
-          // check if User google_id is friends with Owner google_id
+          // check if user is owner, then check if User google_id is friends with Owner google_id
         } else if (res.privacy_type === "public_friends") {
-          console.log("owner_id");
-          console.log(res.owner_id);
-          Axios.post("/check-if-friend-with-user-id", {
-            secondID: res.owner_id,
-          })
+          // check if user is owner
+          Axios.get("/get-user-id")
             .then((response) => {
-              console.log(response.data.friendPairsInfo[0] ? "true" : "false");
-              // if true then they are friends; pull public_friends content
-              if (response.data.friendPairsInfo[0]) {
-                console.log("testy test");
+              // check if user is logged in
+              if (!response.data.userID[0]) {
+                setUnauthorizedType("not_logged_in");
+              } else if (
+                // if User is owner
+                response.data.userID[0].id === res.owner_id
+              ) {
                 getBucketListContent();
               } else {
-                setUnauthorizedType("public_friends");
+                // check if user id is friends with Owner id
+                Axios.post("/check-if-friend-with-user-id", {
+                  secondID: res.owner_id,
+                })
+                  .then((response) => {
+                    // console.log(response.data);
+                    // console.log(response.data.friendPairsInfo[0] ? "true" : "false");
+                    // if true then they are friends; pull public_friends content
+                    if (response.data.friendPairsInfo[0]) {
+                      getBucketListContent();
+                    } else {
+                      setUnauthorizedType("public_friends");
+                    }
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
               }
             })
             .catch((err) => {
               console.log(err);
             });
+
           // else privacy_type === "public_random"
         } else {
           getBucketListContent();

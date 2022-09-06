@@ -20,7 +20,6 @@ viewContentRouter.get(
   "/lists/:google_id",
   async (req: Request, res: Response) => {
     const googleID: string = String(req.params.google_id);
-    console.log(googleID);
     getBucketLists(googleID, (err: Error, lists: BucketList[]) => {
       if (err) {
         return res.status(500).json({ message: err.message });

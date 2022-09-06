@@ -29,6 +29,10 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<Landing />} />
           <Route path="unauthorized" element={<Unauthorized />} />
+          {/* add route to check if owner or in shared_list_users */}
+          <Route path="bucket-list">
+            <Route path=":id" element={<BucketListView />} />
+          </Route>
 
           {/* checks if user is logged in */}
           <Route element={<RequireAuth />}>
@@ -40,19 +44,6 @@ function App() {
             <Route element={<CheckUserOrFriend status={STATUS.friend} />}>
               <Route path="profile/:id" element={<FriendProfile />} />
             </Route>
-
-            {/* add route to check if owner or in shared_list_users */}
-            <Route path="bucket-list">
-              <Route path=":id" element={<BucketListView />} />
-            </Route>
-
-            {/* could have different protected routes for each of the types */}
-
-            {/* <Route path=":private" element={} />
-            
-            <Route path=":shared" element={} />
-            
-            <Route path=":public" element={} /> */}
           </Route>
         </Route>
       </Routes>

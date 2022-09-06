@@ -5,8 +5,12 @@ const db_1 = require("../db");
 // view list of all bucket lists user is involved in
 const getBucketLists = (googleId, callback) => {
     const getUserQueryString = "SELECT id FROM users WHERE google_id=?";
-    const queryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=(${getUserQueryString})`;
-    db_1.db.query(queryString, googleId, (err, result) => {
+    // pull from bucket_list_tracker table
+    const firstQueryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=(${getUserQueryString}) OR `;
+    // query shared_list_users table
+    const secondQueryString = `id=(SELECT bucket_list_id FROM bliss_db.shared_list_users WHERE contributor_id=(${getUserQueryString}))`;
+    const mainQueryString = firstQueryString + secondQueryString;
+    db_1.db.query(mainQueryString, [googleId, googleId], (err, result) => {
         if (err) {
             callback(err);
         }

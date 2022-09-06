@@ -136,7 +136,7 @@ app.post("/get-recipes", (req, res) => {
     });
     console.log(recipeResponse);
 });
-app.post("/check-if-friend", (req, res) => {
+app.post("/check-if-friend-with-google-id", (req, res) => {
     var _a;
     const reqUserID = String((_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
     const secondID = req.body.secondID;
@@ -144,6 +144,20 @@ app.post("/check-if-friend", (req, res) => {
         res.status(200).json({ friendPairsInfo: [] });
     }
     (0, VerifySession_1.checkIfFriend)(reqUserID, secondID, (err, friendPairs) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ friendPairsInfo: friendPairs });
+    });
+});
+app.post("/check-if-friend-with-user-id", (req, res) => {
+    var _a;
+    const reqUserID = String((_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
+    const secondID = req.body.secondID;
+    if (!req.user) {
+        res.status(200).json({ friendPairsInfo: [] });
+    }
+    (0, VerifySession_1.checkIfFriendWithUserID)(reqUserID, secondID, (err, friendPairs) => {
         if (err) {
             return res.status(500).json({ message: err.message });
         }

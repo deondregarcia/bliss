@@ -16,11 +16,11 @@ export const LogoutButton = ({
 
 export const LoginButton = ({ googleLink }: { googleLink: string }) => {
   return (
-    <div className="login-button">
-      <h3 className="login-button-text">
-        <a href={googleLink}>Login with Google</a>
-      </h3>
-    </div>
+    <a href={googleLink}>
+      <div className="login-button">
+        <h3 className="login-button-text">Login with Google</h3>
+      </div>
+    </a>
   );
 };
 

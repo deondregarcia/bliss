@@ -28,6 +28,20 @@ export const verifySession = (reqSessionID: string, callback: Function) => {
   });
 };
 
+// gets user id from the google id
+export const getUserID = (userGoogleID: string, callback: Function) => {
+  const queryString = "SELECT id FROM bliss_db.users WHERE google_id=?";
+
+  db.query(queryString, userGoogleID, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    const userID = <RowDataPacket>result;
+    callback(null, userID);
+  });
+};
+
 // check if ID in url user is navigating to, is a friend of logged in user
 export const checkIfFriend = (
   reqUserID: string,
@@ -47,10 +61,10 @@ export const checkIfFriend = (
   const mainQueryString: string =
     queryStringOne + queryStringTwo + queryStringThree;
 
-  console.log(mainQueryString);
+  // console.log(mainQueryString);
   // mainQueryString params array will be [user_id, friend_id, friend_id, user_id] where we will arbitrarily make reqSessionID = user_id and urlID = friend_id
 
-  console.log(db.format(mainQueryString, [reqUserID, urlID, urlID, reqUserID]));
+  // console.log(db.format(mainQueryString, [reqUserID, urlID, urlID, reqUserID]));
   db.query(
     mainQueryString,
     [reqUserID, urlID, urlID, reqUserID],
@@ -60,7 +74,7 @@ export const checkIfFriend = (
       }
 
       // there should only be one, so add a check for this later
-      console.log(result);
+      // console.log(result);
       const rows = <RowDataPacket[]>result;
       const friendPairs: FriendPairType[] = [];
 
@@ -77,8 +91,8 @@ export const checkIfFriend = (
 };
 
 export const checkIfFriendWithUserID = (
-  reqUserID: string,
-  urlID: string,
+  reqUserGoogleID: string,
+  secondID: string,
   callback: Function
 ) => {
   // friends table is [id, user_id, friend_id] so must check if (user_id, friend_id) OR (friend_id, user_id) exists
@@ -94,20 +108,20 @@ export const checkIfFriendWithUserID = (
   const mainQueryString: string =
     queryStringOne + queryStringTwo + queryStringThree;
 
-  console.log(mainQueryString);
+  // console.log(mainQueryString);
   // mainQueryString params array will be [user_id, friend_id, friend_id, user_id] where we will arbitrarily make reqSessionID = user_id and urlID = friend_id
 
-  console.log(db.format(mainQueryString, [reqUserID, urlID, urlID, reqUserID]));
+  // console.log(db.format(mainQueryString, [reqUserGoogleID, secondID, secondID, reqUserGoogleID]));
   db.query(
     mainQueryString,
-    [reqUserID, urlID, urlID, reqUserID],
+    [reqUserGoogleID, secondID, secondID, reqUserGoogleID],
     (err, result) => {
       if (err) {
         callback(err);
       }
 
       // there should only be one, so add a check for this later
-      console.log(result);
+      // console.log(result);
       const rows = <RowDataPacket[]>result;
       const friendPairs: FriendPairType[] = [];
 

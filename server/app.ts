@@ -8,6 +8,7 @@ import {
   verifySession,
   checkIfFriend,
   checkIfFriendWithUserID,
+  getUserID,
 } from "./controllers/VerifySession";
 import { SessionType } from "./types/session";
 
@@ -80,7 +81,6 @@ app.get(
   passport.authenticate("google", { failureRedirect: "/auth/failure" }),
   (req: Request, res: Response) => {
     // res.redirect(`http://localhost:3001/${req?.user?.id}`);
-    console.log(req.user);
     // in the future, redirect to profile by /profile/:id
     res.redirect(`http://localhost:3001/my-profile/${req.user?.id}`);
   }
@@ -91,14 +91,12 @@ app.get(
   passport.authenticate("google", { scope: ["email", "profile"] }),
   (req: Request, res: Response) => {
     // console.log(req.sessionStore["sessions"]);
-    console.log(req.user);
     // console.log(req.cookies);
     res.json({ user: req.user });
   }
 );
 
 app.get("/", (req: Request, res: Response) => {
-  console.log(req.session.id);
   res.send('<a href="/auth/google">Authenticate with Google</a>');
 });
 
@@ -142,14 +140,12 @@ app.post("/get-recipes", (req: Request, res: Response) => {
     recipeOptions
   )
     .then((response) => {
-      console.log(response.data.results);
       recipeResponse = response.data.results;
       res.status(200).json({ data: response.data.results });
     })
     .catch((err) => {
       console.log(err);
     });
-  console.log(recipeResponse);
 });
 
 app.post("/check-if-friend-with-google-id", (req: Request, res: Response) => {
@@ -173,15 +169,19 @@ app.post("/check-if-friend-with-google-id", (req: Request, res: Response) => {
   );
 });
 app.post("/check-if-friend-with-user-id", (req: Request, res: Response) => {
-  const reqUserID = String(req.user?.id);
+  const reqUserGoogleID = String(req.user?.id);
   const secondID = req.body.secondID;
+
+  console.log(
+    "reqUserID: " + reqUserGoogleID + " , " + "secondID: " + secondID
+  );
 
   if (!req.user) {
     res.status(200).json({ friendPairsInfo: [] });
   }
 
   checkIfFriendWithUserID(
-    reqUserID,
+    reqUserGoogleID,
     secondID,
     (err: Error, friendPairs: FriendPairType[]) => {
       if (err) {
@@ -196,6 +196,22 @@ app.post("/check-if-friend-with-user-id", (req: Request, res: Response) => {
 app.get("/googleuser", (req: Request, res: Response) => {
   // console.log(req.user?.profile);
   res.status(200).json({ google_user: req.user?.profile });
+});
+
+// gets user id from google id
+app.get("/get-user-id", (req: Request, res: Response) => {
+  if (!req.user) {
+    return res.status(200).json({ userID: [] });
+  }
+  const userGoogleID = req.user?.profile.id;
+
+  getUserID(userGoogleID, (err: Error, userID: number) => {
+    if (err) {
+      return res.status(500).json({ message: err.message });
+    }
+
+    res.status(200).json({ userID: userID });
+  });
 });
 
 app.get("/logout", (req: Request, res: Response, err: any) => {

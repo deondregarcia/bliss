@@ -70,6 +70,7 @@ const Profile = () => {
   const getGoogleUserInfo = () => {
     Axios.get("/googleuser")
       .then((res) => {
+        console.log(res.data.google_user);
         setGoogleUserObject(res.data.google_user);
       })
       .catch((err) => {
@@ -91,6 +92,7 @@ const Profile = () => {
         <div className="profile-info">
           <img
             src={googleUserObject?.photos[0].value}
+            referrerPolicy="no-referrer" // referrer policy that blocked loading of img sometimes - look into it
             alt="google profile pic"
             className="profile-pic"
           />

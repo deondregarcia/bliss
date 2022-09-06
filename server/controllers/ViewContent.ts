@@ -15,6 +15,7 @@ export const getBucketLists = (googleId: string, callback: Function) => {
   // query shared_list_users table
   const secondQueryString = `id=(SELECT bucket_list_id FROM bliss_db.shared_list_users WHERE contributor_id=(${getUserQueryString}))`;
   const mainQueryString = firstQueryString + secondQueryString;
+
   db.query(mainQueryString, [googleId, googleId], (err, result) => {
     if (err) {
       callback(err);
