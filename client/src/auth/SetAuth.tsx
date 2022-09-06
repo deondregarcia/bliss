@@ -16,6 +16,8 @@ const SetAuth = () => {
         if (res.data) {
           setAuth(res.data);
           setDidAuthRun(true);
+          console.log(res.data);
+          console.log("SetAuth Ran");
           // setIsLoggedIn(true);
         } else {
           return false;

@@ -8,29 +8,6 @@ const Landing = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  // make request to server to check if auth credentials exist (i.e. if google login was achieved)
-  const checkForAuth = async () => {
-    // if user is logged in, should send session id; CHECK WHAT HAPPENS IF USER IS NOT LOGGED IN
-    await Axios.get("/verify")
-      .then((res) => {
-        // if session id in response does not exist
-        if (res.data.session_info) {
-          console.log("logged in");
-          setAuth(res.data);
-        } else {
-          console.log("not logged in");
-          return false;
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    checkForAuth();
-  }, []);
-
   return (
     <div>
       <div>

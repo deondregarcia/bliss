@@ -215,11 +215,10 @@ app.get("/get-user-id", (req: Request, res: Response) => {
 });
 
 app.get("/logout", (req: Request, res: Response, err: any) => {
-  req.logout(err);
   req.session.destroy((err) => {
     if (err) throw err;
     console.log(req.session);
-    res.redirect("/");
+    res.status(200).json({ message: "Successfuly cleared session" });
   });
 });
 
