@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Axios from "axios";
-import { BucketListContentType } from "../../types/content";
+import { BucketListContentType, BucketListType } from "../../types/content";
 import "./BucketListView.css";
 import UnauthorizedBucketListView from "../../auth/Unauthorized/UnauthorizedBucketListView";
 import BucketListContent from "../../components/BucketListContent/BucketListContent";
@@ -9,6 +9,9 @@ import BucketListContent from "../../components/BucketListContent/BucketListCont
 const BucketListView = () => {
   const [privacyType, setPrivacyType] = useState<string | null>(null);
   const [ownerID, setOwnerID] = useState<number | null>(null);
+  const [bucketListInfo, setBucketListInfo] = useState<BucketListType | null>(
+    null
+  );
   const [bucketListContent, setBucketListContent] = useState<
     BucketListContentType[]
   >([]);
@@ -17,6 +20,17 @@ const BucketListView = () => {
 
   // pull bucket list content based on id
   const getBucketListContent = () => {
+    // get bucket list title, description, etc.
+    Axios.get(`/view/bucket-list-info/${id}`)
+      .then((res) => {
+        console.log(res);
+        setBucketListInfo(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // get bucket list activities info
     Axios.get(`/view/activities/${id}`)
       .then((res) => {
         setBucketListContent(res.data.data);
@@ -26,8 +40,7 @@ const BucketListView = () => {
       });
   };
 
-  // get privacy type of bucket list for verification
-  // do a lot more
+  // get privacy type and owner of bucket list, then verify based on logged in user's credentials
   const verifyPermissions = () => {
     Axios.get(`/view/privacy-type-and-owner-google-id/${id}`)
       .then((res) => {
@@ -142,22 +155,26 @@ const BucketListView = () => {
 
   useEffect(() => {
     verifyPermissions();
+    console.log(bucketListContent);
   }, []);
 
   return (
     <div className="bucket-list-view-wrapper">
       <div className="bucket-list-view-container">
         <div className="bucket-list-view-header-container">
-          <h1 className="bucket-list-view-header">[Bucket List Title]</h1>
-          <p>{unauthorizedType}</p>
-          {bucketListContent ? (
-            bucketListContent.map((content, index) => (
-              <BucketListContent content={content} key={index} />
-            ))
-          ) : (
-            <h1>No Content</h1>
-          )}
+          <h1 className="bucket-list-view-header">{bucketListInfo?.title}</h1>
+          <p className="bucket-list-view-description">
+            {bucketListInfo?.description}
+          </p>
         </div>
+        <p>{unauthorizedType}</p>
+        {bucketListContent[0] ? (
+          bucketListContent.map((content, index) => (
+            <BucketListContent content={content} key={index} />
+          ))
+        ) : (
+          <h1>No Content</h1>
+        )}
       </div>
     </div>
   );

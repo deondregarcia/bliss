@@ -1,14 +1,15 @@
 
 .bucket-list-view-wrapper {
     /* background-color: red; */
-    height: calc(100vh - 100px);
+    /* height: calc(100vh - 100px); */
+    height: 70vh;
     display: flex;
     justify-content: center;
     /* height: 500px; */
   }
   
   .bucket-list-view-container {
-    height: calc(100% - 50px);
+    /* height: calc(100% - 50px); */
     background-color: var(--content-bg-color);
     /* min-width: 500px; */
     width: 40%;
@@ -16,11 +17,18 @@
   }
   
   .bucket-list-view-header-container {
-    background-color: red;
-    height: 40px;
+    background-color: var(--main-color);
     border-radius: var(--border-radius) var(--border-radius) 0 0;
   }
   
   .bucket-list-view-header {
+    font-family: "Sarabun";
+    color: var(--content-bg-color);
+    text-align: center;
+  }
+
+  .bucket-list-view-description {
+    font-family: var(--text-font);
+    color: var(--content-bg-color);
     text-align: center;
   }

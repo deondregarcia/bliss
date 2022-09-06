@@ -4,6 +4,7 @@ import {
   getActivities,
   getPrivacyTypeAndOwner,
   checkIfShared,
+  getBucketListInfo,
 } from "../controllers/ViewContent";
 import {
   BucketList,
@@ -27,6 +28,25 @@ viewContentRouter.get(
 
       res.status(200).json({ data: lists });
     });
+  }
+);
+
+// get title and description of a bucket list
+viewContentRouter.get(
+  "/bucket-list-info/:id",
+  async (req: Request, res: Response) => {
+    const bucketListID: number = Number(req.params.id);
+
+    getBucketListInfo(
+      bucketListID,
+      (err: Error, bucketListInfo: BucketList) => {
+        if (err) {
+          return res.status(500).json({ message: err.message });
+        }
+
+        res.status(200).json({ data: bucketListInfo });
+      }
+    );
   }
 );
 

@@ -4,10 +4,17 @@ import "./BucketListContent.css";
 
 const BucketListContent = ({ content }: { content: BucketListContentType }) => {
   return (
-    <div>
-      <div>
-        <h3>{content.activity}</h3>
-        <p>{content.description}</p>
+    <div className="bucket-list-content-container">
+      <div className="bucket-list-content-bullet-point">
+        <h1>-</h1>
+      </div>
+      <div className="bucket-list-content-activities-container">
+        <h2 className="bucket-list-content-activities-header">
+          {content.activity}
+        </h2>
+        <p className="bucket-list-content-activities-description">
+          Details: {content.description}
+        </p>
       </div>
     </div>
   );

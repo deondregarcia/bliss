@@ -1,0 +1,22 @@
+.bucket-list-content-container {
+    /* background-color: lightblue; */
+    width: 100%;
+    display: flex;
+}
+
+.bucket-list-content-bullet-point {
+    align-self: flex-start;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.bucket-list-content-activities-header {
+    font-family: "Sarabun";
+    color: var(--text-color);
+    font-size: 30px;
+}
+
+.bucket-list-content-activities-description {
+    font-family: var(--text-font);
+    color: var(--text-color-gray);
+}

@@ -32,10 +32,24 @@ export const getBucketLists = (googleId: string, callback: Function) => {
         created_at: row.created_at,
         title: row.title,
         description: row.description,
+        permissions: row.permissions,
       };
       lists.push(list);
     });
     callback(null, lists);
+  });
+};
+
+export const getBucketListInfo = (trackerID: number, callback: Function) => {
+  const queryString = "SELECT * FROM bucket_list_tracker WHERE id=?";
+
+  db.query(queryString, trackerID, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    const bucketListInfo = <RowDataPacket>result;
+    callback(null, bucketListInfo[0]);
   });
 };
 

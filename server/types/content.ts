@@ -5,6 +5,7 @@ export interface BucketList {
   created_at?: string;
   title: string;
   description: string;
+  permissions: string;
 }
 
 export interface BucketListContent {
