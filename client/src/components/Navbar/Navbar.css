@@ -17,6 +17,10 @@
     font-family: Georgia;
 }
 
+.navbar-header:hover {
+    cursor: pointer;
+}
+
 .login-logout-container {
     grid-column-start: 13;
     align-self: center;

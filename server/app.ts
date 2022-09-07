@@ -82,7 +82,7 @@ app.get(
   (req: Request, res: Response) => {
     // res.redirect(`http://localhost:3001/${req?.user?.id}`);
     // in the future, redirect to profile by /profile/:id
-    res.redirect(`http://localhost:3001/my-profile/${req.user?.id}`);
+    res.redirect(`http://localhost:3001/my-profile`);
   }
 );
 
@@ -171,10 +171,6 @@ app.post("/check-if-friend-with-google-id", (req: Request, res: Response) => {
 app.post("/check-if-friend-with-user-id", (req: Request, res: Response) => {
   const reqUserGoogleID = String(req.user?.id);
   const secondID = req.body.secondID;
-
-  console.log(
-    "reqUserID: " + reqUserGoogleID + " , " + "secondID: " + secondID
-  );
 
   if (!req.user) {
     res.status(200).json({ friendPairsInfo: [] });

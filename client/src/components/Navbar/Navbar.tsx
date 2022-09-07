@@ -25,7 +25,9 @@ const Navbar = () => {
 
   return (
     <div className="navbar-container">
-      <h1 className="navbar-header">Bliss</h1>
+      <h1 onClick={() => navigate("my-profile")} className="navbar-header">
+        Bliss
+      </h1>
 
       <div className="login-logout-container">
         {auth.session_info ? (
@@ -39,9 +41,11 @@ const Navbar = () => {
         <button onClick={logout}>Logout</button>
         <button onClick={() => console.log(auth)}>Console Log Auth</button>
         <button
-          onClick={() => console.log(auth.session_info ? "true" : "false")}
+          onClick={() =>
+            console.log(JSON.parse(auth.session_info.data).passport.user.id)
+          }
         >
-          Console Log Auth Boolean
+          Console Log User ID
         </button>
         <h3>
           <a href="http://localhost:3000/auth/google">Login with Google</a>

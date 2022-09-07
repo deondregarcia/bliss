@@ -15,9 +15,11 @@ import ContentContainerHeader from "../../components/ContentContainerHeader/Cont
 import RecipeDisplay from "../../components/ProfileComponents/RecipeDisplay/RecipeDisplay";
 import RecipeInput from "../../components/ProfileComponents/RecipeInput/RecipeInput";
 import { RecipeInputDefault } from "../../components/ProfileComponents/RecipeInput/RecipeInputDefault";
+import useAuth from "../../hooks/useAuth";
 
 const Profile = () => {
   const [userID, setUserID] = useState<number>(0);
+  const { auth } = useAuth();
   const [googleUserObject, setGoogleUserObject] = useState<
     GoogleUserObjectType | any
   >();
@@ -40,7 +42,9 @@ const Profile = () => {
   // grab bucket_list_tracker data
   const getBucketListData = () => {
     // google_id
-    Axios.get(`/view/lists/${id}`)
+    Axios.get(
+      `/view/lists/${JSON.parse(auth.session_info.data).passport.user.id}`
+    )
       .then((response) => {
         setPublicBucketListArray(
           response.data.data.filter((bucketList: BucketListType) => {

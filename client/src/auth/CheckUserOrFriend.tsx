@@ -16,7 +16,7 @@ const CheckUserOrFriend = ({ status }: { status: string }) => {
   const runAllChecks = async () => {
     // take the google id's and check if they are friends
     await Axios.post("/check-if-friend-with-google-id", {
-      secondID: id,
+      secondID: JSON.parse(auth.session_info.data).passport.user.id,
     })
       .then((res) => {
         if (res.data.friendPairsInfo[0]) {
@@ -39,7 +39,7 @@ const CheckUserOrFriend = ({ status }: { status: string }) => {
 
   useEffect(() => {
     runAllChecks();
-    if (googleID === id) {
+    if (googleID === JSON.parse(auth.session_info.data).passport.user.id) {
       setUserStatus("owner");
       setDidCheckRun(true);
     } else if (isFriends) {

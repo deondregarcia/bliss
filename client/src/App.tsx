@@ -40,7 +40,7 @@ function App() {
             <Route element={<RequireAuth />}>
               {/* add route to check if friends or user or something else */}
               <Route element={<CheckUserOrFriend status={STATUS.owner} />}>
-                <Route path="my-profile/:id" element={<Profile />} />
+                <Route path="my-profile" element={<Profile />} />
               </Route>
 
               <Route element={<CheckUserOrFriend status={STATUS.friend} />}>
