@@ -174,4 +174,12 @@ viewContentRouter.get(
   }
 );
 
+// get list of friends from google id
+viewContentRouter.get(
+  "/get-list-of-friends/:id",
+  async (req: Request, res: Response) => {
+    const userGoogleID = Number(req.params.id);
+  }
+);
+
 export { viewContentRouter };

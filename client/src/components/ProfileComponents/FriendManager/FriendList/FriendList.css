@@ -1,0 +1,14 @@
+.friend-list-wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+}
+
+.friend-list-container {
+    height: 90%;
+    width: 90%;
+    background-color: blue;
+}

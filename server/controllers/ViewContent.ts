@@ -223,3 +223,8 @@ export const getUserInfo = (googleID: string, callback: Function) => {
     callback(null, userInfo);
   });
 };
+
+// get list of friends andfrom google id
+export const getListOfFriends = (userGoogleID: number, callback: Function) => {
+  const queryString = "SELECT * FROM friends";
+};

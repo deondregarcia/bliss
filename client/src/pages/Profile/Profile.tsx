@@ -6,7 +6,11 @@ import { useParams } from "react-router-dom";
 import { GoogleUserObjectType } from "../../types/authTypes";
 
 // import types
-import { BucketListType, RecipeContentType } from "../../types/content";
+import {
+  BucketListType,
+  RecipeContentType,
+  UserType,
+} from "../../types/content";
 
 // import components
 import BucketList from "../../components/BucketList/BucketList";
@@ -18,6 +22,7 @@ import { RecipeInputDefault } from "../../components/ProfileComponents/RecipeInp
 import useAuth from "../../hooks/useAuth";
 import AddBucketList from "../../components/ProfileComponents/AddBucketList/AddBucketList";
 import EditBucketList from "../../components/ProfileComponents/EditBucketList/EditBucketList";
+import FriendList from "../../components/ProfileComponents/FriendManager/FriendList/FriendList";
 
 const Profile = () => {
   const [userID, setUserID] = useState<number>(0);
@@ -25,6 +30,8 @@ const Profile = () => {
   const [googleUserObject, setGoogleUserObject] = useState<
     GoogleUserObjectType | any
   >();
+  const [friendManager, setFriendManager] = useState("friends");
+  const [userObject, setUserObject] = useState<UserType | undefined>(undefined);
 
   const [recipeArray, setRecipeArray] =
     useState<RecipeContentType[]>(RecipeInputDefault);
@@ -104,9 +111,21 @@ const Profile = () => {
       });
   };
 
+  // get user info from google id
+  const getUserInfo = () => {
+    Axios.get(`/view/get-user-info/${id}`)
+      .then((res) => {
+        setUserObject(res.data.userInfo[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     getBucketListData();
     getGoogleUserInfo();
+    getUserInfo();
 
     return () => {};
   }, []);
@@ -122,16 +141,21 @@ const Profile = () => {
       <div className="home-container">
         {/* first row of elements */}
         <div className="profile-info">
+          <h2>{userObject?.username}</h2>
           <img
-            src={googleUserObject?.photos[0].value}
+            // src={googleUserObject?.photos[0].value}
+            src={userObject?.google_photo_link}
             referrerPolicy="no-referrer" // referrer policy that blocked loading of img sometimes - look into it
-            alt="google profile pic"
+            alt="google profile picture"
             className="profile-pic"
           />
-          <h3 className="profile-info-name">{googleUserObject?.displayName}</h3>
+          <h3 className="profile-info-name">
+            {userObject?.first_name} {userObject?.last_name}
+          </h3>
           <div className="profile-bio-container">
             <h3 className="profile-bio-container-header">Bio</h3>
             <div className="profile-separator" />
+            <p>{userObject?.bio}</p>
           </div>
         </div>
         <div className="content-container public">
@@ -224,20 +248,31 @@ const Profile = () => {
             <EmptyArrayMessage />
           )}
         </div>
-        <div className="right-column-container ">
-          <h2 className="side-container-header">Recipe Suggestions</h2>
-          <div className="side-container-header-separator" />
-          <RecipeInput setRecipeArray={setRecipeArray} />
-          <div className="recipe-api-content">
-            {recipeArray?.map((recipe, index) => {
-              return (
-                <div key={index}>
-                  <RecipeDisplay recipe={recipe} />
-                  <div className="recipe-separator" />
-                </div>
-              );
-            })}
+        <div className="right-column-container friend-manager">
+          <div className="friend-manager-header-container">
+            <div
+              onClick={() => setFriendManager("friends")}
+              className={
+                friendManager === "friends"
+                  ? "friend-manager-header-clicked my-friends"
+                  : "friend-manager-header my-friends"
+              }
+            >
+              <h2>Friends</h2>
+            </div>
+            <div
+              onClick={() => setFriendManager("search")}
+              className={
+                friendManager === "search"
+                  ? "friend-manager-header-clicked search"
+                  : "friend-manager-header search"
+              }
+            >
+              <h2>Search</h2>
+            </div>
           </div>
+          <div className="side-container-header-separator" />
+          {friendManager === "friends" && <FriendList />}
         </div>
         {/* third row of elements */}
         <div className="content-container private">
@@ -278,6 +313,21 @@ const Profile = () => {
           ) : (
             <EmptyArrayMessage />
           )}
+        </div>
+        <div className="right-column-container">
+          <h2 className="side-container-header">Recipe Suggestions</h2>
+          <div className="side-container-header-separator" />
+          <RecipeInput setRecipeArray={setRecipeArray} />
+          <div className="recipe-api-content">
+            {recipeArray?.map((recipe, index) => {
+              return (
+                <div key={index}>
+                  <RecipeDisplay recipe={recipe} />
+                  <div className="recipe-separator" />
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </>
