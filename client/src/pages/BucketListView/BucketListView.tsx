@@ -167,14 +167,16 @@ const BucketListView = () => {
             {bucketListInfo?.description}
           </p>
         </div>
-        <p>{unauthorizedType}</p>
-        {bucketListContent[0] ? (
-          bucketListContent.map((content, index) => (
-            <BucketListContent content={content} key={index} />
-          ))
-        ) : (
-          <h1>No Content</h1>
-        )}
+        <div className="bucket-list-view-content-container">
+          <p>{unauthorizedType}</p>
+          {bucketListContent[0] ? (
+            bucketListContent.map((content, index) => (
+              <BucketListContent content={content} key={index} />
+            ))
+          ) : (
+            <h1>No Content</h1>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -8,6 +8,7 @@
   --text-color: rgb(41, 41, 41);
   --text-color-gray: rgb(70, 69, 69);
   --text-font: Arial;
+  --faded-bg-color: rgba(0, 0, 0, 0.795);
 }
 
 * {

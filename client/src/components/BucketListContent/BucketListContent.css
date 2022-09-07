@@ -2,6 +2,7 @@
     /* background-color: lightblue; */
     width: 100%;
     display: flex;
+    position: relative;
 }
 
 .bucket-list-content-bullet-point {
@@ -19,4 +20,21 @@
 .bucket-list-content-activities-description {
     font-family: var(--text-font);
     color: var(--text-color-gray);
+}
+
+.bucket-list-content-edit-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 40px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bucket-list-content-edit-button:hover {
+    cursor: pointer;
 }
