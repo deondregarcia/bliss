@@ -83,7 +83,7 @@ app.get(
   (req: Request, res: Response) => {
     // res.redirect(`http://localhost:3001/${req?.user?.id}`);
     // in the future, redirect to profile by /profile/:id
-    res.redirect(`http://localhost:3001/my-profile`);
+    res.redirect(`http://localhost:3001/my-profile/${req?.user?.id}`);
   }
 );
 
@@ -91,8 +91,6 @@ app.get(
   "/auth/user",
   passport.authenticate("google", { scope: ["email", "profile"] }),
   (req: Request, res: Response) => {
-    // console.log(req.sessionStore["sessions"]);
-    // console.log(req.cookies);
     res.json({ user: req.user });
   }
 );
@@ -191,7 +189,6 @@ app.post("/check-if-friend-with-user-id", (req: Request, res: Response) => {
 });
 
 app.get("/googleuser", (req: Request, res: Response) => {
-  // console.log(req.user?.profile);
   res.status(200).json({ google_user: req.user?.profile });
 });
 

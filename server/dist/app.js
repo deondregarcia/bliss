@@ -93,8 +93,6 @@ app.get("/auth/google/callback", passport_1.default.authenticate("google", { fai
     res.redirect(`http://localhost:3001/my-profile`);
 });
 app.get("/auth/user", passport_1.default.authenticate("google", { scope: ["email", "profile"] }), (req, res) => {
-    // console.log(req.sessionStore["sessions"]);
-    // console.log(req.cookies);
     res.json({ user: req.user });
 });
 app.get("/", (req, res) => {
@@ -170,7 +168,6 @@ app.post("/check-if-friend-with-user-id", (req, res) => {
 });
 app.get("/googleuser", (req, res) => {
     var _a;
-    // console.log(req.user?.profile);
     res.status(200).json({ google_user: (_a = req.user) === null || _a === void 0 ? void 0 : _a.profile });
 });
 // gets user id from google id

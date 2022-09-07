@@ -23,3 +23,14 @@ export interface RecipeContentType {
   image: string;
   title: string;
 }
+
+export interface UserType {
+  id: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+  created_at: Date;
+  google_id: string;
+  bio?: string;
+  google_photo_link?: string;
+}

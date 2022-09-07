@@ -1,17 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateActivity = exports.addActivity = exports.createBucketList = void 0;
+exports.updateBucketList = exports.updateActivity = exports.deleteBucketList = exports.deleteActivity = exports.addActivity = exports.createBucketList = void 0;
 // controller callback functions for CRUD operations on bucket list content
 const db_1 = require("../db");
 // creates the bucket list tracker
 const createBucketList = (bucketList, callback) => {
-    const queryString = "INSERT INTO bucket_list_tracker (owner_id, collab_type, privacy_type, created_at, title, description) VALUES (?, ?, ?, ?, ?, ?)";
+    const getUserIDQueryString = "(SELECT id FROM users WHERE google_id=?)";
+    const queryString = `INSERT INTO bucket_list_tracker (owner_id, privacy_type, created_at, title, description, permissions) VALUES (${getUserIDQueryString}, ?, ?, ?, ?, ?)`;
     db_1.db.query(queryString, [
-        bucketList.owner_id,
+        bucketList.google_id,
         bucketList.privacy_type,
         new Date(),
         bucketList.title,
         bucketList.description,
+        bucketList.permissions,
     ], (err, result) => {
         if (err) {
             callback(err);
@@ -40,6 +42,28 @@ const addActivity = (activity, callback) => {
     });
 };
 exports.addActivity = addActivity;
+const deleteActivity = (activityIDs, callback) => {
+    const queryString = "DELETE FROM bucket_list_content WHERE tracker_id=? AND id=?";
+    db_1.db.query(queryString, [activityIDs.trackerID, activityIDs.contentID], (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const insertID = result.insertId;
+        callback(null, insertID);
+    });
+};
+exports.deleteActivity = deleteActivity;
+const deleteBucketList = (trackerID, callback) => {
+    const queryString = "DELETE FROM bucket_list_tracker WHERE id=?";
+    db_1.db.query(queryString, trackerID, (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const insertId = result.insertId;
+        callback(null, insertId);
+    });
+};
+exports.deleteBucketList = deleteBucketList;
 // update an activity's description (but not is_completed status) in a bucket list
 const updateActivity = (newActivity, callback) => {
     const queryString = "UPDATE bucket_list_content SET activity=?, description=? WHERE id=?";
@@ -52,3 +76,21 @@ const updateActivity = (newActivity, callback) => {
     });
 };
 exports.updateActivity = updateActivity;
+// update a bucket list's info (privacy type, title, description, and/or permissions)
+const updateBucketList = (updatedBucketList, callback) => {
+    const queryString = "UPDATE bucket_list_tracker SET privacy_type=?, title=?, description=?, permissions=? WHERE id=?";
+    db_1.db.query(queryString, [
+        updatedBucketList.privacy_type,
+        updatedBucketList.title,
+        updatedBucketList.description,
+        updatedBucketList.permissions,
+        updatedBucketList.id,
+    ], (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const updateID = result.insertId;
+        callback(null, updateID);
+    });
+};
+exports.updateBucketList = updateBucketList;

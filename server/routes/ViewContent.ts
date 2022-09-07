@@ -5,6 +5,9 @@ import {
   getPrivacyTypeAndOwner,
   checkIfShared,
   getBucketListInfo,
+  getUserInfo,
+  getSharedLists,
+  getFriendsLists,
 } from "../controllers/ViewContent";
 import {
   BucketList,
@@ -28,6 +31,33 @@ viewContentRouter.get(
 
       res.status(200).json({ data: lists });
     });
+  }
+);
+
+// get lists for friend profile, get all public_friends/public_random and relevant shared lists
+// note, this gets called after "/get-shared-lists/:id" gets called down below to get shared list ID's
+viewContentRouter.post(
+  "/get-friend-lists",
+  async (req: Request, res: Response) => {
+    const sharedListIDs = {
+      array: req.body?.sharedListArray,
+      friendGoogleID: req.body.friendGoogleID,
+    };
+
+    console.log(sharedListIDs.friendGoogleID);
+    console.log(sharedListIDs.array);
+
+    getFriendsLists(
+      sharedListIDs.array,
+      sharedListIDs.friendGoogleID,
+      (err: Error, lists: BucketList[]) => {
+        if (err) {
+          return res.status(500).json({ message: err.message });
+        }
+
+        res.status(200).json({ data: lists });
+      }
+    );
   }
 );
 
@@ -86,6 +116,7 @@ viewContentRouter.get(
   }
 );
 
+// check if user is in shared list for a particular bucket list
 viewContentRouter.get(
   "/check-if-user-in-shared-list/:id",
   async (req: Request, res: Response) => {
@@ -102,6 +133,44 @@ viewContentRouter.get(
         res.status(200).json({ data: sharedListUsers });
       }
     );
+  }
+);
+
+// check if user, who is visiting friend profile, is in any shared_list_users rows with the friend and return those bucket_list_id's
+// (uses Google ID)
+viewContentRouter.get(
+  "/get-shared-lists/:id",
+  (req: Request, res: Response) => {
+    const userGoogleID = req.user?.profile.id;
+    const friendGoogleID = req.params.id;
+
+    getSharedLists(
+      userGoogleID,
+      friendGoogleID,
+      (err: Error, bucketListIDs: number[]) => {
+        if (err) {
+          return res.status(500).json({ message: err.message });
+        }
+
+        res.status(200).json({ bucketListIDs: bucketListIDs });
+      }
+    );
+  }
+);
+
+// get user info from database from google ID
+viewContentRouter.get(
+  "/get-user-info/:id",
+  async (req: Request, res: Response) => {
+    const googleID = req.params.id;
+
+    getUserInfo(googleID, (err: Error, userInfo: any[]) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ userInfo: userInfo });
+    });
   }
 );
 

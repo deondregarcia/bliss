@@ -19,7 +19,14 @@ const contentRouter = express_1.default.Router();
 exports.contentRouter = contentRouter;
 // create new bucket list
 contentRouter.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const newBucketList = req.body;
+    var _a;
+    const newBucketList = {
+        google_id: (_a = req.user) === null || _a === void 0 ? void 0 : _a.profile.id,
+        privacy_type: req.body.privacy_type,
+        title: req.body.title,
+        description: req.body.description,
+        permissions: req.body.permissions,
+    };
     (0, ManageContent_1.createBucketList)(newBucketList, (err, creationId) => {
         if (err) {
             return res.status(500).json({ message: err.message });
@@ -37,6 +44,29 @@ contentRouter.post("/add", (req, res) => __awaiter(void 0, void 0, void 0, funct
         res.status(200).json({ addId: addId });
     });
 }));
+// delete an activity from a bucket list based on id of that list
+contentRouter.post("/delete-activity", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const activityIDs = {
+        trackerID: req.body.tracker_id,
+        contentID: req.body.content_id,
+    };
+    (0, ManageContent_1.deleteActivity)(activityIDs, (err, insertID) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ insertID: insertID });
+    });
+}));
+// delete a bucket list
+contentRouter.post("/delete-bucket-list", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const trackerID = Number(req.body.id);
+    (0, ManageContent_1.deleteBucketList)(trackerID, (err, insertId) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ insertId: insertId });
+    });
+}));
 // update an activity in a bucket list
 contentRouter.put("/update-activity", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const updatedActivity = req.body;
@@ -45,5 +75,21 @@ contentRouter.put("/update-activity", (req, res) => __awaiter(void 0, void 0, vo
             return res.status(500).json({ message: err.message });
         }
         res.status(200).json({ updatedId: updatedId });
+    });
+}));
+// update a bucket list's info
+contentRouter.put("/update-bucket-list", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const updatedBucketList = {
+        id: req.body.id,
+        privacy_type: req.body.privacy_type,
+        title: req.body.title,
+        description: req.body.description,
+        permissions: req.body.permissions,
+    };
+    (0, ManageContent_1.updateBucketList)(updatedBucketList, (err, updateID) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ updateID: updateID });
     });
 }));
