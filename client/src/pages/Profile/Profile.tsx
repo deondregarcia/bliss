@@ -17,6 +17,7 @@ import RecipeInput from "../../components/ProfileComponents/RecipeInput/RecipeIn
 import { RecipeInputDefault } from "../../components/ProfileComponents/RecipeInput/RecipeInputDefault";
 import useAuth from "../../hooks/useAuth";
 import AddBucketList from "../../components/ProfileComponents/AddBucketList/AddBucketList";
+import EditBucketList from "../../components/ProfileComponents/EditBucketList/EditBucketList";
 
 const Profile = () => {
   const [userID, setUserID] = useState<number>(0);
@@ -33,6 +34,20 @@ const Profile = () => {
   const [publicAdd, setPublicAdd] = useState(false);
   const [sharedAdd, setSharedAdd] = useState(false);
   const [privateAdd, setPrivateAdd] = useState(false);
+
+  // set state to display EditBucketList component
+  const [publicEdit, setPublicEdit] = useState(false);
+  const [sharedEdit, setSharedEdit] = useState(false);
+  const [privateEdit, setPrivateEdit] = useState(false);
+
+  // ID's to grab when editing per each section
+  const [publicEditObject, setPublicEditObject] =
+    useState<BucketListType | null>(null);
+  const [sharedEditObject, setSharedEditObject] =
+    useState<BucketListType | null>(null);
+  const [privateEditObject, setPrivateEditObject] =
+    useState<BucketListType | null>(null);
+
   const [triggerRefresh, setTriggerRefresh] = useState(false);
 
   // separate the bucket list arrays for easier nullish checks in render
@@ -134,10 +149,26 @@ const Profile = () => {
               triggerRefresh={triggerRefresh}
             />
           )}
+          {publicEdit && (
+            <EditBucketList
+              setCallback={setPublicEdit}
+              editState={publicEdit}
+              setTriggerRefresh={setTriggerRefresh}
+              triggerRefresh={triggerRefresh}
+              arraySpecificObject={publicEditObject}
+            />
+          )}
           {/* if publicBucketListArray is true, render, if null, display message */}
           {publicBucketListArray.length > 0 ? (
-            publicBucketListArray.map((bucketList, index) => {
-              return <BucketList bucketList={bucketList} key={index} />;
+            publicBucketListArray.map((bucketList) => {
+              return (
+                <BucketList
+                  bucketList={bucketList}
+                  setArrayObject={setPublicEditObject}
+                  setEditMode={setPublicEdit}
+                  key={bucketList.id}
+                />
+              );
             })
           ) : (
             <EmptyArrayMessage />
@@ -169,9 +200,25 @@ const Profile = () => {
               triggerRefresh={triggerRefresh}
             />
           )}
+          {sharedEdit && (
+            <EditBucketList
+              setCallback={setSharedEdit}
+              editState={sharedEdit}
+              setTriggerRefresh={setTriggerRefresh}
+              triggerRefresh={triggerRefresh}
+              arraySpecificObject={sharedEditObject}
+            />
+          )}
           {sharedBucketListArray.length > 0 ? (
-            sharedBucketListArray.map((bucketList, index) => {
-              return <BucketList bucketList={bucketList} key={index} />;
+            sharedBucketListArray.map((bucketList) => {
+              return (
+                <BucketList
+                  bucketList={bucketList}
+                  setArrayObject={setSharedEditObject}
+                  setEditMode={setSharedEdit}
+                  key={bucketList.id}
+                />
+              );
             })
           ) : (
             <EmptyArrayMessage />
@@ -208,9 +255,25 @@ const Profile = () => {
               triggerRefresh={triggerRefresh}
             />
           )}
+          {privateEdit && (
+            <EditBucketList
+              setCallback={setPrivateEdit}
+              editState={privateEdit}
+              setTriggerRefresh={setTriggerRefresh}
+              triggerRefresh={triggerRefresh}
+              arraySpecificObject={privateEditObject}
+            />
+          )}
           {privateBucketListArray.length > 0 ? (
-            privateBucketListArray.map((bucketList, index) => {
-              return <BucketList bucketList={bucketList} key={index} />;
+            privateBucketListArray.map((bucketList) => {
+              return (
+                <BucketList
+                  bucketList={bucketList}
+                  setArrayObject={setPrivateEditObject}
+                  setEditMode={setPrivateEdit}
+                  key={bucketList.id}
+                />
+              );
             })
           ) : (
             <EmptyArrayMessage />

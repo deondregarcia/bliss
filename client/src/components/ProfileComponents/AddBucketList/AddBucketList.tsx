@@ -30,7 +30,6 @@ const AddBucketList = ({
         permissions: "view_and_edit",
       })
         .then((res) => {
-          console.log(res);
           setCallback(!addState);
           setTriggerRefresh(!triggerRefresh);
         })
@@ -39,6 +38,20 @@ const AddBucketList = ({
         });
     } else if (privacyType === "shared") {
     } else {
+      Axios.post("/content/create", {
+        privacy_type: "private",
+        title: title,
+        description: description,
+        permissions: "view_and_edit",
+      })
+        .then((res) => {
+          console.log(res);
+          setCallback(!addState);
+          setTriggerRefresh(!triggerRefresh);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 

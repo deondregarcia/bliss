@@ -108,3 +108,31 @@ export const updateActivity = (
     }
   );
 };
+
+// update a bucket list's info (privacy type, title, description, and/or permissions)
+export const updateBucketList = (
+  updatedBucketList: BucketList,
+  callback: Function
+) => {
+  const queryString =
+    "UPDATE bucket_list_tracker SET privacy_type=?, title=?, description=?, permissions=? WHERE id=?";
+
+  db.query(
+    queryString,
+    [
+      updatedBucketList.privacy_type,
+      updatedBucketList.title,
+      updatedBucketList.description,
+      updatedBucketList.permissions,
+      updatedBucketList.id,
+    ],
+    (err, result) => {
+      if (err) {
+        callback(err);
+      }
+
+      const updateID = (<OkPacket>result).insertId;
+      callback(null, updateID);
+    }
+  );
+};

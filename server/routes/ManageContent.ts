@@ -4,6 +4,7 @@ import {
   addActivity,
   updateActivity,
   deleteActivity,
+  updateBucketList,
 } from "../controllers/ManageContent";
 import { BucketList, BucketListContent } from "../types/content";
 
@@ -69,5 +70,27 @@ contentRouter.put("/update-activity", async (req: Request, res: Response) => {
     res.status(200).json({ updatedId: updatedId });
   });
 });
+
+// update a bucket list's info
+contentRouter.put(
+  "/update-bucket-list",
+  async (req: Request, res: Response) => {
+    const updatedBucketList: BucketList = {
+      id: req.body.id,
+      privacy_type: req.body.privacy_type,
+      title: req.body.title,
+      description: req.body.description,
+      permissions: req.body.permissions,
+    };
+
+    updateBucketList(updatedBucketList, (err: Error, updateID: number) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ updateID: updateID });
+    });
+  }
+);
 
 export { contentRouter };
