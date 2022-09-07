@@ -11,7 +11,13 @@ const contentRouter = express.Router();
 
 // create new bucket list
 contentRouter.post("/create", async (req: Request, res: Response) => {
-  const newBucketList: BucketList = req.body;
+  const newBucketList: BucketList = {
+    google_id: req.user?.profile.id,
+    privacy_type: req.body.privacy_type,
+    title: req.body.title,
+    description: req.body.description,
+    permissions: req.body.permissions,
+  };
 
   createBucketList(newBucketList, (err: Error, creationId: number) => {
     if (err) {

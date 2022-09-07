@@ -13,17 +13,18 @@ export const createBucketList = (
   bucketList: BucketList,
   callback: Function
 ) => {
-  const queryString =
-    "INSERT INTO bucket_list_tracker (owner_id, collab_type, privacy_type, created_at, title, description) VALUES (?, ?, ?, ?, ?, ?)";
+  const getUserIDQueryString = "(SELECT id FROM users WHERE google_id=?)";
+  const queryString = `INSERT INTO bucket_list_tracker (owner_id, privacy_type, created_at, title, description, permissions) VALUES (${getUserIDQueryString}, ?, ?, ?, ?, ?)`;
 
   db.query(
     queryString,
     [
-      bucketList.owner_id,
+      bucketList.google_id,
       bucketList.privacy_type,
       new Date(),
       bucketList.title,
       bucketList.description,
+      bucketList.permissions,
     ],
     (err, result) => {
       if (err) {

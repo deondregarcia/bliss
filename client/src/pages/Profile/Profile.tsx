@@ -16,6 +16,7 @@ import RecipeDisplay from "../../components/ProfileComponents/RecipeDisplay/Reci
 import RecipeInput from "../../components/ProfileComponents/RecipeInput/RecipeInput";
 import { RecipeInputDefault } from "../../components/ProfileComponents/RecipeInput/RecipeInputDefault";
 import useAuth from "../../hooks/useAuth";
+import AddBucketList from "../../components/ProfileComponents/AddBucketList/AddBucketList";
 
 const Profile = () => {
   const [userID, setUserID] = useState<number>(0);
@@ -27,6 +28,12 @@ const Profile = () => {
   const [recipeArray, setRecipeArray] =
     useState<RecipeContentType[]>(RecipeInputDefault);
   const { id } = useParams();
+
+  // set state to display AddBucketList component
+  const [publicAdd, setPublicAdd] = useState(false);
+  const [sharedAdd, setSharedAdd] = useState(false);
+  const [privateAdd, setPrivateAdd] = useState(false);
+  const [triggerRefresh, setTriggerRefresh] = useState(false);
 
   // separate the bucket list arrays for easier nullish checks in render
   const [publicBucketListArray, setPublicBucketListArray] = useState<
@@ -89,6 +96,12 @@ const Profile = () => {
     return () => {};
   }, []);
 
+  useEffect(() => {
+    getBucketListData();
+
+    return () => {};
+  }, [triggerRefresh]);
+
   return (
     <>
       <div className="home-container">
@@ -107,7 +120,20 @@ const Profile = () => {
           </div>
         </div>
         <div className="content-container public">
-          <ContentContainerHeader category="Public" />
+          <ContentContainerHeader
+            setCallback={setPublicAdd}
+            addState={publicAdd}
+            category="Public"
+          />
+          {publicAdd && (
+            <AddBucketList
+              setCallback={setPublicAdd}
+              addState={publicAdd}
+              privacyType="public"
+              setTriggerRefresh={setTriggerRefresh}
+              triggerRefresh={triggerRefresh}
+            />
+          )}
           {/* if publicBucketListArray is true, render, if null, display message */}
           {publicBucketListArray.length > 0 ? (
             publicBucketListArray.map((bucketList, index) => {
@@ -129,7 +155,20 @@ const Profile = () => {
           <p>Today I should try working out</p>
         </div>
         <div className="content-container shared">
-          <ContentContainerHeader category="Shared" />
+          <ContentContainerHeader
+            setCallback={setSharedAdd}
+            addState={sharedAdd}
+            category="Shared"
+          />
+          {sharedAdd && (
+            <AddBucketList
+              setCallback={setSharedAdd}
+              addState={sharedAdd}
+              privacyType="shared"
+              setTriggerRefresh={setTriggerRefresh}
+              triggerRefresh={triggerRefresh}
+            />
+          )}
           {sharedBucketListArray.length > 0 ? (
             sharedBucketListArray.map((bucketList, index) => {
               return <BucketList bucketList={bucketList} key={index} />;
@@ -155,7 +194,20 @@ const Profile = () => {
         </div>
         {/* third row of elements */}
         <div className="content-container private">
-          <ContentContainerHeader category="Private" />
+          <ContentContainerHeader
+            setCallback={setPrivateAdd}
+            addState={privateAdd}
+            category="Private"
+          />
+          {privateAdd && (
+            <AddBucketList
+              setCallback={setPrivateAdd}
+              addState={privateAdd}
+              privacyType="private"
+              setTriggerRefresh={setTriggerRefresh}
+              triggerRefresh={triggerRefresh}
+            />
+          )}
           {privateBucketListArray.length > 0 ? (
             privateBucketListArray.map((bucketList, index) => {
               return <BucketList bucketList={bucketList} key={index} />;

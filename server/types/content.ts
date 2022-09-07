@@ -1,6 +1,7 @@
 export interface BucketList {
   id?: number;
-  owner_id: number;
+  google_id?: string;
+  owner_id?: number;
   privacy_type: string;
   created_at?: string;
   title: string;
