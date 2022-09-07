@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BucketListContentType } from "../../types/content";
 import EditBucketListContent from "../EditBucketListContent/EditBucketListContent";
 import "./BucketListContent.css";
@@ -6,9 +6,13 @@ import "./BucketListContent.css";
 const BucketListContent = ({
   content,
   permissions,
+  setTriggerRefresh,
+  triggerRefresh,
 }: {
   content: BucketListContentType;
   permissions: string | undefined;
+  setTriggerRefresh: React.Dispatch<React.SetStateAction<boolean>>;
+  triggerRefresh: boolean;
 }) => {
   const [activity, setActivity] = useState(content.activity);
   const [description, setDescription] = useState(content.description);
@@ -21,9 +25,10 @@ const BucketListContent = ({
           activityInput={activity}
           descriptionInput={description}
           contentID={content.id}
+          trackerID={content.tracker_id}
           setEditMode={setEditMode}
-          setActivity={setActivity}
-          setDescription={setDescription}
+          triggerRefresh={triggerRefresh}
+          setTriggerRefresh={setTriggerRefresh}
         />
       )}
       <div className="bucket-list-content-container">

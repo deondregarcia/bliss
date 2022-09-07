@@ -126,6 +126,7 @@ const Profile = () => {
         <div className="today-i-should-container">
           <h2 className="side-container-header">Today, I should...</h2>
           <div className="side-container-header-separator" />
+          <p>Today I should try working out</p>
         </div>
         <div className="content-container shared">
           <ContentContainerHeader category="Shared" />

@@ -3,6 +3,7 @@ import {
   createBucketList,
   addActivity,
   updateActivity,
+  deleteActivity,
 } from "../controllers/ManageContent";
 import { BucketList, BucketListContent } from "../types/content";
 
@@ -31,6 +32,22 @@ contentRouter.post("/add", async (req: Request, res: Response) => {
     }
 
     res.status(200).json({ addId: addId });
+  });
+});
+
+// delete an activity from a bucket list based on id of that list
+contentRouter.post("/delete-activity", async (req: Request, res: Response) => {
+  const activityIDs = {
+    trackerID: req.body.tracker_id,
+    contentID: req.body.content_id,
+  };
+
+  deleteActivity(activityIDs, (err: Error, insertID: number) => {
+    if (err) {
+      return res.status(500).json({ message: err.message });
+    }
+
+    res.status(200).json({ insertID: insertID });
   });
 });
 

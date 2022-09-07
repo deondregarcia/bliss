@@ -45,3 +45,8 @@ export interface UserType {
   google_id: string;
   bio: string;
 }
+
+export interface ActivityIDTypes {
+  trackerID: number;
+  contentID: number;
+}

@@ -1,7 +1,12 @@
 // controller callback functions for CRUD operations on bucket list content
 import { db } from "../db";
 import { OkPacket, RowDataPacket } from "mysql2";
-import { BucketList, BucketListContent } from "../types/content";
+import {
+  ActivityIDTypes,
+  BucketList,
+  BucketListContent,
+} from "../types/content";
+import { Axios } from "axios";
 
 // creates the bucket list tracker
 export const createBucketList = (
@@ -56,6 +61,27 @@ export const addActivity = (
 
       const insertId = (<OkPacket>result).insertId; // type casting to OkPacket
       callback(null, insertId);
+    }
+  );
+};
+
+export const deleteActivity = (
+  activityIDs: ActivityIDTypes,
+  callback: Function
+) => {
+  const queryString =
+    "DELETE FROM bucket_list_content WHERE tracker_id=? AND id=?";
+
+  db.query(
+    queryString,
+    [activityIDs.trackerID, activityIDs.contentID],
+    (err, result) => {
+      if (err) {
+        callback(err);
+      }
+
+      const insertID = (<OkPacket>result).insertId;
+      callback(null, insertID);
     }
   );
 };
