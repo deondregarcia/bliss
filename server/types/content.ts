@@ -27,6 +27,7 @@ export interface FriendPairType {
 export interface PrivacyAndOwnerType {
   privacy_type: string;
   owner_id: number;
+  permissions: string;
 }
 
 export interface SharedListUserType {

@@ -23,7 +23,6 @@ const BucketListView = () => {
     // get bucket list title, description, etc.
     Axios.get(`/view/bucket-list-info/${id}`)
       .then((res) => {
-        console.log(res);
         setBucketListInfo(res.data.data);
       })
       .catch((err) => {
@@ -171,7 +170,11 @@ const BucketListView = () => {
           <p>{unauthorizedType}</p>
           {bucketListContent[0] ? (
             bucketListContent.map((content, index) => (
-              <BucketListContent content={content} key={index} />
+              <BucketListContent
+                content={content}
+                permissions={bucketListInfo?.permissions}
+                key={index}
+              />
             ))
           ) : (
             <h1>No Content</h1>
