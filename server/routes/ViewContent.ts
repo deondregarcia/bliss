@@ -8,10 +8,12 @@ import {
   getUserInfo,
   getSharedLists,
   getFriendsLists,
+  getListOfFriends,
 } from "../controllers/ViewContent";
 import {
   BucketList,
   BucketListContent,
+  FriendListType,
   PrivacyAndOwnerType,
   SharedListUserType,
 } from "../types/content";
@@ -43,9 +45,6 @@ viewContentRouter.post(
       array: req.body?.sharedListArray,
       friendGoogleID: req.body.friendGoogleID,
     };
-
-    console.log(sharedListIDs.friendGoogleID);
-    console.log(sharedListIDs.array);
 
     getFriendsLists(
       sharedListIDs.array,
@@ -179,6 +178,14 @@ viewContentRouter.get(
   "/get-list-of-friends/:id",
   async (req: Request, res: Response) => {
     const userGoogleID = Number(req.params.id);
+
+    getListOfFriends(userGoogleID, (err: Error, friends: FriendListType[]) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ friends });
+    });
   }
 );
 

@@ -52,3 +52,9 @@ export interface ActivityIDTypes {
   trackerID: number;
   contentID: number;
 }
+
+export interface FriendListType {
+  username: string;
+  google_photo_link: string;
+  google_id: string;
+}

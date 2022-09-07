@@ -34,3 +34,9 @@ export interface UserType {
   bio?: string;
   google_photo_link?: string;
 }
+
+export interface FriendListType {
+  username: string;
+  google_photo_link: string;
+  google_id: string;
+}

@@ -3,6 +3,7 @@ import { OkPacket, RowDataPacket } from "mysql2";
 import {
   BucketList,
   BucketListContent,
+  FriendListType,
   PrivacyAndOwnerType,
   SharedListUserType,
 } from "../types/content";
@@ -183,14 +184,11 @@ export const getFriendsLists = (
 
   const queryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=${getFriendID} AND (privacy_type="public_friends" OR privacy_type="public_random" OR id IN (?))`;
 
-  console.log(db.format(queryString, [friendGoogleID, sharedListArray]));
-
   db.query(queryString, [friendGoogleID, sharedListArray], (err, result) => {
     if (err) {
       callback(err);
     }
 
-    console.log(result);
     const rows = <RowDataPacket[]>result;
     const lists: BucketList[] = [];
 
@@ -224,7 +222,27 @@ export const getUserInfo = (googleID: string, callback: Function) => {
   });
 };
 
-// get list of friends andfrom google id
+// get list of friends from google id
 export const getListOfFriends = (userGoogleID: number, callback: Function) => {
-  const queryString = "SELECT * FROM friends";
+  const getUserID = "(SELECT id FROM users WHERE google_id=?)";
+  const queryString = `SELECT username, google_photo_link, google_id FROM bliss_db.users WHERE id IN (SELECT user_id FROM bliss_db.friends WHERE friend_id=${getUserID} UNION SELECT friend_id FROM bliss_db.friends WHERE user_id=${getUserID})`;
+
+  db.query(queryString, [userGoogleID, userGoogleID], (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const rows = <RowDataPacket[]>result;
+    const friends: FriendListType[] = [];
+
+    rows.forEach((row) => {
+      const friend: FriendListType = {
+        username: row.username,
+        google_photo_link: row.google_photo_link,
+        google_id: row.google_id,
+      };
+      friends.push(friend);
+    });
+    callback(null, friends);
+  });
 };

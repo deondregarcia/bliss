@@ -10,6 +10,7 @@ import {
   BucketListType,
   RecipeContentType,
   UserType,
+  FriendListType,
 } from "../../types/content";
 
 // import components
@@ -32,6 +33,7 @@ const Profile = () => {
   >();
   const [friendManager, setFriendManager] = useState("friends");
   const [userObject, setUserObject] = useState<UserType | undefined>(undefined);
+  const [friends, setFriends] = useState<FriendListType[]>([]);
 
   const [recipeArray, setRecipeArray] =
     useState<RecipeContentType[]>(RecipeInputDefault);
@@ -103,7 +105,6 @@ const Profile = () => {
   const getGoogleUserInfo = () => {
     Axios.get("/googleuser")
       .then((res) => {
-        console.log(res.data.google_user);
         setGoogleUserObject(res.data.google_user);
       })
       .catch((err) => {
@@ -122,10 +123,27 @@ const Profile = () => {
       });
   };
 
-  useEffect(() => {
+  // get list of friends
+  const getFriendsList = () => {
+    Axios.get(`/view/get-list-of-friends/${id}`)
+      .then((res) => {
+        setFriends(res.data.friends);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // combine funcs to hopefully improve performance
+  const runInitialFunctions = () => {
     getBucketListData();
     getGoogleUserInfo();
     getUserInfo();
+    getFriendsList();
+  };
+
+  useEffect(() => {
+    runInitialFunctions();
 
     return () => {};
   }, []);
@@ -272,7 +290,9 @@ const Profile = () => {
             </div>
           </div>
           <div className="side-container-header-separator" />
-          {friendManager === "friends" && <FriendList />}
+          {friendManager === "friends" && friends[0] && (
+            <FriendList friends={friends} />
+          )}
         </div>
         {/* third row of elements */}
         <div className="content-container private">
