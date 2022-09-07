@@ -35,3 +35,13 @@ export interface SharedListUserType {
   bucket_list_id: number;
   contributor_id: number;
 }
+
+export interface UserType {
+  id?: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+  created_at?: Date;
+  google_id: string;
+  bio: string;
+}

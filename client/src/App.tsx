@@ -16,6 +16,8 @@ import CheckUserOrFriend from "./auth/CheckUserOrFriend";
 import FriendProfile from "./pages/FriendProfile/FriendProfile";
 import { StatusType } from "./types/authTypes";
 import SetAuth from "./auth/SetAuth";
+import CheckIfNewUser from "./auth/CheckIfNewUser";
+import AccountCreation from "./pages/AccountCreation/AccountCreation";
 
 const STATUS: StatusType = {
   owner: "owner",
@@ -38,13 +40,17 @@ function App() {
 
             {/* checks if user is logged in */}
             <Route element={<RequireAuth />}>
-              {/* add route to check if friends or user or something else */}
-              <Route element={<CheckUserOrFriend status={STATUS.owner} />}>
-                <Route path="my-profile" element={<Profile />} />
-              </Route>
+              <Route path="account-creation" element={<AccountCreation />} />
+              {/* checks if logged in User's google ID is saved in db; if not, redirects to AccountCreation */}
+              <Route element={<CheckIfNewUser />}>
+                {/* add route to check if friends or user or something else */}
+                <Route element={<CheckUserOrFriend status={STATUS.owner} />}>
+                  <Route path="my-profile" element={<Profile />} />
+                </Route>
 
-              <Route element={<CheckUserOrFriend status={STATUS.friend} />}>
-                <Route path="profile/:id" element={<FriendProfile />} />
+                <Route element={<CheckUserOrFriend status={STATUS.friend} />}>
+                  <Route path="profile/:id" element={<FriendProfile />} />
+                </Route>
               </Route>
             </Route>
           </Route>

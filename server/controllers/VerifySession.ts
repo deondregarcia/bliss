@@ -61,10 +61,6 @@ export const checkIfFriend = (
   const mainQueryString: string =
     queryStringOne + queryStringTwo + queryStringThree;
 
-  // console.log(mainQueryString);
-  // mainQueryString params array will be [user_id, friend_id, friend_id, user_id] where we will arbitrarily make reqSessionID = user_id and urlID = friend_id
-
-  // console.log(db.format(mainQueryString, [reqUserID, urlID, urlID, reqUserID]));
   db.query(
     mainQueryString,
     [reqUserID, urlID, urlID, reqUserID],
@@ -74,7 +70,6 @@ export const checkIfFriend = (
       }
 
       // there should only be one, so add a check for this later
-      // console.log(result);
       const rows = <RowDataPacket[]>result;
       const friendPairs: FriendPairType[] = [];
 
@@ -108,10 +103,6 @@ export const checkIfFriendWithUserID = (
   const mainQueryString: string =
     queryStringOne + queryStringTwo + queryStringThree;
 
-  // console.log(mainQueryString);
-  // mainQueryString params array will be [user_id, friend_id, friend_id, user_id] where we will arbitrarily make reqSessionID = user_id and urlID = friend_id
-
-  // console.log(db.format(mainQueryString, [reqUserGoogleID, secondID, secondID, reqUserGoogleID]));
   db.query(
     mainQueryString,
     [reqUserGoogleID, secondID, secondID, reqUserGoogleID],
@@ -121,7 +112,6 @@ export const checkIfFriendWithUserID = (
       }
 
       // there should only be one, so add a check for this later
-      // console.log(result);
       const rows = <RowDataPacket[]>result;
       const friendPairs: FriendPairType[] = [];
 

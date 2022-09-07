@@ -26,7 +26,7 @@ const Navbar = () => {
   return (
     <div className="navbar-container">
       <h1 onClick={() => navigate("my-profile")} className="navbar-header">
-        Bliss
+        Blissely
       </h1>
 
       <div className="login-logout-container">

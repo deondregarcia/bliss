@@ -1,7 +1,7 @@
 {
-  "name": "server",
+  "name": "blissely-server",
   "version": "1.0.0",
-  "description": "Backend for Bliss",
+  "description": "Backend for Blissely",
   "main": "app.ts",
   "scripts": {
     "start": "tsc && node dist/app.js",

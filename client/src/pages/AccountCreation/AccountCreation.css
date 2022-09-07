@@ -1,0 +1,111 @@
+.account-creation-container {
+    height: 800px;
+    width: 800px;
+    margin: auto;
+    border-radius: var(--border-radius);
+    background-color: var(--content-bg-color);
+}
+
+.account-creation-header-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    border-bottom: 2px solid var(--main-color);
+    padding-bottom: 10px;
+}
+
+.account-creation-header-container > h2 {
+    font-family: "Sarabun";
+    font-size: 40px;
+    color: var(--main-color);
+}
+
+.account-creation-body-container {
+    height: 100%;
+    /* background-color: blue; */
+}
+
+.account-creation-form-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 10%;
+}
+
+.account-creation-form-container > p {
+    font-family: Arial;
+    font-size: 15px;
+    color: var(--text-color-gray);
+    margin-top: 10px;
+}
+
+.account-creation-form-input-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.account-creation-form-input-wrapper > label {
+    font-family: "Sarabun";
+    font-size: 30px;
+    margin-top: 40px;
+    line-height: 1;
+    /* background-color: red; */
+}
+
+.account-creation-form-input-wrapper > input {
+    width: 500px;
+    height: 30px;
+    margin-top: 10px;
+    border: 2px solid transparent;
+    border-bottom: 2px solid var(--main-color);
+}
+
+.account-creation-form-input-wrapper > input:focus {
+    outline: none;
+}
+
+.account-creation-form-input-wrapper > textarea {
+    /* max-width: 500px; */
+    /* max-height: 100px; */
+    height: 80px;
+    width: 500px;
+    padding: 10px;
+    margin-top: 15px;
+    resize: none;
+    border: 2px solid var(--main-color);
+    border-radius: 5px;
+}
+
+.account-creation-form-input-wrapper > textarea:focus {
+    outline: none;
+}
+
+.account-creation-form-input-wrapper > label {
+    display: flex;
+    align-items: flex-end;
+}
+
+.account-creation-form-input-wrapper > label > p {
+    font-family: Arial;
+    font-size: 15px;
+    color: var(--text-color-gray);
+    margin-left: 10px;
+}
+
+.account-creation-form-submit {
+    height: 45px;
+    width: 200px;
+    margin-top: 40px;
+    border: 2px solid var(--main-color);
+    border-radius: 8px;
+    background-color: var(--main-color);
+    font-family: Arial;
+    font-size: 20px;
+    color: var(--content-bg-color);
+}
+
+.account-creation-form-submit:hover {
+    background-color: var(--content-bg-color);
+    cursor: pointer;
+    color: var(--main-color);
+}
