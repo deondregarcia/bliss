@@ -1,17 +1,42 @@
 import React, { useState } from "react";
+import Axios from "axios";
 import "./EditBucketListContent.css";
 
 const EditBucketListContent = ({
   activityInput,
   descriptionInput,
+  contentID,
   setEditMode,
+  setActivity,
+  setDescription,
 }: {
   activityInput: string;
   descriptionInput: string;
+  contentID: number;
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+  setActivity: React.Dispatch<React.SetStateAction<string>>;
+  setDescription: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [newActivity, setNewActivity] = useState(activityInput);
   const [newDescription, setNewDescription] = useState(descriptionInput);
+
+  const saveContent = async () => {
+    await Axios.put("/content/update-activity", {
+      id: contentID,
+      activity: newActivity,
+      description: newDescription,
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    setActivity(newActivity);
+    setDescription(newDescription);
+    setEditMode(false);
+  };
 
   return (
     <div className="edit-bucket-list-content-wrapper">
@@ -43,7 +68,10 @@ const EditBucketListContent = ({
             onChange={(e) => setNewDescription(e.target.value)}
           />
         </div>
-        <div className="edit-bucket-list-content-save-button">
+        <div
+          onClick={saveContent}
+          className="edit-bucket-list-content-save-button"
+        >
           <h2>Save</h2>
         </div>
       </div>

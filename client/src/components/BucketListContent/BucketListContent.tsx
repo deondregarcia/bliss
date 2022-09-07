@@ -8,15 +8,16 @@ const BucketListContent = ({ content }: { content: BucketListContentType }) => {
   const [description, setDescription] = useState(content.description);
   const [editMode, setEditMode] = useState(false);
 
-  console.log(activity);
-
   return (
     <div className="bucket-list-content-wrapper">
       {editMode && (
         <EditBucketListContent
           activityInput={activity}
           descriptionInput={description}
+          contentID={content.id}
           setEditMode={setEditMode}
+          setActivity={setActivity}
+          setDescription={setDescription}
         />
       )}
       <div className="bucket-list-content-container">

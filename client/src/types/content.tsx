@@ -9,7 +9,7 @@ export interface BucketListType {
 }
 
 export interface BucketListContentType {
-  id?: number;
+  id: number;
   tracker_id: number;
   activity: string;
   description: string;
