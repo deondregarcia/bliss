@@ -6,8 +6,6 @@
     border-bottom-right-radius: var(--border-radius);
     position: absolute;
     z-index: 5;
-    top: 0;
-    right: 0;
 }
 
 .edit-bucket-list-container {

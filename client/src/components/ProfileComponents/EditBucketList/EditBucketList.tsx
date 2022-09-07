@@ -29,7 +29,24 @@ const EditBucketList = ({
     arraySpecificObject!.permissions
   );
 
-  const deleteBucketList = () => {};
+  const deleteBucketList = () => {
+    if (window.confirm("Are you sure you want to delete this?")) {
+      Axios.post("/content/delete-bucket-list", {
+        id: arraySpecificObject?.id,
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      setTriggerRefresh(!triggerRefresh);
+      setCallback(false);
+    } else {
+      setCallback(false);
+    }
+  };
 
   const saveBucketList = () => {
     // check if any fields are empty

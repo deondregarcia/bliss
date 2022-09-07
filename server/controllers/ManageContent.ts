@@ -87,6 +87,19 @@ export const deleteActivity = (
   );
 };
 
+export const deleteBucketList = (trackerID: number, callback: Function) => {
+  const queryString = "DELETE FROM bucket_list_tracker WHERE id=?";
+
+  db.query(queryString, trackerID, (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const insertId = (<OkPacket>result).insertId;
+    callback(null, insertId);
+  });
+};
+
 // update an activity's description (but not is_completed status) in a bucket list
 export const updateActivity = (
   newActivity: BucketListContent,

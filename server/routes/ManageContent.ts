@@ -5,6 +5,7 @@ import {
   updateActivity,
   deleteActivity,
   updateBucketList,
+  deleteBucketList,
 } from "../controllers/ManageContent";
 import { BucketList, BucketListContent } from "../types/content";
 
@@ -57,6 +58,22 @@ contentRouter.post("/delete-activity", async (req: Request, res: Response) => {
     res.status(200).json({ insertID: insertID });
   });
 });
+
+// delete a bucket list
+contentRouter.post(
+  "/delete-bucket-list",
+  async (req: Request, res: Response) => {
+    const trackerID = Number(req.body.id);
+
+    deleteBucketList(trackerID, (err: Error, insertId: number) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ insertId: insertId });
+    });
+  }
+);
 
 // update an activity in a bucket list
 contentRouter.put("/update-activity", async (req: Request, res: Response) => {
