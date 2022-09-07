@@ -8,7 +8,6 @@ const createBucketList = (bucketList, callback) => {
     const queryString = "INSERT INTO bucket_list_tracker (owner_id, collab_type, privacy_type, created_at, title, description) VALUES (?, ?, ?, ?, ?, ?)";
     db_1.db.query(queryString, [
         bucketList.owner_id,
-        bucketList.collab_type,
         bucketList.privacy_type,
         new Date(),
         bucketList.title,

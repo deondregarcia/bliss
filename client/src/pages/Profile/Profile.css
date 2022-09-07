@@ -1,0 +1,127 @@
+.home-container {
+    display: grid;
+    /* grid-template-columns: repeat(18, 1fr); */
+    grid-template-columns: repeat(18, minmax(80px, 1fr));
+    grid-template-rows: repeat(3, 400px);
+    justify-content: center;
+    grid-gap: 15px;
+    margin-bottom: 60px;
+}
+
+.profile-info {
+    background-color: var(--content-bg-color);
+    grid-column: 4/6;
+    border-radius: var(--border-radius);
+    border: var(--border-style);
+    flex-shrink: 0;
+}
+
+.profile-info-name {
+    font-family: "Sarabun";
+    color: var(--text-color);
+}
+
+.profile-bio-container {
+    width: 80%;
+    margin-top: 20px;
+}
+
+.profile-bio-container-header {
+    font-size: 20px;
+    font-family: "Sarabun";
+    color: var(--text-color);
+}
+
+.profile-separator {
+    width: 100%;
+    height: 2px;
+    background-color: var(--main-color);
+}
+
+.content-container {
+    position: relative;
+    background-color: var(--content-bg-color);
+    grid-column: 6/13;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    border-radius: var(--border-radius);
+    border: var(--border-style);
+}
+
+.content-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* .today-i-should-container {
+
+} */
+
+.today-i-should-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.right-column-container {
+    background-color: var(--content-bg-color);
+    grid-column: 13/16;
+    border-radius: var(--border-radius);
+    border: var(--border-style);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+}
+
+.right-column-container::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* these should be h2 tags */
+.side-container-header {
+    font-family: "Sarabun";
+    color: var(--main-color);
+}
+
+.side-container-header-separator {
+    width: 90%;
+    height: 2px;
+    margin-top: 3px;
+    background-color: var(--border-style-color);
+    flex-shrink: 0; /* randomly need this for some of the divs to show up */
+}
+
+.recipe-separator {
+    width: 100%;
+    height: 2px;
+    background-color: var(--border-style-color);
+    margin: 15px auto;
+}
+
+.today-i-should-container {
+    background-color: var(--content-bg-color);
+    grid-column: 4/6;
+    border-radius: var(--border-radius);
+    border: var(--border-style);
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+.test {
+    background-color: red;
+}

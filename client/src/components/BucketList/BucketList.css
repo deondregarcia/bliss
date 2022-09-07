@@ -1,0 +1,25 @@
+.bucket-list-container {
+    width: 95%;
+    height: 100px;
+    margin-top: 15px;
+    flex-shrink: 0;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 5px 10px;
+}
+
+.bucket-list-container:hover {
+    border: 1px solid var(--main-color);
+    cursor: pointer;
+}
+
+.bucket-list-title {
+    font-family: "Sarabun";
+    /* font-family: "Arial"; */
+    color: var(--text-color);
+    border-bottom: var(--border-style);
+}
+
+.bucket-list-text {
+    font-family: var(--text-font);
+}

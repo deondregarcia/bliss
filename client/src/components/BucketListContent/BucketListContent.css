@@ -1,0 +1,46 @@
+.bucket-list-content-container {
+    /* background-color: lightblue; */
+    width: 100%;
+    display: flex;
+    position: relative;
+}
+
+.bucket-list-content-bullet-point {
+    align-self: flex-start;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.bucket-list-content-activities-header {
+    font-family: "Sarabun";
+    color: var(--text-color);
+    font-size: 30px;
+}
+
+.bucket-list-content-activities-description {
+    font-family: var(--text-font);
+    color: var(--text-color-gray);
+}
+
+.bucket-list-content-edit-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border: 2px solid var(--main-color);
+    border-radius: 5px;
+    width: 45px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--main-color);
+}
+
+.bucket-list-content-edit-button:hover {
+    cursor: pointer;
+    background-color: var(--main-color);
+}
+
+.bucket-list-content-edit-button:hover p {
+    color: white;
+}

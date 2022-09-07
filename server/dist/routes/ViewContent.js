@@ -15,16 +15,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.viewContentRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const ViewContent_1 = require("../controllers/ViewContent");
+// /view prefix in url
 const viewContentRouter = express_1.default.Router();
 exports.viewContentRouter = viewContentRouter;
-// get all lists for a user based on their id
-viewContentRouter.get("/lists/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = Number(req.params.id);
-    (0, ViewContent_1.getBucketLists)(userId, (err, lists) => {
+// get all lists for a user based on their google_id
+viewContentRouter.get("/lists/:google_id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const googleID = String(req.params.google_id);
+    (0, ViewContent_1.getBucketLists)(googleID, (err, lists) => {
         if (err) {
             return res.status(500).json({ message: err.message });
         }
         res.status(200).json({ data: lists });
+    });
+}));
+// get title and description of a bucket list
+viewContentRouter.get("/bucket-list-info/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const bucketListID = Number(req.params.id);
+    (0, ViewContent_1.getBucketListInfo)(bucketListID, (err, bucketListInfo) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ data: bucketListInfo });
     });
 }));
 // get all activities for a bucket list based on id of bucket list
@@ -35,5 +46,26 @@ viewContentRouter.get("/activities/:id", (req, res) => __awaiter(void 0, void 0,
             return res.status(500).json({ message: err.message });
         }
         res.status(200).json({ data: activities });
+    });
+}));
+// get privacy type of bucket list based on its bucket_list_tracker id and get owner google idowner-
+viewContentRouter.get("/privacy-type-and-owner-google-id/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const bucketListID = Number(req.params.id);
+    (0, ViewContent_1.getPrivacyTypeAndOwner)(bucketListID, (err, privacyAndOwners) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ data: privacyAndOwners });
+    });
+}));
+viewContentRouter.get("/check-if-user-in-shared-list/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const userID = String((_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
+    const bucketListID = Number(req.params.id);
+    (0, ViewContent_1.checkIfShared)(userID, bucketListID, (err, sharedListUsers) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ data: sharedListUsers });
     });
 }));
