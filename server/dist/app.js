@@ -78,10 +78,9 @@ const isLoggedIn = (req, res, next) => {
 };
 app.get("/auth/google", passport_1.default.authenticate("google", { scope: ["email", "profile"] }));
 app.get("/auth/google/callback", passport_1.default.authenticate("google", { failureRedirect: "/auth/failure" }), (req, res) => {
-    var _a;
     // res.redirect(`http://localhost:3001/${req?.user?.id}`);
     // in the future, redirect to profile by /profile/:id
-    res.redirect(`http://localhost:3001/my-profile/${(_a = req.user) === null || _a === void 0 ? void 0 : _a.id}`);
+    res.redirect(`http://localhost:3001/my-profile`);
 });
 app.get("/auth/user", passport_1.default.authenticate("google", { scope: ["email", "profile"] }), (req, res) => {
     // console.log(req.sessionStore["sessions"]);
@@ -149,7 +148,6 @@ app.post("/check-if-friend-with-user-id", (req, res) => {
     var _a;
     const reqUserGoogleID = String((_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
     const secondID = req.body.secondID;
-    console.log("reqUserID: " + reqUserGoogleID + " , " + "secondID: " + secondID);
     if (!req.user) {
         res.status(200).json({ friendPairsInfo: [] });
     }
@@ -180,12 +178,10 @@ app.get("/get-user-id", (req, res) => {
     });
 });
 app.get("/logout", (req, res, err) => {
-    req.logout(err);
     req.session.destroy((err) => {
         if (err)
             throw err;
-        console.log(req.session);
-        res.redirect("/");
+        res.status(200).json({ message: "Successfuly cleared session" });
     });
 });
 // auth testing ----

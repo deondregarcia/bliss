@@ -28,6 +28,16 @@ viewContentRouter.get("/lists/:google_id", (req, res) => __awaiter(void 0, void 
         res.status(200).json({ data: lists });
     });
 }));
+// get title and description of a bucket list
+viewContentRouter.get("/bucket-list-info/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const bucketListID = Number(req.params.id);
+    (0, ViewContent_1.getBucketListInfo)(bucketListID, (err, bucketListInfo) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ data: bucketListInfo });
+    });
+}));
 // get all activities for a bucket list based on id of bucket list
 viewContentRouter.get("/activities/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const bucketListId = Number(req.params.id);

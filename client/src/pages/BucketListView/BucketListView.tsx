@@ -5,6 +5,7 @@ import { BucketListContentType, BucketListType } from "../../types/content";
 import "./BucketListView.css";
 import UnauthorizedBucketListView from "../../auth/Unauthorized/UnauthorizedBucketListView";
 import BucketListContent from "../../components/BucketListContent/BucketListContent";
+import AddBucketListContent from "../../components/AddBucketListContent/AddBucketListContent";
 
 const BucketListView = () => {
   const [privacyType, setPrivacyType] = useState<string | null>(null);
@@ -16,6 +17,8 @@ const BucketListView = () => {
     BucketListContentType[]
   >([]);
   const [unauthorizedType, setUnauthorizedType] = useState<string | null>(null);
+  const [addMode, setAddMode] = useState(false);
+  const [triggerRefresh, setTriggerRefresh] = useState(false);
   const { id } = useParams();
 
   // pull bucket list content based on id
@@ -124,8 +127,6 @@ const BucketListView = () => {
                   secondID: res.owner_id,
                 })
                   .then((response) => {
-                    // console.log(response.data);
-                    // console.log(response.data.friendPairsInfo[0] ? "true" : "false");
                     // if true then they are friends; pull public_friends content
                     if (response.data.friendPairsInfo[0]) {
                       getBucketListContent();
@@ -154,19 +155,34 @@ const BucketListView = () => {
 
   useEffect(() => {
     verifyPermissions();
-    console.log(bucketListContent);
-  }, []);
+  }, [triggerRefresh]);
 
   return (
     <div className="bucket-list-view-wrapper">
       <div className="bucket-list-view-container">
         <div className="bucket-list-view-header-container">
+          <div
+            onClick={() => setAddMode(true)}
+            className="bucket-list-view-add-button"
+          >
+            <h2>Add</h2>
+          </div>
           <h1 className="bucket-list-view-header">{bucketListInfo?.title}</h1>
           <p className="bucket-list-view-description">
             {bucketListInfo?.description}
           </p>
         </div>
         <div className="bucket-list-view-content-container">
+          {addMode && (
+            <AddBucketListContent
+              setAddMode={setAddMode}
+              setTriggerRefresh={setTriggerRefresh}
+              triggerRefresh={triggerRefresh}
+              bucketListID={bucketListInfo?.id}
+              ownerID={ownerID}
+            />
+          )}
+
           <p>{unauthorizedType}</p>
           {bucketListContent[0] ? (
             bucketListContent.map((content, index) => (

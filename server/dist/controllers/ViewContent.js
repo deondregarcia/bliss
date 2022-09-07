@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkIfShared = exports.getPrivacyTypeAndOwner = exports.getActivities = exports.getBucketLists = void 0;
+exports.checkIfShared = exports.getPrivacyTypeAndOwner = exports.getActivities = exports.getBucketListInfo = exports.getBucketLists = void 0;
 const db_1 = require("../db");
 // view list of all bucket lists user is involved in
 const getBucketLists = (googleId, callback) => {
@@ -24,6 +24,7 @@ const getBucketLists = (googleId, callback) => {
                 created_at: row.created_at,
                 title: row.title,
                 description: row.description,
+                permissions: row.permissions,
             };
             lists.push(list);
         });
@@ -31,6 +32,17 @@ const getBucketLists = (googleId, callback) => {
     });
 };
 exports.getBucketLists = getBucketLists;
+const getBucketListInfo = (trackerID, callback) => {
+    const queryString = "SELECT * FROM bucket_list_tracker WHERE id=?";
+    db_1.db.query(queryString, trackerID, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        const bucketListInfo = result;
+        callback(null, bucketListInfo[0]);
+    });
+};
+exports.getBucketListInfo = getBucketListInfo;
 // view all activities in a bucket list
 const getActivities = (trackerId, callback) => {
     const queryString = `SELECT * FROM bucket_list_content WHERE tracker_id=?`;
@@ -70,6 +82,7 @@ const getPrivacyTypeAndOwner = (trackerID, callback) => {
             const privacyAndOwner = {
                 privacy_type: row.privacy_type,
                 owner_id: row.owner_id,
+                permissions: row.permissions,
             };
             privacyAndOwners.push(privacyAndOwner);
         });
