@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { Navigate, Outlet } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const CheckIfNewUser = () => {
-  const [didCheckNewUserRun, setDidCheckNewUserRun] = useState(false);
+  // const [didCheckNewUserRun, setDidCheckNewUserRun] = useState(false);
+  const { checkedIfNewUser, setCheckedIfNewUser } = useAuth();
   const [isNewUser, setIsNewUser] = useState(false);
 
   const checkIfGoogleIDExists = async () => {
@@ -17,17 +19,20 @@ const CheckIfNewUser = () => {
         console.log(err);
       });
 
-    setDidCheckNewUserRun(true);
+    console.log(isNewUser ? "is new user" : "is not new user");
+    // setDidCheckNewUserRun(true);
+    setCheckedIfNewUser(true);
   };
 
   useEffect(() => {
-    checkIfGoogleIDExists();
-    console.log(isNewUser ? "is new user" : "is not new user");
+    if (!checkedIfNewUser) {
+      checkIfGoogleIDExists();
+    }
   }, []);
 
   return (
     <>
-      {didCheckNewUserRun &&
+      {checkedIfNewUser &&
         (isNewUser ? <Navigate to="account-creation" /> : <Outlet />)}
     </>
   );

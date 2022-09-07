@@ -25,7 +25,14 @@ const Navbar = () => {
 
   return (
     <div className="navbar-container">
-      <h1 onClick={() => navigate("my-profile")} className="navbar-header">
+      <h1
+        onClick={() =>
+          navigate(
+            `my-profile/${JSON.parse(auth.session_info.data).passport.user.id}`
+          )
+        }
+        className="navbar-header"
+      >
         Blissely
       </h1>
 

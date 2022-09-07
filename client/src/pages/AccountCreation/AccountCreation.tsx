@@ -2,6 +2,7 @@ import React, { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import Axios from "axios";
 import "./AccountCreation.css";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const AccountCreation = () => {
   const [firstName, setFirstName] = useState("");
@@ -10,6 +11,7 @@ const AccountCreation = () => {
   const [bio, setBio] = useState("");
   const [isUsernameTaken, setIsUsernameTaken] = useState(false);
   const navigate = useNavigate();
+  const { auth } = useAuth();
 
   // submit form for new user creation
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -52,7 +54,9 @@ const AccountCreation = () => {
         console.log(err);
       });
 
-    navigate("/my-profile");
+    navigate(
+      `/my-profile/${JSON.parse(auth.session_info.data).passport.user.id}`
+    );
   };
 
   useEffect(() => {
@@ -60,7 +64,9 @@ const AccountCreation = () => {
     Axios.get("/get-user-id")
       .then((res) => {
         if (res.data.userID[0]) {
-          navigate("/my-profile");
+          navigate(
+            `/my-profile/${JSON.parse(auth.session_info.data).passport.user.id}`
+          );
         }
       })
       .catch((err) => {
