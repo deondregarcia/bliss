@@ -28,7 +28,9 @@ const FriendList = ({ friends }: { friends: FriendListType[] }) => {
                 alt="default profile picture"
                 className="friend-image"
               />
-              <h2>{friend.username}</h2>
+              <h4 className="friend-name">
+                {friend.first_name} {friend.last_name[0]}.
+              </h4>
             </div>
           );
         })}

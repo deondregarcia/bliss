@@ -88,9 +88,10 @@ const isLoggedIn = (req, res, next) => {
 };
 app.get("/auth/google", passport_1.default.authenticate("google", { scope: ["email", "profile"] }));
 app.get("/auth/google/callback", passport_1.default.authenticate("google", { failureRedirect: "/auth/failure" }), (req, res) => {
+    var _a;
     // res.redirect(`http://localhost:3001/${req?.user?.id}`);
     // in the future, redirect to profile by /profile/:id
-    res.redirect(`http://localhost:3001/my-profile`);
+    res.redirect(`http://localhost:3001/my-profile/${(_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id}`);
 });
 app.get("/auth/user", passport_1.default.authenticate("google", { scope: ["email", "profile"] }), (req, res) => {
     res.json({ user: req.user });
@@ -194,7 +195,7 @@ app.post("/check-if-username-exists", (req, res) => __awaiter(void 0, void 0, vo
     });
 }));
 app.post("/create-user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+    var _a, _b, _c, _d;
     if (!((_a = req.user) === null || _a === void 0 ? void 0 : _a.profile.id)) {
         return res.status(500).json({ message: "No Google ID" });
     }
@@ -205,7 +206,9 @@ app.post("/create-user", (req, res) => __awaiter(void 0, void 0, void 0, functio
         created_at: new Date(),
         google_id: String((_b = req.user) === null || _b === void 0 ? void 0 : _b.profile.id),
         bio: req.body.bio,
+        google_photo_link: String((_c = req.user) === null || _c === void 0 ? void 0 : _c.profile.photos[0].value),
     };
+    console.log((_d = req.user) === null || _d === void 0 ? void 0 : _d.profile.photos[0].value);
     (0, UserManagement_1.createUser)(newUser, (err, insertID) => {
         if (err) {
             return res.status(500).json({ message: err.message });

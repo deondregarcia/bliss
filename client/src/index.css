@@ -1,6 +1,7 @@
 :root {
   --border-radius: 12px;
-  --border-style: 1px solid #b9b9b9;
+  /* --border-style: 1px solid #b9b9b9; */
+  --border-style: 1px solid #cfcfcf;
   --border-style-color: #b9b9b9;
   --content-bg-color: #FFF;
   /* --main-color: #581bc0; */
@@ -19,9 +20,8 @@
   }
 
 body {
-  /* background-color: #dad7df; */
-  /* background-color: #ececec; */
-  background-color: #e0e0e0;
+  /* background-color: #e2e2e2; */
+  background-color: #f0f0f0;
 }
 
 @font-face {

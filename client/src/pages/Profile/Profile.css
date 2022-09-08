@@ -1,7 +1,9 @@
 .home-container {
     display: grid;
     grid-template-columns: repeat(18, minmax(80px, 1fr));
-    grid-template-rows: repeat(3, 400px);
+    /* grid-template-rows: repeat(3, 400px); */
+    /* grid-template-rows: repeat(9, 130px); */
+    grid-template-rows: repeat(9, 130px);
     justify-content: center;
     grid-gap: 15px;
     margin-bottom: 60px;
@@ -10,6 +12,7 @@
 .profile-info {
     background-color: var(--content-bg-color);
     grid-column: 4/6;
+    grid-row: 1/4;
     border-radius: var(--border-radius);
     border: var(--border-style);
     flex-shrink: 0;
@@ -41,6 +44,7 @@
     position: relative;
     background-color: var(--content-bg-color);
     grid-column: 6/13;
+    grid-row: span 3;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -75,7 +79,17 @@
     display: none;
 }
 
+.friend-feed {
+    grid-row: span 1;
+}
 
+.friend-manager {
+    grid-row: 2 / 6;
+}
+
+.recipe-suggestions {
+    grid-row: 6 / 9;
+}
 
 .friend-manager-header-container {
     width: 100%;

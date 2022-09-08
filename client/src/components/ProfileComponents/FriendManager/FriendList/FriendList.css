@@ -9,18 +9,23 @@
 }
 
 .friend-list-container {
-    height: 90%;
+    height: 100%;
     width: 90%;
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
     /* background-color: blue; */
 }
 
+.friend-list-container::-webkit-scrollbar {
+    display: none;
+}
+
 .friend-list-profile-wrapper {
+    border-bottom: 2px solid var(--border-style-color);
+    position: relative;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    padding: 10px 0 10px 0;
     /* background-color: red; */
 }
 
@@ -28,8 +33,22 @@
     cursor: pointer;
 }
 
+.friend-list-profile-wrapper:hover .friend-name {
+    font-size: 1.1em;
+    transition: font-size 50ms ease-in;
+}
+
 .friend-image {
     height: 75px;
     width: 75px;
-    border-radius: 10px;
+    border-radius: 8px;
+}
+
+.friend-name {
+    /* font-family: Arial; */
+    font-family: "Sarabun";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    /* margin-left: 10px; */
 }

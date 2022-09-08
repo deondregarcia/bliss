@@ -55,6 +55,8 @@ export interface ActivityIDTypes {
 
 export interface FriendListType {
   username: string;
+  first_name: string;
+  last_name: string;
   google_photo_link: string;
   google_id: string;
 }

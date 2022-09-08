@@ -157,7 +157,6 @@ const Profile = () => {
   return (
     <>
       <div className="home-container">
-        {/* first row of elements */}
         <div className="profile-info">
           <h2>{userObject?.username}</h2>
           <img
@@ -221,12 +220,11 @@ const Profile = () => {
           <div className="side-container-header-separator" />
         </div>
 
-        {/* second row of elements */}
-        <div className="today-i-should-container">
+        {/* <div className="today-i-should-container">
           <h2 className="side-container-header">Today, I should...</h2>
           <div className="side-container-header-separator" />
           <p>Today I should try working out</p>
-        </div>
+        </div> */}
         <div className="content-container shared">
           <ContentContainerHeader
             setCallback={setSharedAdd}
@@ -294,7 +292,6 @@ const Profile = () => {
             <FriendList friends={friends} />
           )}
         </div>
-        {/* third row of elements */}
         <div className="content-container private">
           <ContentContainerHeader
             setCallback={setPrivateAdd}
@@ -334,7 +331,7 @@ const Profile = () => {
             <EmptyArrayMessage />
           )}
         </div>
-        <div className="right-column-container">
+        <div className="right-column-container recipe-suggestions">
           <h2 className="side-container-header">Recipe Suggestions</h2>
           <div className="side-container-header-separator" />
           <RecipeInput setRecipeArray={setRecipeArray} />
