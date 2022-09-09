@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from "react";
+import React, { useState, useEffect, ReactNode, useRef } from "react";
 import Axios from "axios";
 import "./Profile.css";
 import Cookies from "js-cookie";
@@ -71,6 +71,24 @@ const Profile = () => {
   const [privateBucketListArray, setPrivateBucketListArray] = useState<
     BucketListType[]
   >([]);
+  const [initialPublicBound, setInitialPublicBound] = useState<
+    number | undefined
+  >(undefined);
+  const [publicOffset, setPublicOffset] = useState<number | undefined>(
+    undefined
+  );
+  const [initialSharedBound, setInitialSharedBound] = useState<
+    number | undefined
+  >(undefined);
+  const [sharedOffset, setSharedOffset] = useState<number | undefined>(
+    undefined
+  );
+  const [initialPrivateBound, setInitialPrivateBound] = useState<
+    number | undefined
+  >(undefined);
+  const [privateOffset, setPrivateOffset] = useState<number | undefined>(
+    undefined
+  );
 
   // grab bucket_list_tracker data
   const getBucketListData = () => {
@@ -156,6 +174,43 @@ const Profile = () => {
     return () => {};
   }, [triggerRefresh]);
 
+  // --------- Below useEffects set and calculate necessary offset values for edit overlays --------------
+  // without these offset values for a transform, overlay would not render in correct position
+
+  useEffect(() => {
+    setInitialPublicBound(
+      document?.getElementById("public-bound")?.getBoundingClientRect().top
+    );
+    setInitialSharedBound(
+      document?.getElementById("shared-bound")?.getBoundingClientRect().top
+    );
+    setInitialPrivateBound(
+      document?.getElementById("private-bound")?.getBoundingClientRect().top
+    );
+  }, [publicBucketListArray]);
+
+  useEffect(() => {
+    const offset =
+      initialPublicBound! -
+      document?.getElementById("public-bound")?.getBoundingClientRect().top! -
+      window.scrollY;
+    setPublicOffset(offset);
+  }, [publicEdit]);
+  useEffect(() => {
+    const offset =
+      initialSharedBound! -
+      document?.getElementById("shared-bound")?.getBoundingClientRect().top! -
+      window.scrollY;
+    setSharedOffset(offset);
+  }, [sharedEdit]);
+  useEffect(() => {
+    const offset =
+      initialPrivateBound! -
+      document?.getElementById("private-bound")?.getBoundingClientRect().top! -
+      window.scrollY;
+    setPrivateOffset(offset);
+  }, [privateEdit]);
+
   return (
     <>
       <div className="home-container">
@@ -177,7 +232,10 @@ const Profile = () => {
             <p>{userObject?.bio}</p>
           </div>
         </div>
-        <div className="content-container public">
+        <div
+          className="content-container public"
+          style={publicEdit ? { overflowY: "hidden" } : { overflowY: "scroll" }}
+        >
           <ContentContainerHeader
             setCallback={setPublicAdd}
             addState={publicAdd}
@@ -199,6 +257,7 @@ const Profile = () => {
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
               arraySpecificObject={publicEditObject}
+              offset={publicOffset}
             />
           )}
           {/* if publicBucketListArray is true, render, if null, display message */}
@@ -210,6 +269,7 @@ const Profile = () => {
                   setArrayObject={setPublicEditObject}
                   setEditMode={setPublicEdit}
                   key={bucketList.id}
+                  category="public"
                 />
               );
             })
@@ -227,7 +287,11 @@ const Profile = () => {
           <div className="side-container-header-separator" />
           <p>Today I should try working out</p>
         </div> */}
-        <div className="content-container shared">
+        <div
+          id="test3"
+          className="content-container shared"
+          style={sharedEdit ? { overflowY: "hidden" } : { overflowY: "scroll" }}
+        >
           <ContentContainerHeader
             setCallback={setSharedAdd}
             addState={sharedAdd}
@@ -249,6 +313,7 @@ const Profile = () => {
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
               arraySpecificObject={sharedEditObject}
+              offset={sharedOffset}
             />
           )}
           {sharedBucketListArray.length > 0 ? (
@@ -259,6 +324,7 @@ const Profile = () => {
                   setArrayObject={setSharedEditObject}
                   setEditMode={setSharedEdit}
                   key={bucketList.id}
+                  category="shared"
                 />
               );
             })
@@ -313,7 +379,12 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <div className="content-container private">
+        <div
+          className="content-container private"
+          style={
+            privateEdit ? { overflowY: "hidden" } : { overflowY: "scroll" }
+          }
+        >
           <ContentContainerHeader
             setCallback={setPrivateAdd}
             addState={privateAdd}
@@ -335,6 +406,7 @@ const Profile = () => {
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
               arraySpecificObject={privateEditObject}
+              offset={privateOffset}
             />
           )}
           {privateBucketListArray.length > 0 ? (
@@ -345,6 +417,7 @@ const Profile = () => {
                   setArrayObject={setPrivateEditObject}
                   setEditMode={setPrivateEdit}
                   key={bucketList.id}
+                  category="private"
                 />
               );
             })

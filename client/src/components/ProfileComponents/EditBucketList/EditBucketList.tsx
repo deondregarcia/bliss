@@ -9,12 +9,14 @@ const EditBucketList = ({
   setTriggerRefresh,
   triggerRefresh,
   arraySpecificObject,
+  offset,
 }: {
   setCallback: React.Dispatch<React.SetStateAction<boolean>>;
   editState: boolean;
   setTriggerRefresh: React.Dispatch<React.SetStateAction<boolean>>;
   triggerRefresh: boolean;
   arraySpecificObject: BucketListType | null;
+  offset: number | undefined;
 }) => {
   const [newTitle, setNewTitle] = useState<string | undefined>(
     arraySpecificObject!.title
@@ -28,6 +30,7 @@ const EditBucketList = ({
   const [permissions, setPermissions] = useState<string | undefined>(
     arraySpecificObject!.permissions
   );
+  const [rendered, setRendered] = useState(false);
 
   const deleteBucketList = () => {
     if (window.confirm("Are you sure you want to delete this?")) {
@@ -77,8 +80,25 @@ const EditBucketList = ({
     setCallback(false);
   };
 
+  useEffect(() => {
+    setRendered(true);
+  }, []);
+
   return (
-    <div className="edit-bucket-list-wrapper">
+    <div
+      // style={{ transform: `translateY(${offset}px)` }}
+      style={
+        rendered
+          ? {
+              transform: `translateY(${offset}px)`,
+              opacity: 1,
+              transition: "opacity 250ms ease",
+              transitionDelay: "50ms",
+            }
+          : { transform: `translateY(${offset}px)`, opacity: 0 }
+      }
+      className="edit-bucket-list-wrapper"
+    >
       <div className="edit-bucket-list-container">
         <div
           onClick={deleteBucketList}

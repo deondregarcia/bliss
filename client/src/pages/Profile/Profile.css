@@ -180,8 +180,8 @@
 
 .friend-manager-request-count {
     background-color: var(--content-bg-color);
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
