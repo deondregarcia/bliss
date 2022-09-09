@@ -1,0 +1,27 @@
+.landing-page-container {
+    /* height: 70vh; */
+    height: var(--page-height);
+    position: relative;
+    /* background-color: red; */
+}
+
+.landing-page-header-container {
+    background-color: green;
+}
+
+.page-test {
+    background-color: purple;
+}
+
+.landing-page-landing-graphic-wrapper {
+    position: absolute;
+    background-color: green;
+    bottom: 0;
+}
+
+.landing-page-landing-graphic-link {
+    position: absolute;
+    top: 78%;
+    left: 50%;
+    transform: rotate(-30deg);
+}

@@ -4,6 +4,7 @@
     border-bottom: 2px solid var(--main-color);
     display: grid;
     grid-template-columns: repeat(18, 1fr);
+    padding-bottom: 5px;
     margin-bottom: 40px;
     align-items: flex-end;
     background-color: var(--content-bg-color);
