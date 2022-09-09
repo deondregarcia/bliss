@@ -84,11 +84,11 @@
 }
 
 .friend-manager {
-    grid-row: 2 / 6;
+    grid-row: 2 / 5;
 }
 
 .recipe-suggestions {
-    grid-row: 6 / 9;
+    grid-row: 5 / 8;
 }
 
 .friend-manager-header-container {
@@ -130,6 +130,73 @@
 
 .friend-manager-header-clicked:hover {
     cursor: pointer;
+}
+
+.friend-manager-content-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.friend-manager-request-tab {
+    position: absolute;
+    height: 24px;
+    transition: height 250ms ease;
+    width: 100%;
+    bottom: 0;
+    /* transform: translateY(150px); */
+    /* left: 60px; */
+    /* background-color: red; */
+}
+
+.request-tab-selected {
+    /* transform: translateY(-200px); */
+    height: 40%;
+}
+
+.friend-manager-request-tab-button {
+    /* background-color: green; */
+    /* position: absolute; */
+    height: 24px;
+    width: 120px;
+    margin-left: 35px;
+    display: flex;
+    justify-content: center;
+    border: 2px solid var(--main-color);
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-family: "Sarabun";
+    background-color: var(--main-color);
+    color: var(--content-bg-color);
+    /* color: var(--main-color); */
+    font-size: 15px;
+}
+
+.friend-manager-request-tab-button:hover {
+    cursor: pointer;
+}
+
+.friend-manager-request-count {
+    background-color: var(--content-bg-color);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    color: var(--main-color);
+    font-size: 12px;
+}
+
+.friend-manager-request-tab-bar {
+    /* height: 40px; */
+    height: 100%;
+    width: 100%;
+    border-top: 2px solid var(--main-color);
+    /* background-color: blue; */
 }
 
 /* these should be h2 tags */

@@ -24,6 +24,7 @@ import useAuth from "../../hooks/useAuth";
 import AddBucketList from "../../components/ProfileComponents/AddBucketList/AddBucketList";
 import EditBucketList from "../../components/ProfileComponents/EditBucketList/EditBucketList";
 import FriendList from "../../components/ProfileComponents/FriendManager/FriendList/FriendList";
+import Search from "../../components/ProfileComponents/FriendManager/Search/Search";
 
 const Profile = () => {
   const [userID, setUserID] = useState<number>(0);
@@ -32,6 +33,7 @@ const Profile = () => {
     GoogleUserObjectType | any
   >();
   const [friendManager, setFriendManager] = useState("friends");
+  const [requestTabSelected, setRequestTabSelected] = useState(false);
   const [userObject, setUserObject] = useState<UserType | undefined>(undefined);
   const [friends, setFriends] = useState<FriendListType[]>([]);
 
@@ -288,9 +290,28 @@ const Profile = () => {
             </div>
           </div>
           <div className="side-container-header-separator" />
-          {friendManager === "friends" && friends[0] && (
-            <FriendList friends={friends} />
-          )}
+          <div className="friend-manager-content-container">
+            <FriendList friendManager={friendManager} friends={friends} />
+            <Search friendManager={friendManager} />
+            <div
+              className={
+                requestTabSelected
+                  ? "friend-manager-request-tab request-tab-selected"
+                  : "friend-manager-request-tab"
+              }
+            >
+              <div
+                onClick={() => setRequestTabSelected(!requestTabSelected)}
+                className="friend-manager-request-tab-button"
+              >
+                <h3>Requests</h3>
+                <div className="friend-manager-request-count">
+                  <h3>3</h3>
+                </div>
+              </div>
+              <div className="friend-manager-request-tab-bar"></div>
+            </div>
+          </div>
         </div>
         <div className="content-container private">
           <ContentContainerHeader

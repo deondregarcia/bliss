@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { FriendListType } from "../../../../types/content";
 import { imagesIndex } from "../../../../assets/images/imagesIndex";
 import { useNavigate } from "react-router-dom";
 import "./FriendList.css";
 
-const FriendList = ({ friends }: { friends: FriendListType[] }) => {
+const FriendList = ({
+  friends,
+  friendManager,
+}: {
+  friends: FriendListType[];
+  friendManager: string;
+}) => {
   const navigate = useNavigate();
+  const [nav, setNav] = useState(false);
 
   console.log(friends);
 
   return (
-    <div className="friend-list-wrapper">
+    <div
+      className={
+        friendManager === "friends"
+          ? "friend-list-wrapper"
+          : "friend-list-wrapper friend-list-deselected"
+      }
+    >
       <div className="friend-list-container">
         {friends.map((friend, index) => {
           return (
@@ -28,6 +41,12 @@ const FriendList = ({ friends }: { friends: FriendListType[] }) => {
                 alt="default profile picture"
                 className="friend-image"
               />
+              <h4 className="friend-list-content-header">Wants to...</h4>
+              <div className="friend-list-content-body-container">
+                <p className="friend-list-content-body">
+                  Make a new bucket list with you
+                </p>
+              </div>
               <h4 className="friend-name">
                 {friend.first_name} {friend.last_name[0]}.
               </h4>

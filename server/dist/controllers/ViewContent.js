@@ -176,7 +176,7 @@ exports.getUserInfo = getUserInfo;
 // get list of friends from google id
 const getListOfFriends = (userGoogleID, callback) => {
     const getUserID = "(SELECT id FROM users WHERE google_id=?)";
-    const queryString = `SELECT username, google_photo_link, google_id FROM bliss_db.users WHERE id IN (SELECT user_id FROM bliss_db.friends WHERE friend_id=${getUserID} UNION SELECT friend_id FROM bliss_db.friends WHERE user_id=${getUserID})`;
+    const queryString = `SELECT username, first_name, last_name, google_photo_link, google_id FROM bliss_db.users WHERE id IN (SELECT user_id FROM bliss_db.friends WHERE friend_id=${getUserID} UNION SELECT friend_id FROM bliss_db.friends WHERE user_id=${getUserID})`;
     db_1.db.query(queryString, [userGoogleID, userGoogleID], (err, result) => {
         if (err) {
             callback(err);
@@ -186,6 +186,8 @@ const getListOfFriends = (userGoogleID, callback) => {
         rows.forEach((row) => {
             const friend = {
                 username: row.username,
+                first_name: row.first_name,
+                last_name: row.last_name,
                 google_photo_link: row.google_photo_link,
                 google_id: row.google_id,
             };
