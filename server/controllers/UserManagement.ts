@@ -66,6 +66,50 @@ export const sendFriendRequest = (
   );
 };
 
+// accept friend request -> insert into friends and delete from friend_requests
+export const acceptRequest = (
+  userGoogleID: string,
+  friendGoogleID: string,
+  callback: Function
+) => {
+  // get user id's from google id's
+  const getUserID = "(SELECT id FROM users WHERE google_id=?)";
+  const getFriendID = "(SELECT id FROM users WHERE google_id=?)";
+  // insert into friends query string
+  const insertQueryString = `INSERT INTO friends (user_id, friend_id) VALUES (${getUserID}, ${getFriendID})`;
+
+  db.query(insertQueryString, [userGoogleID, friendGoogleID], (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const insertID = (<OkPacket>result).insertId;
+    callback(null, insertID);
+  });
+};
+
+// deny friend request -> delete from friend_requests
+export const denyRequest = (
+  userGoogleID: string,
+  friendGoogleID: string,
+  callback: Function
+) => {
+  // get user id's from google id's
+  const getUserID = "(SELECT id FROM users WHERE google_id=?)";
+  const getFriendID = "(SELECT id FROM users WHERE google_id=?)";
+
+  const deleteQueryString = `DELETE FROM friend_requests WHERE requestee_id=${getUserID} AND requestor_id=${getFriendID}`;
+
+  db.query(deleteQueryString, [userGoogleID, friendGoogleID], (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const deletionID = (<OkPacket>result).insertId;
+    callback(null, deletionID);
+  });
+};
+
 // get outgoing friend requests from a user's google id
 export const getOutgoingFriendRequests = (
   userGoogleID: string,

@@ -38,10 +38,7 @@ const SearchList = ({
       requesteeGoogleID: googleID,
     })
       .then((res) => {
-        console.log(res.status === 200 ? "true" : "false");
         if (res.status === 200) {
-          console.log("username pushed: ");
-          console.log(username);
           setOutgoingFriendRequestStateList((prevState) => [
             ...prevState,
             username,

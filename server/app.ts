@@ -20,8 +20,10 @@ import passport from "passport";
 import session from "express-session";
 import { FriendPairType, FriendRequestUserType } from "./types/content";
 import {
+  acceptRequest,
   checkUsername,
   createUser,
+  denyRequest,
   getIncomingFriendRequests,
   getOutgoingFriendRequests,
   sendFriendRequest,
@@ -214,6 +216,52 @@ app.post("/send-friend-request", async (req: Request, res: Response) => {
       }
 
       res.status(200).json({ insertID: insertID });
+    }
+  );
+});
+
+// accept a friend request -> insert into friends
+app.post("/accept-request", async (req: Request, res: Response) => {
+  // check if user is logged in/google id exists
+  if (!req.user?.id) {
+    return res.status(403).json({ message: "User's Google ID not found" });
+  }
+
+  const userGoogleID = String(req.user?.id);
+  const friendGoogleID = req.body.google_id;
+
+  acceptRequest(
+    userGoogleID,
+    friendGoogleID,
+    (err: Error, insertID: number) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ insertID: insertID });
+    }
+  );
+});
+
+// deny a friend request -> delete from friend_requests
+app.post("/deny-request", async (req: Request, res: Response) => {
+  // check if user is logged in/google id exists
+  if (!req.user?.id) {
+    return res.status(403).json({ message: "User's Google ID not found" });
+  }
+
+  const userGoogleID = String(req.user?.id);
+  const friendGoogleID = req.body.google_id;
+
+  denyRequest(
+    userGoogleID,
+    friendGoogleID,
+    (err: Error, deletionID: number) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ deletionID: deletionID });
     }
   );
 });

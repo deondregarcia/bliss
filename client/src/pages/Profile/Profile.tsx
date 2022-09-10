@@ -27,6 +27,7 @@ import AddBucketList from "../../components/ProfileComponents/AddBucketList/AddB
 import EditBucketList from "../../components/ProfileComponents/EditBucketList/EditBucketList";
 import FriendList from "../../components/ProfileComponents/FriendManager/FriendList/FriendList";
 import Search from "../../components/ProfileComponents/FriendManager/Search/Search";
+import RequestList from "../../components/ProfileComponents/FriendManager/Requests/RequestList";
 
 const Profile = () => {
   const [userID, setUserID] = useState<number>(0);
@@ -442,7 +443,9 @@ const Profile = () => {
                   </h3>
                 </div>
               </div>
-              <div className="friend-manager-request-tab-bar"></div>
+              <div className="friend-manager-request-tab-bar">
+                <RequestList incomingFriendRequests={incomingFriendRequests} />
+              </div>
             </div>
           </div>
         </div>

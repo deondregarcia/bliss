@@ -1,0 +1,91 @@
+.request-list-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+}
+
+.request-list-container {
+    height: 100%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.request-list-container::-webkit-scrollbar {
+    display: none;
+}
+
+.request-list-user-card {
+    border-bottom: 2px solid var(--border-style-color);
+    position: relative;
+    display: flex;
+    color: var(--text-color);
+    padding: 10px 0 10px 0;
+}
+
+.request-list-user-image {
+    height: 75px;
+    width: 75px;
+    border-radius: 8px;
+}
+
+.request-list-user-info {
+    position: absolute;
+    display: flex;
+    align-items: flex-end;
+    top: 8px;
+    left: 80px;
+}
+
+.request-list-user-username {
+    font-family: "Sarabun";
+}
+
+.request-list-user-body {
+    position: relative;
+    width: 190px;
+    display: flex;
+    justify-content: center;
+    top: 30px;
+}
+
+.request-list-user-text {
+    font-family: "Sarabun";
+    font-size: 20px;
+    color: var(--main-color);
+    position: relative;
+    top: 5px;
+}
+
+.request-list-button-wrapper {
+    display: flex;
+}
+
+.request-list-request-button {
+    height: 35px;
+    width: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--main-color);
+    border-radius: 8px;
+}
+
+.request-list-request-button > h3 {
+    font-family: "Sarabun";
+    font-size: 18px;
+    color: var(--main-color);
+}
+
+.request-list-request-button:hover {
+    background-color: var(--main-color);
+    cursor: pointer;
+}
+
+.request-list-request-button:hover h3 {
+    color: var(--content-bg-color);
+}
