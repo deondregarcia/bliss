@@ -33,7 +33,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/" element={<Layout />}>
             <Route path="unauthorized" element={<Unauthorized />} />
-            {/* add route to check if owner or in shared_list_users */}
+            {/* bucket-list page verifies within component to allow for public access option */}
             <Route path="bucket-list">
               <Route path=":id" element={<BucketListView />} />
             </Route>
@@ -43,7 +43,7 @@ function App() {
               <Route path="account-creation" element={<AccountCreation />} />
               {/* checks if logged in User's google ID is saved in db; if not, redirects to AccountCreation */}
               <Route element={<CheckIfNewUser />}>
-                {/* add route to check if friends or user or something else */}
+                {/* route to check if friends or user or something else */}
                 <Route element={<CheckUserOrFriend status={STATUS.owner} />}>
                   <Route path="my-profile/:id" element={<Profile />} />
                 </Route>

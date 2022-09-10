@@ -13,28 +13,58 @@
     border-radius: var(--border-radius);
     border: var(--border-style);
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.friend-profile-profile-info-name {
+.friend-profile-profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 20px;
+    margin-top: 8px;
+}
+
+.friend-profile-profile-info-name-container {
     font-family: "Sarabun";
     color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: red; */
 }
 
-.friend-profile-profile-bio-container {
+.friend-profile-profile-wants-to-container {
     width: 80%;
-    margin-top: 20px;
+    margin-top: 5px;
+    overflow-wrap: break-word;
+    /* background-color: red; */
 }
 
-.friend-profile-profile-bio-container-header {
+.friend-profile-profile-wants-to-container-header {
     font-size: 20px;
     font-family: "Sarabun";
     color: var(--text-color);
+}
+
+.friend-profile-profile-wants-to {
+    font-family: Arial;
+    font-size: 18px;
+}
+
+.friend-profile-profile-wants-to-empty {
+    font-family: Arial;
+    font-size: 18px;
+    color: gray;
+    font-style: italic;
 }
 
 .friend-profile-profile-separator {
     width: 100%;
     height: 2px;
     background-color: var(--main-color);
+    margin-bottom: 8px;
 }
 
 .friend-profile-content-container {
@@ -102,17 +132,4 @@
     grid-column: 4/6;
     border-radius: var(--border-radius);
     border: var(--border-style);
-}
-
-.friend-profile-profile-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.friend-profile-profile-pic {
-    width: 150px;
-    height: 150px;
-    border-radius: 20px;
-    margin-top: 20px;
 }

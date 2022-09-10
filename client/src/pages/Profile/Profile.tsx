@@ -223,13 +223,20 @@ const Profile = () => {
             alt="google profile picture"
             className="profile-pic"
           />
-          <h3 className="profile-info-name">
-            {userObject?.first_name} {userObject?.last_name}
-          </h3>
-          <div className="profile-bio-container">
-            <h3 className="profile-bio-container-header">Bio</h3>
+          <div className="profile-info-name-container">
+            <h3>{userObject?.first_name}</h3>
+            <h3>{userObject?.last_name}</h3>
+          </div>
+          <div className="profile-wants-to-container">
+            <h3 className="profile-wants-to-container-header">I want to...</h3>
             <div className="profile-separator" />
-            <p>{userObject?.bio}</p>
+            {userObject?.wants_to ? (
+              <p className="profile-wants-to">{userObject?.wants_to}</p>
+            ) : (
+              <p className="profile-wants-to-empty">
+                You haven't added anything here yet!
+              </p>
+            )}
           </div>
         </div>
         <div

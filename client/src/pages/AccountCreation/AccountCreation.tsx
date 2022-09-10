@@ -8,7 +8,7 @@ const AccountCreation = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
-  const [bio, setBio] = useState("");
+  const [wantsTo, setWantsTo] = useState("");
   const [isUsernameTaken, setIsUsernameTaken] = useState(false);
   const navigate = useNavigate();
   const { auth } = useAuth();
@@ -40,7 +40,7 @@ const AccountCreation = () => {
             firstName: firstName,
             lastName: lastName,
             username: username,
-            bio: bio,
+            wantsTo: wantsTo,
           })
             .then((res) => {
               console.log(res);
@@ -117,24 +117,26 @@ const AccountCreation = () => {
               />
             </div>
             <div className="account-creation-form-input-wrapper">
-              <label htmlFor="bio">
-                Bio<p>(Max 150 characters)</p>
+              <label htmlFor="wants-to">
+                What's one thing you want to do?<p>(Max 90 characters)</p>
               </label>
+              {/* <p>This will be seen by your future friends!</p> */}
 
               <textarea
-                maxLength={150}
-                id="bio"
-                placeholder="Enter bio"
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
+                maxLength={90}
+                id="wants-to"
+                placeholder="Eat some tacos! Go on a road trip!"
+                value={wantsTo}
+                onChange={(e) => setWantsTo(e.target.value)}
               />
             </div>
-            <p>Fields with an asterisk * are required</p>
             <input
               type="submit"
               value="Create Account"
               className="account-creation-form-submit"
             />
+            <p>*Fields with an asterisk are required</p>
+            <p>*Your Google profile photo will be your account profile photo</p>
           </div>
         </form>
       </div>

@@ -32,9 +32,8 @@
     border-bottom: 2px solid var(--border-style-color);
     position: relative;
     display: flex;
-    /* height: 120px; */
+    color: var(--text-color);
     padding: 10px 0 10px 0;
-    /* background-color: red; */
 }
 
 .friend-list-profile-wrapper:hover {
@@ -76,7 +75,7 @@
 
 .friend-list-content-body {
     position: absolute;
-    font-family: Arial;
+    font-family: var(--text-font);
     top: 18px;
     left: 5px;
     /* background-color: red; */

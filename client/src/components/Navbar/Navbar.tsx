@@ -23,6 +23,14 @@ const Navbar = () => {
     navigate("../");
   };
 
+  const deleteThis = () => {
+    Axios.get("/googleuser")
+      .then((res) => console.log(res))
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="navbar-container">
       <h1
@@ -45,7 +53,7 @@ const Navbar = () => {
       </div>
 
       <div className="login">
-        <button onClick={logout}>Logout</button>
+        <button onClick={deleteThis}>get google user profile</button>
         <button onClick={() => console.log(auth)}>Console Log Auth</button>
         <button
           onClick={() =>

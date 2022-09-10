@@ -74,19 +74,29 @@ const FriendProfile = () => {
     <div className="friend-profile-container">
       {/* first row of elements */}
       <div className="friend-profile-profile-info">
+        <h2>{userObject?.username}</h2>
         <img
           src={userObject?.google_photo_link}
           referrerPolicy="no-referrer" // referrer policy that blocked loading of img sometimes - look into it
           alt="google profile pic"
           className="friend-profile-profile-pic"
         />
-        <h3 className="profile-info-name">
-          {userObject?.first_name} {userObject?.last_name}
-        </h3>
-        <div className="friend-profile-profile-bio-container">
-          <h3 className="friend-profile-profile-bio-container-header">Bio</h3>
+        <div className="friend-profile-profile-info-name-container">
+          <h3>{userObject?.first_name}</h3>
+          <h3>{userObject?.last_name}</h3>
+        </div>
+        <div className="friend-profile-profile-wants-to-container">
+          <h3 className="friend-profile-profile-wants-to-container-header">
+            Wants to...
+          </h3>
           <div className="friend-profile-profile-separator" />
-          <p>{userObject?.bio}</p>
+          {userObject?.wants_to ? (
+            <p className="friend-profile-wants-to">{userObject?.wants_to}</p>
+          ) : (
+            <p className="friend-profile-wants-to-empty">
+              {userObject?.first_name} hasn't added anything here yet!
+            </p>
+          )}
         </div>
       </div>
       <div className="friend-profile-content-container public">

@@ -231,11 +231,9 @@ app.post("/create-user", async (req: Request, res: Response) => {
     last_name: req.body.lastName,
     created_at: new Date(),
     google_id: String(req.user?.profile.id),
-    bio: req.body.bio,
+    wants_to: req.body.wantsTo,
     google_photo_link: String(req.user?.profile.photos[0].value),
   };
-
-  console.log(req.user?.profile.photos[0].value);
 
   createUser(newUser, (err: Error, insertID: number) => {
     if (err) {

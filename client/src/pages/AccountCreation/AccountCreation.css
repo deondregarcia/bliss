@@ -2,6 +2,7 @@
     height: 800px;
     width: 800px;
     margin: auto;
+    border: var(--border-style);
     border-radius: var(--border-radius);
     background-color: var(--content-bg-color);
 }
@@ -65,8 +66,6 @@
 }
 
 .account-creation-form-input-wrapper > textarea {
-    /* max-width: 500px; */
-    /* max-height: 100px; */
     height: 80px;
     width: 500px;
     padding: 10px;
@@ -74,6 +73,7 @@
     resize: none;
     border: 2px solid var(--main-color);
     border-radius: 5px;
+    font-family: Arial;
 }
 
 .account-creation-form-input-wrapper > textarea:focus {
@@ -95,7 +95,7 @@
 .account-creation-form-submit {
     height: 45px;
     width: 200px;
-    margin-top: 40px;
+    margin-top: 50px;
     border: 2px solid var(--main-color);
     border-radius: 8px;
     background-color: var(--main-color);

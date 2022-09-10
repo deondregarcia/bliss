@@ -4,7 +4,7 @@ import { UserType } from "../types/content";
 
 export const createUser = (newUser: UserType, callback: Function) => {
   const queryString =
-    "INSERT INTO users (username, first_name, last_name, created_at, google_id, bio) VALUES (?,?,?,?,?,?)";
+    "INSERT INTO users (username, first_name, last_name, created_at, google_id, google_photo_link, wants_to) VALUES (?,?,?,?,?,?,?)";
 
   db.query(
     queryString,
@@ -14,7 +14,8 @@ export const createUser = (newUser: UserType, callback: Function) => {
       newUser.last_name,
       newUser.created_at,
       newUser.google_id,
-      newUser.bio,
+      newUser.google_photo_link,
+      newUser.wants_to,
     ],
     (err, result) => {
       if (err) {

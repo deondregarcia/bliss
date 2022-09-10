@@ -31,7 +31,7 @@ export interface UserType {
   last_name: string;
   created_at: Date;
   google_id: string;
-  bio?: string;
+  wants_to?: string;
   google_photo_link?: string;
 }
 
@@ -41,4 +41,5 @@ export interface FriendListType {
   last_name: string;
   google_photo_link: string;
   google_id: string;
+  wants_to?: string;
 }
