@@ -43,3 +43,16 @@ export interface FriendListType {
   google_id: string;
   wants_to?: string;
 }
+
+export interface FullUserListType {
+  username: string;
+  first_name: string;
+  google_id: string;
+  google_photo_link: string;
+}
+
+export interface FriendRequestUserType {
+  username: string;
+  google_id: string;
+  google_photo_link: string;
+}

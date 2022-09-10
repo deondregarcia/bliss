@@ -11,6 +11,8 @@ import {
   RecipeContentType,
   UserType,
   FriendListType,
+  FullUserListType,
+  FriendRequestUserType,
 } from "../../types/content";
 
 // import components
@@ -25,6 +27,7 @@ import AddBucketList from "../../components/ProfileComponents/AddBucketList/AddB
 import EditBucketList from "../../components/ProfileComponents/EditBucketList/EditBucketList";
 import FriendList from "../../components/ProfileComponents/FriendManager/FriendList/FriendList";
 import Search from "../../components/ProfileComponents/FriendManager/Search/Search";
+import RequestList from "../../components/ProfileComponents/FriendManager/Requests/RequestList";
 
 const Profile = () => {
   const [userID, setUserID] = useState<number>(0);
@@ -32,10 +35,21 @@ const Profile = () => {
   const [googleUserObject, setGoogleUserObject] = useState<
     GoogleUserObjectType | any
   >();
-  const [friendManager, setFriendManager] = useState("friends");
+  const [friendManager, setFriendManager] = useState("friends"); // state to display friendlist or search component
   const [requestTabSelected, setRequestTabSelected] = useState(false);
   const [userObject, setUserObject] = useState<UserType | undefined>(undefined);
   const [friends, setFriends] = useState<FriendListType[]>([]);
+  const [fullUserList, setFullUserList] = useState<
+    FullUserListType[] | undefined
+  >(undefined);
+
+  // user objects of incoming and outgoing friend requests
+  const [outgoingFriendRequests, setOutgoingFriendRequests] = useState<
+    FriendRequestUserType[]
+  >([]);
+  const [incomingFriendRequests, setIncomingFriendRequests] = useState<
+    FriendRequestUserType[]
+  >([]);
 
   const [recipeArray, setRecipeArray] =
     useState<RecipeContentType[]>(RecipeInputDefault);
@@ -154,12 +168,50 @@ const Profile = () => {
       });
   };
 
+  // get full list of users, excluding current user
+  const getFullUserList = () => {
+    Axios.get(`/view/get-full-user-list/${id}`)
+      .then((res) => {
+        setFullUserList(res.data.userList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // get outgoing friend requests (user sent these)
+  const getOutgoingFriendRequests = () => {
+    Axios.get(`/get-outgoing-friend-requests/${id}`)
+      .then((res) => {
+        console.log(res.data.outgoingRequestUsers);
+        setOutgoingFriendRequests(res.data.outgoingRequestUsers);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // get outgoing friend requests (user sent these)
+  const getIncomingFriendRequests = () => {
+    Axios.get(`/get-incoming-friend-requests/${id}`)
+      .then((res) => {
+        console.log(res.data.incomingRequestUsers);
+        setIncomingFriendRequests(res.data.incomingRequestUsers);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   // combine funcs to hopefully improve performance
   const runInitialFunctions = () => {
     getBucketListData();
     getGoogleUserInfo();
     getUserInfo();
     getFriendsList();
+    getFullUserList();
+    getOutgoingFriendRequests();
+    getIncomingFriendRequests();
   };
 
   useEffect(() => {
@@ -365,7 +417,12 @@ const Profile = () => {
           <div className="side-container-header-separator" />
           <div className="friend-manager-content-container">
             <FriendList friendManager={friendManager} friends={friends} />
-            <Search friendManager={friendManager} />
+            <Search
+              friendManager={friendManager}
+              fullUserList={fullUserList}
+              friends={friends}
+              outgoingFriendRequests={outgoingFriendRequests}
+            />
             <div
               className={
                 requestTabSelected
@@ -379,10 +436,16 @@ const Profile = () => {
               >
                 <h3>Requests</h3>
                 <div className="friend-manager-request-count">
-                  <h3>3</h3>
+                  <h3>
+                    {incomingFriendRequests.length > 0
+                      ? incomingFriendRequests.length
+                      : "0"}
+                  </h3>
                 </div>
               </div>
-              <div className="friend-manager-request-tab-bar"></div>
+              <div className="friend-manager-request-tab-bar">
+                <RequestList incomingFriendRequests={incomingFriendRequests} />
+              </div>
             </div>
           </div>
         </div>

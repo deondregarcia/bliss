@@ -14,8 +14,6 @@ const FriendList = ({
   const navigate = useNavigate();
   const [nav, setNav] = useState(false);
 
-  console.log(friends);
-
   return (
     <div
       className={
@@ -28,11 +26,10 @@ const FriendList = ({
         {friends.map((friend, index) => {
           return (
             // use <a> tag because the navigate doesn't work with CheckUserOrFriend Route
-            <a href={`/profile/${friend?.google_id}`}>
+            <a href={`/profile/${friend?.google_id}`} key={index}>
               <div
                 // onClick={() => navigate(`/profile/${friend?.google_id}`)}
                 className="friend-list-profile-wrapper"
-                key={index}
               >
                 <img
                   src={

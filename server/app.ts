@@ -18,8 +18,16 @@ import { viewContentRouter } from "./routes/ViewContent";
 
 import passport from "passport";
 import session from "express-session";
-import { FriendPairType } from "./types/content";
-import { checkUsername, createUser } from "./controllers/UserManagement";
+import { FriendPairType, FriendRequestUserType } from "./types/content";
+import {
+  acceptRequest,
+  checkUsername,
+  createUser,
+  denyRequest,
+  getIncomingFriendRequests,
+  getOutgoingFriendRequests,
+  sendFriendRequest,
+} from "./controllers/UserManagement";
 
 // import packages for MySQl session store
 const mysql = require("mysql2/promise");
@@ -167,6 +175,7 @@ app.post("/check-if-friend-with-google-id", (req: Request, res: Response) => {
     }
   );
 });
+
 app.post("/check-if-friend-with-user-id", (req: Request, res: Response) => {
   const reqUserGoogleID = String(req.user?.id);
   const secondID = req.body.secondID;
@@ -187,6 +196,113 @@ app.post("/check-if-friend-with-user-id", (req: Request, res: Response) => {
     }
   );
 });
+
+// send a friend request based on google ID's
+app.post("/send-friend-request", async (req: Request, res: Response) => {
+  // check if user is logged in/google id exists
+  if (!req.user?.id) {
+    return res.status(403).json({ message: "User's Google ID not found" });
+  }
+
+  const requestorGoogleID = String(req.user?.id); // google id of person sending the request
+  const requesteeGoogleID = req.body.requesteeGoogleID; // google id of person receiving the request
+
+  sendFriendRequest(
+    requestorGoogleID,
+    requesteeGoogleID,
+    (err: Error, insertID: number) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ insertID: insertID });
+    }
+  );
+});
+
+// accept a friend request -> insert into friends
+app.post("/accept-request", async (req: Request, res: Response) => {
+  // check if user is logged in/google id exists
+  if (!req.user?.id) {
+    return res.status(403).json({ message: "User's Google ID not found" });
+  }
+
+  const userGoogleID = String(req.user?.id);
+  const friendGoogleID = req.body.google_id;
+
+  acceptRequest(
+    userGoogleID,
+    friendGoogleID,
+    (err: Error, insertID: number) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ insertID: insertID });
+    }
+  );
+});
+
+// deny a friend request -> delete from friend_requests
+app.post("/deny-request", async (req: Request, res: Response) => {
+  // check if user is logged in/google id exists
+  if (!req.user?.id) {
+    return res.status(403).json({ message: "User's Google ID not found" });
+  }
+
+  const userGoogleID = String(req.user?.id);
+  const friendGoogleID = req.body.google_id;
+
+  denyRequest(
+    userGoogleID,
+    friendGoogleID,
+    (err: Error, deletionID: number) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ deletionID: deletionID });
+    }
+  );
+});
+
+// get outgoing friend requests for a user from user's google id
+app.get(
+  "/get-outgoing-friend-requests/:id",
+  async (req: Request, res: Response) => {
+    const userGoogleID = String(req.params.id);
+
+    getOutgoingFriendRequests(
+      userGoogleID,
+      (err: Error, outgoingRequestUsers: FriendRequestUserType[]) => {
+        if (err) {
+          return res.status(500).json({ message: err.message });
+        }
+
+        res.status(200).json({ outgoingRequestUsers: outgoingRequestUsers });
+      }
+    );
+  }
+);
+
+// get incoming friend requests for a user from user's google id
+app.get(
+  "/get-incoming-friend-requests/:id",
+  async (req: Request, res: Response) => {
+    const userGoogleID = String(req.params.id);
+
+    getIncomingFriendRequests(
+      userGoogleID,
+      (err: Error, incomingRequestUsers: FriendRequestUserType[]) => {
+        if (err) {
+          return res.status(500).json({ message: err.message });
+        }
+
+        res.status(200).json({ incomingRequestUsers: incomingRequestUsers });
+      }
+    );
+  }
+);
 
 app.get("/googleuser", (req: Request, res: Response) => {
   res.status(200).json({ google_user: req.user?.profile });

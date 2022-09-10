@@ -118,3 +118,13 @@ viewContentRouter.get("/get-list-of-friends/:id", (req, res) => __awaiter(void 0
         res.status(200).json({ friends });
     });
 }));
+// get full list of users for search list, excluding current user
+viewContentRouter.get("/get-full-user-list/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userGoogleID = String(req.params.id);
+    (0, ViewContent_1.getUserList)(userGoogleID, (err, userList) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ userList: userList });
+    });
+}));

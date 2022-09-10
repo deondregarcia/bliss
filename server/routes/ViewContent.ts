@@ -9,11 +9,13 @@ import {
   getSharedLists,
   getFriendsLists,
   getListOfFriends,
+  getUserList,
 } from "../controllers/ViewContent";
 import {
   BucketList,
   BucketListContent,
   FriendListType,
+  FullUserListType,
   PrivacyAndOwnerType,
   SharedListUserType,
 } from "../types/content";
@@ -185,6 +187,21 @@ viewContentRouter.get(
       }
 
       res.status(200).json({ friends });
+    });
+  }
+);
+
+// get full list of users for search list, excluding current user
+viewContentRouter.get(
+  "/get-full-user-list/:id",
+  async (req: Request, res: Response) => {
+    const userGoogleID = String(req.params.id);
+    getUserList(userGoogleID, (err: Error, userList: FullUserListType[]) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ userList: userList });
     });
   }
 );

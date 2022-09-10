@@ -6,6 +6,7 @@ import {
   FriendListType,
   PrivacyAndOwnerType,
   SharedListUserType,
+  FullUserListType,
 } from "../types/content";
 
 // view list of all bucket lists user is involved in
@@ -247,5 +248,32 @@ export const getListOfFriends = (userGoogleID: number, callback: Function) => {
       friends.push(friend);
     });
     callback(null, friends);
+  });
+};
+
+// get full list of users, excluding current user
+export const getUserList = (userGoogleID: string, callback: Function) => {
+  // get user id from google id
+  const getUserID = "(SELECT id FROM users WHERE google_id=?)";
+  const queryString = `SELECT username, first_name, last_name, google_id, google_photo_link FROM users WHERE NOT id=${getUserID}`;
+
+  db.query(queryString, userGoogleID, (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const rows = <RowDataPacket[]>result;
+    const userList: FullUserListType[] = [];
+
+    rows.forEach((row) => {
+      const user: FullUserListType = {
+        username: row.username,
+        first_name: row.first_name,
+        google_id: row.google_id,
+        google_photo_link: row.google_photo_link,
+      };
+      userList.push(user);
+    });
+    callback(null, userList);
   });
 };

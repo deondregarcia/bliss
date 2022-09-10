@@ -167,6 +167,42 @@ app.post("/check-if-friend-with-user-id", (req, res) => {
         res.status(200).json({ friendPairsInfo: friendPairs });
     });
 });
+// send a friend request based on google ID's
+app.post("/send-friend-request", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    // check if user is logged in/google id exists
+    if (!((_a = req.user) === null || _a === void 0 ? void 0 : _a.id)) {
+        return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const requestorGoogleID = String((_b = req.user) === null || _b === void 0 ? void 0 : _b.id); // google id of person sending the request
+    const requesteeGoogleID = req.body.requesteeGoogleID; // google id of person receiving the request
+    (0, UserManagement_1.sendFriendRequest)(requestorGoogleID, requesteeGoogleID, (err, insertID) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ insertID: insertID });
+    });
+}));
+// get outgoing friend requests for a user from user's google id
+app.get("/get-outgoing-friend-requests/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userGoogleID = String(req.params.id);
+    (0, UserManagement_1.getOutgoingFriendRequests)(userGoogleID, (err, outgoingRequestUsers) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ outgoingRequestUsers: outgoingRequestUsers });
+    });
+}));
+// get incoming friend requests for a user from user's google id
+app.get("/get-incoming-friend-requests/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userGoogleID = String(req.params.id);
+    (0, UserManagement_1.getIncomingFriendRequests)(userGoogleID, (err, incomingRequestUsers) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ incomingRequestUsers: incomingRequestUsers });
+    });
+}));
 app.get("/googleuser", (req, res) => {
     var _a;
     res.status(200).json({ google_user: (_a = req.user) === null || _a === void 0 ? void 0 : _a.profile });
@@ -195,8 +231,8 @@ app.post("/check-if-username-exists", (req, res) => __awaiter(void 0, void 0, vo
     });
 }));
 app.post("/create-user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c, _d;
-    if (!((_a = req.user) === null || _a === void 0 ? void 0 : _a.profile.id)) {
+    var _c, _d, _e;
+    if (!((_c = req.user) === null || _c === void 0 ? void 0 : _c.profile.id)) {
         return res.status(500).json({ message: "No Google ID" });
     }
     const newUser = {
@@ -204,11 +240,10 @@ app.post("/create-user", (req, res) => __awaiter(void 0, void 0, void 0, functio
         first_name: req.body.firstName,
         last_name: req.body.lastName,
         created_at: new Date(),
-        google_id: String((_b = req.user) === null || _b === void 0 ? void 0 : _b.profile.id),
-        bio: req.body.bio,
-        google_photo_link: String((_c = req.user) === null || _c === void 0 ? void 0 : _c.profile.photos[0].value),
+        google_id: String((_d = req.user) === null || _d === void 0 ? void 0 : _d.profile.id),
+        wants_to: req.body.wantsTo,
+        google_photo_link: String((_e = req.user) === null || _e === void 0 ? void 0 : _e.profile.photos[0].value),
     };
-    console.log((_d = req.user) === null || _d === void 0 ? void 0 : _d.profile.photos[0].value);
     (0, UserManagement_1.createUser)(newUser, (err, insertID) => {
         if (err) {
             return res.status(500).json({ message: err.message });
