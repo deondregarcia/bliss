@@ -2,6 +2,17 @@
 import React from "react";
 import "./Buttons.css";
 
+// login and sign up button with Google on landing page
+export const LandingLoginButton = ({ googleLink }: { googleLink: string }) => {
+  return (
+    <a href={googleLink}>
+      <div className="landing-login-button">
+        <h3 className="landing-login-button-text">Login with Google</h3>
+      </div>
+    </a>
+  );
+};
+
 export const LogoutButton = ({
   logout,
 }: {

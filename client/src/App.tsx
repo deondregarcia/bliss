@@ -30,8 +30,8 @@ function App() {
       {/* <Navbar /> */}
       <Routes>
         <Route element={<SetAuth />}>
+          <Route path="/" element={<Landing />} />
           <Route path="/" element={<Layout />}>
-            <Route path="/" element={<Landing />} />
             <Route path="unauthorized" element={<Unauthorized />} />
             {/* add route to check if owner or in shared_list_users */}
             <Route path="bucket-list">
