@@ -71,6 +71,8 @@ const CheckUserOrFriend = ({ status }: { status: string }) => {
       setDidCheckRun(true);
       console.log("set friend part");
       console.log(userStatus);
+    } else {
+      setDidCheckRun(true);
     }
 
     console.log("initial logs wrapper 4");
