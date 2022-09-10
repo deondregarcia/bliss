@@ -257,7 +257,7 @@ export const getUserList = (userGoogleID: string, callback: Function) => {
   const getUserID = "(SELECT id FROM users WHERE google_id=?)";
   const queryString = `SELECT username, first_name, last_name, google_id, google_photo_link FROM users WHERE NOT id=${getUserID}`;
 
-  db.query(queryString, (err, result) => {
+  db.query(queryString, userGoogleID, (err, result) => {
     if (err) {
       callback(err);
     }

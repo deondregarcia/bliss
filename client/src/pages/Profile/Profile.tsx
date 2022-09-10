@@ -169,7 +169,7 @@ const Profile = () => {
 
   // get full list of users, excluding current user
   const getFullUserList = () => {
-    Axios.get("/view/get-full-user-list")
+    Axios.get(`/view/get-full-user-list/${id}`)
       .then((res) => {
         setFullUserList(res.data.userList);
       })

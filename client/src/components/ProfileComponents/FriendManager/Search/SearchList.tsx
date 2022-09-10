@@ -32,9 +32,6 @@ const SearchList = ({
     outgoingFriendRequestList.push(outgoingFriendRequests[i].username);
   }
 
-  console.log(outgoingFriendRequestList);
-  console.log("hello");
-
   // send friend request
   const sendFriendRequest = (googleID: string, username: string) => {
     Axios.post("/send-friend-request", {

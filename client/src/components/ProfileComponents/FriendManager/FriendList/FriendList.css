@@ -65,11 +65,9 @@
     position: absolute;
     top: 8px;
     left: 80px;
-    /* background-color: red; */
 }
 
 .friend-list-content-body-container {
-    background-color: green;
     position: relative;
 }
 
@@ -78,6 +76,5 @@
     font-family: var(--text-font);
     top: 18px;
     left: 5px;
-    /* background-color: red; */
     width: 190px;
 }
