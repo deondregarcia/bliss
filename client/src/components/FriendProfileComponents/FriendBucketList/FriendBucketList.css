@@ -1,0 +1,32 @@
+.friend-bucket-list-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.friend-bucket-list-container {
+    width: 95%;
+    height: 100px;
+    margin-top: 15px;
+    flex-shrink: 0;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 5px 10px;
+}
+
+.friend-bucket-list-container:hover {
+    border: 1px solid var(--main-color);
+    cursor: pointer;
+}
+
+.friend-bucket-list-title {
+    font-family: "Sarabun";
+    color: var(--text-color);
+    border-bottom: var(--border-style);
+}
+
+.friend-bucket-list-text {
+    font-family: var(--text-font);
+}

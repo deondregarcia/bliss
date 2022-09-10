@@ -1,0 +1,13 @@
+.friend-profile-content-container-header-container {
+    width: 100%;
+    height: 50px;
+    flex-shrink: 0;
+    padding: 5px 10px;
+    border-bottom: 1px solid lightgray;
+    background-color: var(--main-color);
+    position: relative;
+}
+
+.friend-profile-content-container-header-text {
+    color: #FFF;
+}

@@ -1,0 +1,85 @@
+.landing-page-container {
+    /* height: 100vh; */
+    height: 100%;
+    position: relative;
+    /* background-color: red; */
+}
+
+.landing-page-header-container {
+    position: relative;
+    /* height: 680px; */
+    height: 720px;
+    /* background-color: red; */
+}
+
+.landing-page-title {
+    font-family: "Sarabun";
+    font-size: 80px;
+    color: var(--main-color);
+    position: absolute;
+    top: 0;
+    left: 18%;
+    /* background-color: purple; */
+}
+
+.landing-page-hero-text {
+    font-size: 30px;
+    font-family: "Sarabun";
+    position: absolute;
+    top: 40%;
+    left: 12%;
+}
+
+.landing-login-button-wrapper {
+    margin-top: 5%;
+}
+
+.landing-page-landing-graphic-wrapper {
+    position: absolute;
+    /* background-color: green; */
+    top: 10%;
+    left: 55%;
+}
+
+.landing-page-landing-graphic-link {
+    position: absolute;
+    top: 78%;
+    left: 50%;
+    transform: rotate(-30deg);
+}
+
+.value-proposition-text {
+    font-size: 25px;
+    font-family: "Sarabun";
+    position: absolute;
+    bottom: 14%;
+    left: 53%;
+}
+
+.what-is-it-container {
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+    background-color: var(--main-color-light);
+}
+
+.what-is-it-header {
+    font-family: "Sarabun";
+    font-size: 50px;
+}
+
+.what-is-it-text-container {
+    width: 40%;
+    margin-left: 100px;
+    background-color: var(--content-bg-color);
+    border-radius: 50px;
+    height: min-content;
+    padding: 20px;
+}
+
+.what-is-it-text-container  > h2 {
+    font-family: "Sarabun";
+    font-size: 35px;
+    color: var(--text-color);
+}

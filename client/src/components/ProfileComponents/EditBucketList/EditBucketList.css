@@ -1,0 +1,157 @@
+.edit-bucket-list-wrapper {
+    height: 100%;
+    width: 100%;
+    background-color: var(--faded-bg-color);
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    position: absolute;
+    z-index: 5;
+}
+
+.edit-bucket-list-container {
+    position: absolute;
+    border-radius: var(--border-radius);
+    background-color: var(--content-bg-color);
+    overflow-y: scroll;
+    left: 0; 
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 90%;
+    width: 90%;
+}
+
+.edit-bucket-list-container::-webkit-scrollbar {
+    display: none;
+}
+
+.edit-bucket-list-exit-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+.edit-bucket-list-exit-button:hover {
+    cursor: pointer;
+}
+
+.edit-bucket-list-delete-button {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    width: 80px;
+    height: 40px;
+    border: 2px solid var(--delete-red);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-bucket-list-delete-button > h2 {
+    color: var(--delete-red);
+}
+
+.edit-bucket-list-delete-button:hover {
+    background-color: var(--delete-red);
+    cursor: pointer;
+}
+.edit-bucket-list-delete-button:hover h2 {
+    color: var(--content-bg-color);
+}
+
+.edit-bucket-list-body {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.edit-bucket-list-header {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.edit-bucket-list-body > label {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Sarabun";
+}
+
+.edit-bucket-list-title-input {
+    width: 80%;
+    margin-bottom: 30px;
+    border: 2px solid transparent;
+    border-bottom: 2px solid var(--main-color);
+    padding-left: 5px;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    font-family: Arial;
+}
+
+.edit-bucket-list-title-input:focus {
+    outline: none;
+}
+
+.edit-bucket-list-description-input {
+    width: 80%;
+    border: 2px solid transparent;
+    border-bottom: 2px solid var(--main-color);
+    padding-left: 5px;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    font-family: Arial;
+}
+
+.edit-bucket-list-description-input:focus {
+    outline: none;
+}
+
+.edit-bucket-list-save-button {
+    height: 30px;
+    width: 100px;
+    margin: 30px auto;
+    border: 2px solid var(--main-color);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-bucket-list-save-button:hover {
+    background-color: var(--main-color);
+    cursor: pointer;
+}
+
+.edit-bucket-list-save-button:hover h2 {
+    color: white;
+}
+
+.edit-bucket-list-save-button > h2 {
+    color: var(--main-color);
+}
+
+.edit-bucket-list-public-radio-buttons-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.edit-bucket-list-public-radio-buttons-container > h2 {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Sarabun";
+}
+
+.edit-bucket-list-public-radio-buttons-wrapper {
+    margin-top: 10px;
+}
+
+.edit-bucket-list-public-radio-buttons-wrapper > label {
+    margin-left: 10px;
+}
+
+.edit-bucket-list-public-radio-buttons-wrapper > input {
+    accent-color: var(--main-color);
+}

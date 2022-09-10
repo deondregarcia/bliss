@@ -6,16 +6,18 @@ const EditBucketListContent = ({
   activityInput,
   descriptionInput,
   contentID,
+  trackerID,
   setEditMode,
-  setActivity,
-  setDescription,
+  triggerRefresh,
+  setTriggerRefresh,
 }: {
   activityInput: string;
   descriptionInput: string;
   contentID: number;
+  trackerID: number;
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
-  setActivity: React.Dispatch<React.SetStateAction<string>>;
-  setDescription: React.Dispatch<React.SetStateAction<string>>;
+  triggerRefresh: boolean;
+  setTriggerRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [newActivity, setNewActivity] = useState(activityInput);
   const [newDescription, setNewDescription] = useState(descriptionInput);
@@ -33,14 +35,35 @@ const EditBucketListContent = ({
         console.log(err);
       });
 
-    setActivity(newActivity);
-    setDescription(newDescription);
+    setTriggerRefresh(!triggerRefresh);
     setEditMode(false);
+  };
+
+  const deleteContent = () => {
+    if (window.confirm("Are you sure you want to delete this?")) {
+      Axios.post("/content/delete-activity", {
+        tracker_id: trackerID,
+        content_id: contentID,
+      })
+        .then((res) => {
+          console.log(res);
+          setTriggerRefresh(!triggerRefresh);
+          setEditMode(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      return;
+    }
   };
 
   return (
     <div className="edit-bucket-list-content-wrapper">
       <div className="edit-bucket-list-content-container">
+        <div onClick={deleteContent} className="edit-bucket-list-delete-button">
+          <h2>Delete</h2>
+        </div>
         <div
           onClick={() => setEditMode(false)}
           className="edit-bucket-list-content-exit-button"

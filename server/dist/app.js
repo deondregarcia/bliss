@@ -22,6 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -37,6 +46,7 @@ const ManageContent_1 = require("./routes/ManageContent");
 const ViewContent_1 = require("./routes/ViewContent");
 const passport_1 = __importDefault(require("passport"));
 const express_session_1 = __importDefault(require("express-session"));
+const UserManagement_1 = require("./controllers/UserManagement");
 // import packages for MySQl session store
 const mysql = require("mysql2/promise");
 const MySQLStore = require("express-mysql-session")(express_session_1.default);
@@ -78,13 +88,12 @@ const isLoggedIn = (req, res, next) => {
 };
 app.get("/auth/google", passport_1.default.authenticate("google", { scope: ["email", "profile"] }));
 app.get("/auth/google/callback", passport_1.default.authenticate("google", { failureRedirect: "/auth/failure" }), (req, res) => {
+    var _a;
     // res.redirect(`http://localhost:3001/${req?.user?.id}`);
     // in the future, redirect to profile by /profile/:id
-    res.redirect(`http://localhost:3001/my-profile`);
+    res.redirect(`http://localhost:3001/my-profile/${(_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id}`);
 });
 app.get("/auth/user", passport_1.default.authenticate("google", { scope: ["email", "profile"] }), (req, res) => {
-    // console.log(req.sessionStore["sessions"]);
-    // console.log(req.cookies);
     res.json({ user: req.user });
 });
 app.get("/", (req, res) => {
@@ -160,7 +169,6 @@ app.post("/check-if-friend-with-user-id", (req, res) => {
 });
 app.get("/googleuser", (req, res) => {
     var _a;
-    // console.log(req.user?.profile);
     res.status(200).json({ google_user: (_a = req.user) === null || _a === void 0 ? void 0 : _a.profile });
 });
 // gets user id from google id
@@ -177,6 +185,37 @@ app.get("/get-user-id", (req, res) => {
         res.status(200).json({ userID: userID });
     });
 });
+app.post("/check-if-username-exists", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const username = String(req.body.username);
+    (0, UserManagement_1.checkUsername)(username, (err, usernameExists) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ username: usernameExists });
+    });
+}));
+app.post("/create-user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c, _d;
+    if (!((_a = req.user) === null || _a === void 0 ? void 0 : _a.profile.id)) {
+        return res.status(500).json({ message: "No Google ID" });
+    }
+    const newUser = {
+        username: req.body.username,
+        first_name: req.body.firstName,
+        last_name: req.body.lastName,
+        created_at: new Date(),
+        google_id: String((_b = req.user) === null || _b === void 0 ? void 0 : _b.profile.id),
+        bio: req.body.bio,
+        google_photo_link: String((_c = req.user) === null || _c === void 0 ? void 0 : _c.profile.photos[0].value),
+    };
+    console.log((_d = req.user) === null || _d === void 0 ? void 0 : _d.profile.photos[0].value);
+    (0, UserManagement_1.createUser)(newUser, (err, insertID) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ insertID: insertID });
+    });
+}));
 app.get("/logout", (req, res, err) => {
     req.session.destroy((err) => {
         if (err)

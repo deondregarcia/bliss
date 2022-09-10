@@ -19,6 +19,7 @@ import { viewContentRouter } from "./routes/ViewContent";
 import passport from "passport";
 import session from "express-session";
 import { FriendPairType } from "./types/content";
+import { checkUsername, createUser } from "./controllers/UserManagement";
 
 // import packages for MySQl session store
 const mysql = require("mysql2/promise");
@@ -82,7 +83,7 @@ app.get(
   (req: Request, res: Response) => {
     // res.redirect(`http://localhost:3001/${req?.user?.id}`);
     // in the future, redirect to profile by /profile/:id
-    res.redirect(`http://localhost:3001/my-profile`);
+    res.redirect(`http://localhost:3001/my-profile/${req?.user?.id}`);
   }
 );
 
@@ -90,8 +91,6 @@ app.get(
   "/auth/user",
   passport.authenticate("google", { scope: ["email", "profile"] }),
   (req: Request, res: Response) => {
-    // console.log(req.sessionStore["sessions"]);
-    // console.log(req.cookies);
     res.json({ user: req.user });
   }
 );
@@ -190,7 +189,6 @@ app.post("/check-if-friend-with-user-id", (req: Request, res: Response) => {
 });
 
 app.get("/googleuser", (req: Request, res: Response) => {
-  // console.log(req.user?.profile);
   res.status(200).json({ google_user: req.user?.profile });
 });
 
@@ -207,6 +205,42 @@ app.get("/get-user-id", (req: Request, res: Response) => {
     }
 
     res.status(200).json({ userID: userID });
+  });
+});
+
+app.post("/check-if-username-exists", async (req: Request, res: Response) => {
+  const username = String(req.body.username);
+
+  checkUsername(username, (err: Error, usernameExists: string) => {
+    if (err) {
+      return res.status(500).json({ message: err.message });
+    }
+
+    res.status(200).json({ username: usernameExists });
+  });
+});
+
+app.post("/create-user", async (req: Request, res: Response) => {
+  if (!req.user?.profile.id) {
+    return res.status(500).json({ message: "No Google ID" });
+  }
+
+  const newUser = {
+    username: req.body.username,
+    first_name: req.body.firstName,
+    last_name: req.body.lastName,
+    created_at: new Date(),
+    google_id: String(req.user?.profile.id),
+    wants_to: req.body.wantsTo,
+    google_photo_link: String(req.user?.profile.photos[0].value),
+  };
+
+  createUser(newUser, (err: Error, insertID: number) => {
+    if (err) {
+      return res.status(500).json({ message: err.message });
+    }
+
+    res.status(200).json({ insertID: insertID });
   });
 });
 

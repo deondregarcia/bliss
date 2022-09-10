@@ -1,6 +1,7 @@
 export interface BucketList {
   id?: number;
-  owner_id: number;
+  google_id?: string;
+  owner_id?: number;
   privacy_type: string;
   created_at?: string;
   title: string;
@@ -34,4 +35,30 @@ export interface SharedListUserType {
   id: number;
   bucket_list_id: number;
   contributor_id: number;
+  owner_id: number;
+}
+
+export interface UserType {
+  id?: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+  created_at?: Date;
+  google_photo_link: string;
+  google_id: string;
+  wants_to?: string;
+}
+
+export interface ActivityIDTypes {
+  trackerID: number;
+  contentID: number;
+}
+
+export interface FriendListType {
+  username: string;
+  first_name: string;
+  last_name: string;
+  google_photo_link: string;
+  google_id: string;
+  wants_to?: string;
 }

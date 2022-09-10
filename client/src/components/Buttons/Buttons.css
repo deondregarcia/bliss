@@ -1,3 +1,13 @@
+.landing-login-button {
+    width: 60%;
+    height: 60px;
+    border: 2px solid var(--main-color);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .logout-button {
     width: 100px;
     height: 30px;
@@ -30,12 +40,13 @@ a {
     color: var(--main-color);
 }
 
-.logout-button:hover, .login-button:hover {
+.logout-button:hover, .login-button:hover, .landing-login-button:hover {
     background-color: var(--main-color);
     cursor: pointer;
+    transition: background-color 150ms ease;
 }
 
-.logout-button:hover .logout-button-text, .login-button:hover h3 {
+.logout-button:hover .logout-button-text, .login-button:hover h3, .landing-login-button:hover .landing-login-button-text {
     color: white;
 }
 

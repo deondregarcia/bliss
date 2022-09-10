@@ -190,6 +190,8 @@ const BucketListView = () => {
                 content={content}
                 permissions={bucketListInfo?.permissions}
                 key={index}
+                setTriggerRefresh={setTriggerRefresh}
+                triggerRefresh={triggerRefresh}
               />
             ))
           ) : (

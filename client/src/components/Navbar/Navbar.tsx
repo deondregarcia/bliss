@@ -23,10 +23,25 @@ const Navbar = () => {
     navigate("../");
   };
 
+  const deleteThis = () => {
+    Axios.get("/googleuser")
+      .then((res) => console.log(res))
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="navbar-container">
-      <h1 onClick={() => navigate("my-profile")} className="navbar-header">
-        Bliss
+      <h1
+        onClick={() =>
+          navigate(
+            `my-profile/${JSON.parse(auth.session_info.data).passport.user.id}`
+          )
+        }
+        className="navbar-header"
+      >
+        Blissely
       </h1>
 
       <div className="login-logout-container">
@@ -38,7 +53,7 @@ const Navbar = () => {
       </div>
 
       <div className="login">
-        <button onClick={logout}>Logout</button>
+        <button onClick={deleteThis}>get google user profile</button>
         <button onClick={() => console.log(auth)}>Console Log Auth</button>
         <button
           onClick={() =>

@@ -5,8 +5,32 @@
     padding: 5px 10px;
     border-bottom: 1px solid lightgray;
     background-color: var(--main-color);
+    position: relative;
 }
 
 .content-container-header-text {
     color: #FFF;
 }
+
+.content-container-header-add-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    border: 2px solid var(--content-bg-color);
+    border-radius: 10px;
+    width: 70px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--content-bg-color);
+}
+
+.content-container-header-add-button:hover {
+    background-color: var(--content-bg-color);
+    cursor: pointer;
+  }
+
+  .content-container-header-add-button:hover h2 {
+    color: var(--main-color);
+  }

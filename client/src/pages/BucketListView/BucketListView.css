@@ -13,6 +13,7 @@
     background-color: var(--content-bg-color);
     /* min-width: 500px; */
     width: 40%;
+    border: var(--border-style);
     border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;

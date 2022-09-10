@@ -28,6 +28,21 @@ viewContentRouter.get("/lists/:google_id", (req, res) => __awaiter(void 0, void 
         res.status(200).json({ data: lists });
     });
 }));
+// get lists for friend profile, get all public_friends/public_random and relevant shared lists
+// note, this gets called after "/get-shared-lists/:id" gets called down below to get shared list ID's
+viewContentRouter.post("/get-friend-lists", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const sharedListIDs = {
+        array: (_a = req.body) === null || _a === void 0 ? void 0 : _a.sharedListArray,
+        friendGoogleID: req.body.friendGoogleID,
+    };
+    (0, ViewContent_1.getFriendsLists)(sharedListIDs.array, sharedListIDs.friendGoogleID, (err, lists) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ data: lists });
+    });
+}));
 // get title and description of a bucket list
 viewContentRouter.get("/bucket-list-info/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const bucketListID = Number(req.params.id);
@@ -58,14 +73,48 @@ viewContentRouter.get("/privacy-type-and-owner-google-id/:id", (req, res) => __a
         res.status(200).json({ data: privacyAndOwners });
     });
 }));
+// check if user is in shared list for a particular bucket list
 viewContentRouter.get("/check-if-user-in-shared-list/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    const userID = String((_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
+    var _b;
+    const userID = String((_b = req.user) === null || _b === void 0 ? void 0 : _b.id);
     const bucketListID = Number(req.params.id);
     (0, ViewContent_1.checkIfShared)(userID, bucketListID, (err, sharedListUsers) => {
         if (err) {
             return res.status(500).json({ message: err.message });
         }
         res.status(200).json({ data: sharedListUsers });
+    });
+}));
+// check if user, who is visiting friend profile, is in any shared_list_users rows with the friend and return those bucket_list_id's
+// (uses Google ID)
+viewContentRouter.get("/get-shared-lists/:id", (req, res) => {
+    var _a;
+    const userGoogleID = (_a = req.user) === null || _a === void 0 ? void 0 : _a.profile.id;
+    const friendGoogleID = req.params.id;
+    (0, ViewContent_1.getSharedLists)(userGoogleID, friendGoogleID, (err, bucketListIDs) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ bucketListIDs: bucketListIDs });
+    });
+});
+// get user info from database from google ID
+viewContentRouter.get("/get-user-info/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const googleID = req.params.id;
+    (0, ViewContent_1.getUserInfo)(googleID, (err, userInfo) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ userInfo: userInfo });
+    });
+}));
+// get list of friends from google id
+viewContentRouter.get("/get-list-of-friends/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userGoogleID = Number(req.params.id);
+    (0, ViewContent_1.getListOfFriends)(userGoogleID, (err, friends) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ friends });
     });
 }));

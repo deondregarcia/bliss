@@ -1,0 +1,83 @@
+.friend-list-wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    transition: left 300ms ease;
+    /* background-color: var(--main-color); */
+    /* background-color: red; */
+}
+
+.friend-list-deselected {
+    left: -100%;
+}
+
+.friend-list-container {
+    height: 100%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    /* background-color: blue; */
+}
+
+.friend-list-container::-webkit-scrollbar {
+    display: none;
+}
+
+.friend-list-profile-wrapper {
+    border-bottom: 2px solid var(--border-style-color);
+    position: relative;
+    display: flex;
+    color: var(--text-color);
+    padding: 10px 0 10px 0;
+}
+
+.friend-list-profile-wrapper:hover {
+    cursor: pointer;
+}
+
+.friend-list-profile-wrapper:hover .friend-name {
+    font-size: 1.1em;
+    transition: font-size 50ms ease-in;
+}
+
+.friend-image {
+    height: 75px;
+    width: 75px;
+    border-radius: 8px;
+}
+
+.friend-name {
+    /* font-family: Arial; */
+    font-family: "Sarabun";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    /* margin-left: 10px; */
+}
+
+.friend-list-content-header {
+    font-family: "Sarabun";
+    position: absolute;
+    top: 8px;
+    left: 80px;
+    /* background-color: red; */
+}
+
+.friend-list-content-body-container {
+    background-color: green;
+    position: relative;
+}
+
+.friend-list-content-body {
+    position: absolute;
+    font-family: var(--text-font);
+    top: 18px;
+    left: 5px;
+    /* background-color: red; */
+    width: 190px;
+}
