@@ -85,24 +85,6 @@ const Profile = () => {
   const [privateBucketListArray, setPrivateBucketListArray] = useState<
     BucketListType[]
   >([]);
-  const [initialPublicBound, setInitialPublicBound] = useState<
-    number | undefined
-  >(undefined);
-  const [publicOffset, setPublicOffset] = useState<number | undefined>(
-    undefined
-  );
-  const [initialSharedBound, setInitialSharedBound] = useState<
-    number | undefined
-  >(undefined);
-  const [sharedOffset, setSharedOffset] = useState<number | undefined>(
-    undefined
-  );
-  const [initialPrivateBound, setInitialPrivateBound] = useState<
-    number | undefined
-  >(undefined);
-  const [privateOffset, setPrivateOffset] = useState<number | undefined>(
-    undefined
-  );
 
   // grab bucket_list_tracker data
   const getBucketListData = () => {
@@ -222,46 +204,8 @@ const Profile = () => {
 
   useEffect(() => {
     getBucketListData();
-
     return () => {};
   }, [triggerRefresh]);
-
-  // --------- Below useEffects set and calculate necessary offset values for edit overlays --------------
-  // without these offset values for a transform, overlay would not render in correct position
-
-  useEffect(() => {
-    setInitialPublicBound(
-      document?.getElementById("public-bound")?.getBoundingClientRect().top
-    );
-    setInitialSharedBound(
-      document?.getElementById("shared-bound")?.getBoundingClientRect().top
-    );
-    setInitialPrivateBound(
-      document?.getElementById("private-bound")?.getBoundingClientRect().top
-    );
-  }, [publicBucketListArray]);
-
-  useEffect(() => {
-    const offset =
-      initialPublicBound! -
-      document?.getElementById("public-bound")?.getBoundingClientRect().top! -
-      window.scrollY;
-    setPublicOffset(offset);
-  }, [publicEdit]);
-  useEffect(() => {
-    const offset =
-      initialSharedBound! -
-      document?.getElementById("shared-bound")?.getBoundingClientRect().top! -
-      window.scrollY;
-    setSharedOffset(offset);
-  }, [sharedEdit]);
-  useEffect(() => {
-    const offset =
-      initialPrivateBound! -
-      document?.getElementById("private-bound")?.getBoundingClientRect().top! -
-      window.scrollY;
-    setPrivateOffset(offset);
-  }, [privateEdit]);
 
   return (
     <>
@@ -291,10 +235,7 @@ const Profile = () => {
             )}
           </div>
         </div>
-        <div
-          className="content-container public"
-          style={publicEdit ? { overflowY: "hidden" } : { overflowY: "scroll" }}
-        >
+        <div className="content-container public">
           <ContentContainerHeader
             setCallback={setPublicAdd}
             addState={publicAdd}
@@ -316,25 +257,25 @@ const Profile = () => {
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
               arraySpecificObject={publicEditObject}
-              offset={publicOffset}
             />
           )}
-          {/* if publicBucketListArray is true, render, if null, display message */}
-          {publicBucketListArray.length > 0 ? (
-            publicBucketListArray.map((bucketList) => {
-              return (
-                <BucketList
-                  bucketList={bucketList}
-                  setArrayObject={setPublicEditObject}
-                  setEditMode={setPublicEdit}
-                  key={bucketList.id}
-                  category="public"
-                />
-              );
-            })
-          ) : (
-            <EmptyArrayMessage />
-          )}
+          <div className="content-container-bucket-list-wrapper">
+            {/* if publicBucketListArray is true, render, if null, display message */}
+            {publicBucketListArray.length > 0 ? (
+              publicBucketListArray.map((bucketList) => {
+                return (
+                  <BucketList
+                    bucketList={bucketList}
+                    setArrayObject={setPublicEditObject}
+                    setEditMode={setPublicEdit}
+                    key={bucketList.id}
+                  />
+                );
+              })
+            ) : (
+              <EmptyArrayMessage />
+            )}
+          </div>
         </div>
         <div className="right-column-container friend-feed">
           <h2 className="side-container-header">Recent Friend Activities</h2>
@@ -372,24 +313,24 @@ const Profile = () => {
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
               arraySpecificObject={sharedEditObject}
-              offset={sharedOffset}
             />
           )}
-          {sharedBucketListArray.length > 0 ? (
-            sharedBucketListArray.map((bucketList) => {
-              return (
-                <BucketList
-                  bucketList={bucketList}
-                  setArrayObject={setSharedEditObject}
-                  setEditMode={setSharedEdit}
-                  key={bucketList.id}
-                  category="shared"
-                />
-              );
-            })
-          ) : (
-            <EmptyArrayMessage />
-          )}
+          <div className="content-container-bucket-list-wrapper">
+            {sharedBucketListArray.length > 0 ? (
+              sharedBucketListArray.map((bucketList) => {
+                return (
+                  <BucketList
+                    bucketList={bucketList}
+                    setArrayObject={setSharedEditObject}
+                    setEditMode={setSharedEdit}
+                    key={bucketList.id}
+                  />
+                );
+              })
+            ) : (
+              <EmptyArrayMessage />
+            )}
+          </div>
         </div>
         <div className="right-column-container friend-manager">
           <div className="friend-manager-header-container">
@@ -476,24 +417,24 @@ const Profile = () => {
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
               arraySpecificObject={privateEditObject}
-              offset={privateOffset}
             />
           )}
-          {privateBucketListArray.length > 0 ? (
-            privateBucketListArray.map((bucketList) => {
-              return (
-                <BucketList
-                  bucketList={bucketList}
-                  setArrayObject={setPrivateEditObject}
-                  setEditMode={setPrivateEdit}
-                  key={bucketList.id}
-                  category="private"
-                />
-              );
-            })
-          ) : (
-            <EmptyArrayMessage />
-          )}
+          <div className="content-container-bucket-list-wrapper">
+            {privateBucketListArray.length > 0 ? (
+              privateBucketListArray.map((bucketList) => {
+                return (
+                  <BucketList
+                    bucketList={bucketList}
+                    setArrayObject={setPrivateEditObject}
+                    setEditMode={setPrivateEdit}
+                    key={bucketList.id}
+                  />
+                );
+              })
+            ) : (
+              <EmptyArrayMessage />
+            )}
+          </div>
         </div>
         <div className="right-column-container recipe-suggestions">
           <h2 className="side-container-header">Recipe Suggestions</h2>

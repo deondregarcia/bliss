@@ -7,12 +7,10 @@ const BucketList = ({
   bucketList,
   setArrayObject,
   setEditMode,
-  category,
 }: {
   bucketList: BucketListType;
   setArrayObject: React.Dispatch<React.SetStateAction<BucketListType | null>>;
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
-  category: string;
 }) => {
   const navigate = useNavigate();
 
@@ -22,7 +20,7 @@ const BucketList = ({
   };
 
   return (
-    <div id={`${category}-bound`} className="bucket-list-wrapper">
+    <div className="bucket-list-wrapper">
       <div onClick={handleBucketListEdit} className="bucket-list-edit-button">
         <h2>Edit</h2>
       </div>

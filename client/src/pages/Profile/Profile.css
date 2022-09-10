@@ -88,6 +88,19 @@
     display: none;
 }
 
+.content-container-bucket-list-wrapper {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.content-container-bucket-list-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
 .today-i-should-container {
     display: flex;
     flex-direction: column;
