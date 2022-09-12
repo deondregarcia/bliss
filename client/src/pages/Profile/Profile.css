@@ -1,8 +1,6 @@
 .home-container {
     display: grid;
     grid-template-columns: repeat(18, minmax(80px, 1fr));
-    /* grid-template-rows: repeat(3, 400px); */
-    /* grid-template-rows: repeat(9, 130px); */
     grid-template-rows: repeat(9, 130px);
     justify-content: center;
     grid-gap: 15px;
@@ -35,7 +33,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* background-color: red; */
 }
 
 .profile-wants-to-container {
@@ -188,19 +185,13 @@
     transition: height 250ms ease;
     width: 100%;
     bottom: 0;
-    /* transform: translateY(150px); */
-    /* left: 60px; */
-    /* background-color: red; */
 }
 
 .request-tab-selected {
-    /* transform: translateY(-200px); */
     height: 40%;
 }
 
 .friend-manager-request-tab-button {
-    /* background-color: green; */
-    /* position: absolute; */
     height: 24px;
     width: 120px;
     margin-left: 35px;
@@ -235,11 +226,8 @@
 }
 
 .friend-manager-request-tab-bar {
-    /* height: 40px; */
-    /* height: 100%; */
     width: 100%;
     border-top: 2px solid var(--main-color);
-    /* background-color: blue; */
 }
 
 /* these should be h2 tags */

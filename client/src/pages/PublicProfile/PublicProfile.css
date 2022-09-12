@@ -1,0 +1,112 @@
+.public-profile-container {
+    display: grid;
+    grid-template-columns: repeat(18, minmax(80px, 1fr));
+    grid-template-rows: repeat(1, 400px);
+    justify-content: center;
+    grid-gap: 15px;
+    margin-bottom: 60px;
+}
+
+.public-profile-profile-container {
+    grid-column: 5 / 7;
+    background-color: var(--content-bg-color);
+    border-radius: var(--border-radius);
+    border: var(--border-style);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.public-profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 20px;
+    margin-top: 8px;
+}
+
+.public-profile-name-container {
+    font-family: "Sarabun";
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.public-profile-list-container {
+    position: relative;
+    background-color: var(--content-bg-color);
+    grid-column: 7 / 14;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    border-radius: var(--border-radius);
+    border: var(--border-style);
+}
+
+.public-profile-list-container::-webkit-scrollbar {
+    display: none;
+}
+
+.public-profile-request-container {
+    margin-top: 20px;
+}
+
+.public-profile-request-user-text {
+    font-family: "Sarabun";
+    font-size: 18px;
+    color: var(--main-color);
+    position: relative;
+    top: 40px;
+}
+
+.public-profile-request-accept-or-deny-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.public-profile-request-header {
+    font-family: "Sarabun";
+    font-size: 17px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.public-profile-request-button-wrapper {
+    display: flex;
+}
+
+.public-profile-request-request-button {
+    height: 35px;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--main-color);
+    border-radius: 8px;
+}
+
+.public-profile-request-request-button > h3 {
+    font-family: "Sarabun";
+    font-size: 18px;
+    color: var(--main-color);
+}
+
+.public-profile-request-request-button:hover {
+    background-color: var(--main-color);
+    cursor: pointer;
+}
+
+.public-profile-request-request-button:hover h3 {
+    color: var(--content-bg-color);
+}
+
+.public-profile-request-view-profile-wrapper {
+    position: absolute;
+    top: 10px;
+    right: 0;
+}

@@ -28,6 +28,16 @@ viewContentRouter.get("/lists/:google_id", (req, res) => __awaiter(void 0, void 
         res.status(200).json({ data: lists });
     });
 }));
+// get only public_random lists for viewing profiles where you arent a friend
+viewContentRouter.get("/get-public-lists/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userGoogleID = req.params.google_id;
+    (0, ViewContent_1.getPublicBucketLists)(userGoogleID, (err, lists) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ data: lists });
+    });
+}));
 // get lists for friend profile, get all public_friends/public_random and relevant shared lists
 // note, this gets called after "/get-shared-lists/:id" gets called down below to get shared list ID's
 viewContentRouter.post("/get-friend-lists", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

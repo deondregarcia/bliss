@@ -46,3 +46,14 @@ export const GetRecipesButton = ({
     </div>
   );
 };
+
+export const ViewProfileButton = ({ googleID }: { googleID: string }) => {
+  return (
+    <div className="view-profile-button">
+      {/* CheckUserOrFriend will later route based on friend or nonfriend status */}
+      <a className="view-profile-button-link" href={`/profile/${googleID}`}>
+        <h3 className="view-profile-button-text">View Profile</h3>
+      </a>
+    </div>
+  );
+};

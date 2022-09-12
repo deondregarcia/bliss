@@ -78,3 +78,22 @@ a {
 .get-recipes-button:hover .get-recipes-button-text {
     color: #FFF;
 }
+
+.view-profile-button {
+    /* background-color: red; */
+    padding: 0 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.view-profile-button-text {
+    font-family: Arial;
+    font-size: 16px;
+    border-bottom: 1px solid transparent;
+}
+
+.view-profile-button-text:hover {
+    border-bottom: 1px solid var(--main-color);
+}
+

@@ -268,9 +268,14 @@ app.post("/deny-request", async (req: Request, res: Response) => {
 
 // get outgoing friend requests for a user from user's google id
 app.get(
-  "/get-outgoing-friend-requests/:id",
+  "/get-outgoing-friend-requests",
   async (req: Request, res: Response) => {
-    const userGoogleID = String(req.params.id);
+    // check if user is logged in/google id exists
+    if (!req.user?.id) {
+      return res.status(403).json({ message: "User's Google ID not found" });
+    }
+
+    const userGoogleID = String(req.user?.id);
 
     getOutgoingFriendRequests(
       userGoogleID,
@@ -287,9 +292,13 @@ app.get(
 
 // get incoming friend requests for a user from user's google id
 app.get(
-  "/get-incoming-friend-requests/:id",
+  "/get-incoming-friend-requests",
   async (req: Request, res: Response) => {
-    const userGoogleID = String(req.params.id);
+    // check if user is logged in/google id exists
+    if (!req.user?.id) {
+      return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const userGoogleID = String(req.user?.id);
 
     getIncomingFriendRequests(
       userGoogleID,

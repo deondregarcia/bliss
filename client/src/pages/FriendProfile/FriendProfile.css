@@ -32,14 +32,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* background-color: red; */
 }
 
 .friend-profile-profile-wants-to-container {
     width: 80%;
     margin-top: 5px;
     overflow-wrap: break-word;
-    /* background-color: red; */
 }
 
 .friend-profile-profile-wants-to-container-header {

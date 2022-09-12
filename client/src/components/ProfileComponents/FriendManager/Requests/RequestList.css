@@ -7,6 +7,10 @@
     left: 0;
 }
 
+.request-list-hidden {
+    display: none;
+}
+
 .request-list-container {
     height: 100%;
     width: 90%;
@@ -51,6 +55,7 @@
     display: flex;
     justify-content: center;
     top: 30px;
+    left: 5px;
 }
 
 .request-list-user-text {
@@ -88,4 +93,10 @@
 
 .request-list-request-button:hover h3 {
     color: var(--content-bg-color);
+}
+
+.request-list-view-profile-wrapper {
+    position: absolute;
+    top: 10px;
+    right: 0;
 }

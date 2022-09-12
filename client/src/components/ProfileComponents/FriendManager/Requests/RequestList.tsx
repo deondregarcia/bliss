@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { FriendRequestUserType } from "../../../../types/content";
 import Axios from "axios";
 import "./RequestList.css";
+import { ViewProfileButton } from "../../../Buttons/Buttons";
 
 const RequestList = ({
   incomingFriendRequests,
+  requestTabSelected,
 }: {
   incomingFriendRequests: FriendRequestUserType[];
+  requestTabSelected: boolean;
 }) => {
   const [acceptedList, setAcceptedList] = useState<string[]>([]);
   const [deniedList, setDeniedList] = useState<string[]>([]);
@@ -55,11 +58,20 @@ const RequestList = ({
   };
 
   return (
-    <div className="request-list-wrapper">
+    <div
+      className={
+        requestTabSelected
+          ? "request-list-wrapper"
+          : "request-list-wrapper request-list-hidden"
+      }
+    >
       <div className="request-list-container">
         {incomingFriendRequests?.map((user, index) => {
           return (
             <div key={index} className="request-list-user-card">
+              <div className="request-list-view-profile-wrapper">
+                <ViewProfileButton googleID={user?.google_id} />
+              </div>
               <img
                 src={user?.google_photo_link}
                 className="request-list-user-image"
@@ -94,24 +106,6 @@ const RequestList = ({
                     </div>
                   </div>
                 )}
-
-                {/* {friendList.includes(user?.username) ? (
-                      <h3 className="search-list-user-text">Friends!</h3>
-                    ) : outgoingFriendRequestList.includes(user?.username) ||
-                      outgoingFriendRequestStateList.includes(
-                        user?.username
-                      ) ? (
-                      <h3 className="search-list-user-text">Requested.</h3>
-                    ) : (
-                      <div
-                        onClick={() =>
-                          sendFriendRequest(user?.google_id, user?.username)
-                        }
-                        className="search-list-request-button"
-                      >
-                        <h3>Request</h3>
-                      </div>
-                    )} */}
               </div>
             </div>
           );

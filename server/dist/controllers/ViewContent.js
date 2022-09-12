@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserList = exports.getListOfFriends = exports.getUserInfo = exports.getFriendsLists = exports.getSharedLists = exports.checkIfShared = exports.getPrivacyTypeAndOwner = exports.getActivities = exports.getBucketListInfo = exports.getBucketLists = void 0;
+exports.getUserList = exports.getListOfFriends = exports.getUserInfo = exports.getFriendsLists = exports.getSharedLists = exports.checkIfShared = exports.getPrivacyTypeAndOwner = exports.getActivities = exports.getBucketListInfo = exports.getPublicBucketLists = exports.getBucketLists = void 0;
 const db_1 = require("../db");
 // view list of all bucket lists user is involved in
 const getBucketLists = (googleId, callback) => {
@@ -32,6 +32,33 @@ const getBucketLists = (googleId, callback) => {
     });
 };
 exports.getBucketLists = getBucketLists;
+// get all public_random bucket lists for non-friend profile pages
+const getPublicBucketLists = (userGoogleID, callback) => {
+    const getUserQueryString = "SELECT id FROM users WHERE google_id=?";
+    // get only public bucket lists
+    const queryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=${getUserQueryString} AND privacy_type=?`;
+    db_1.db.query(queryString, [userGoogleID, "public_random"], (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const rows = result;
+        const lists = [];
+        rows.forEach((row) => {
+            const list = {
+                id: row.id,
+                owner_id: row.owner_id,
+                privacy_type: row.privacy_type,
+                created_at: row.created_at,
+                title: row.title,
+                description: row.description,
+                permissions: row.permissions,
+            };
+            lists.push(list);
+        });
+        callback(null, lists);
+    });
+};
+exports.getPublicBucketLists = getPublicBucketLists;
 const getBucketListInfo = (trackerID, callback) => {
     const queryString = "SELECT * FROM bucket_list_tracker WHERE id=?";
     db_1.db.query(queryString, trackerID, (err, result) => {

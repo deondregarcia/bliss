@@ -109,7 +109,7 @@ const FriendProfile = () => {
             );
           })
         ) : (
-          <EmptyArrayMessage />
+          <EmptyArrayMessage accountType="friend" />
         )}
       </div>
       <div className="friend-profile-right-column-container friend-feed">
@@ -130,7 +130,7 @@ const FriendProfile = () => {
             );
           })
         ) : (
-          <EmptyArrayMessage />
+          <EmptyArrayMessage accountType="friend" />
         )}
       </div>
       <div className="friend-profile-right-column-container "></div>

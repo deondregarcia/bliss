@@ -141,7 +141,7 @@ const Profile = () => {
 
   // get list of friends
   const getFriendsList = () => {
-    Axios.get(`/view/get-list-of-friends/${id}`)
+    Axios.get(`/view/get-list-of-friends`)
       .then((res) => {
         setFriends(res.data.friends);
       })
@@ -163,7 +163,7 @@ const Profile = () => {
 
   // get outgoing friend requests (user sent these)
   const getOutgoingFriendRequests = () => {
-    Axios.get(`/get-outgoing-friend-requests/${id}`)
+    Axios.get(`/get-outgoing-friend-requests`)
       .then((res) => {
         console.log(res.data.outgoingRequestUsers);
         setOutgoingFriendRequests(res.data.outgoingRequestUsers);
@@ -173,9 +173,9 @@ const Profile = () => {
       });
   };
 
-  // get outgoing friend requests (user sent these)
+  // get incoming friend requests (user received these)
   const getIncomingFriendRequests = () => {
-    Axios.get(`/get-incoming-friend-requests/${id}`)
+    Axios.get(`/get-incoming-friend-requests`)
       .then((res) => {
         console.log(res.data.incomingRequestUsers);
         setIncomingFriendRequests(res.data.incomingRequestUsers);
@@ -213,7 +213,6 @@ const Profile = () => {
         <div className="profile-info">
           <h2>{userObject?.username}</h2>
           <img
-            // src={googleUserObject?.photos[0].value}
             src={userObject?.google_photo_link}
             referrerPolicy="no-referrer" // referrer policy that blocked loading of img sometimes - look into it
             alt="google profile picture"
@@ -273,7 +272,7 @@ const Profile = () => {
                 );
               })
             ) : (
-              <EmptyArrayMessage />
+              <EmptyArrayMessage accountType="owner" />
             )}
           </div>
         </div>
@@ -281,12 +280,6 @@ const Profile = () => {
           <h2 className="side-container-header">Recent Friend Activities</h2>
           <div className="side-container-header-separator" />
         </div>
-
-        {/* <div className="today-i-should-container">
-          <h2 className="side-container-header">Today, I should...</h2>
-          <div className="side-container-header-separator" />
-          <p>Today I should try working out</p>
-        </div> */}
         <div
           id="test3"
           className="content-container shared"
@@ -328,7 +321,7 @@ const Profile = () => {
                 );
               })
             ) : (
-              <EmptyArrayMessage />
+              <EmptyArrayMessage accountType="owner" />
             )}
           </div>
         </div>
@@ -363,6 +356,7 @@ const Profile = () => {
               fullUserList={fullUserList}
               friends={friends}
               outgoingFriendRequests={outgoingFriendRequests}
+              incomingFriendRequests={incomingFriendRequests}
             />
             <div
               className={
@@ -385,7 +379,10 @@ const Profile = () => {
                 </div>
               </div>
               <div className="friend-manager-request-tab-bar">
-                <RequestList incomingFriendRequests={incomingFriendRequests} />
+                <RequestList
+                  incomingFriendRequests={incomingFriendRequests}
+                  requestTabSelected={requestTabSelected}
+                />
               </div>
             </div>
           </div>
@@ -432,7 +429,7 @@ const Profile = () => {
                 );
               })
             ) : (
-              <EmptyArrayMessage />
+              <EmptyArrayMessage accountType="owner" />
             )}
           </div>
         </div>
