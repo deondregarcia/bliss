@@ -4,7 +4,6 @@ import { Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
 const CheckIfNewUser = () => {
-  // const [didCheckNewUserRun, setDidCheckNewUserRun] = useState(false);
   const { checkedIfNewUser, setCheckedIfNewUser } = useAuth();
   const [isNewUser, setIsNewUser] = useState(false);
 
@@ -19,8 +18,6 @@ const CheckIfNewUser = () => {
         console.log(err);
       });
 
-    console.log(isNewUser ? "is new user" : "is not new user");
-    // setDidCheckNewUserRun(true);
     setCheckedIfNewUser(true);
   };
 

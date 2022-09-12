@@ -51,21 +51,25 @@ const SelectSharedDropdown = ({
                 : "shared-dropdown-options-list shared-dropdown-options-list-closed"
             }
           >
-            {friends?.map((friend, index) => {
-              return (
-                <div
-                  onClick={() => handleSelectUser(friend)}
-                  key={index}
-                  className={
-                    selectedUsers?.includes(friend)
-                      ? "shared-dropdown-options-list-user-container shared-dropdown-options-list-user-container-selected"
-                      : "shared-dropdown-options-list-user-container"
-                  }
-                >
-                  <p>{friend.username}</p>
-                </div>
-              );
-            })}
+            {friends?.length > 0 ? (
+              friends?.map((friend, index) => {
+                return (
+                  <div
+                    onClick={() => handleSelectUser(friend)}
+                    key={index}
+                    className={
+                      selectedUsers?.includes(friend)
+                        ? "shared-dropdown-options-list-user-container shared-dropdown-options-list-user-container-selected"
+                        : "shared-dropdown-options-list-user-container"
+                    }
+                  >
+                    <p>{friend.username}</p>
+                  </div>
+                );
+              })
+            ) : (
+              <h3>No friends added yet.</h3>
+            )}
           </div>
         </div>
       </div>

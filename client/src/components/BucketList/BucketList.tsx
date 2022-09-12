@@ -15,6 +15,7 @@ const BucketList = ({
   friends,
   setContributorUserObjectsArray,
   privacyType,
+  userID,
 }: {
   bucketList: BucketListType;
   setArrayObject: React.Dispatch<React.SetStateAction<BucketListType | null>>;
@@ -25,6 +26,7 @@ const BucketList = ({
     React.SetStateAction<FriendListType[]>
   >;
   privacyType: string;
+  userID: number;
 }) => {
   const navigate = useNavigate();
   let friendList: number[] = [];
@@ -51,9 +53,6 @@ const BucketList = ({
     });
   }
 
-  console.log("log from BucketList");
-  console.log(localContributorUserObjects);
-
   const handleBucketListEdit = () => {
     setArrayObject(bucketList);
     setContributorUserObjectsArray(localContributorUserObjects);
@@ -62,9 +61,20 @@ const BucketList = ({
 
   return (
     <div className="bucket-list-wrapper">
-      <div onClick={handleBucketListEdit} className="bucket-list-edit-button">
-        <h2>Edit</h2>
-      </div>
+      {userID === bucketList.owner_id ? (
+        <div onClick={handleBucketListEdit} className="bucket-list-edit-button">
+          <h2>Edit</h2>
+        </div>
+      ) : (
+        <h3 className="bucket-list-owner-text">
+          Owned by{" "}
+          {
+            friends.filter(
+              (friend) => friend.user_id === bucketList.owner_id
+            )[0].first_name
+          }
+        </h3>
+      )}
       <div
         onClick={() => navigate(`../../bucket-list/${bucketList.id}`)}
         className="bucket-list-container"

@@ -15,7 +15,7 @@ export const getBucketLists = (googleId: string, callback: Function) => {
   // pull from bucket_list_tracker table
   const firstQueryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=(${getUserQueryString}) OR `;
   // query shared_list_users table
-  const secondQueryString = `id=(SELECT bucket_list_id FROM bliss_db.shared_list_users WHERE contributor_id=(${getUserQueryString}))`;
+  const secondQueryString = `id IN (SELECT bucket_list_id FROM bliss_db.shared_list_users WHERE contributor_id=(${getUserQueryString}))`;
   const mainQueryString = firstQueryString + secondQueryString;
 
   db.query(mainQueryString, [googleId, googleId], (err, result) => {

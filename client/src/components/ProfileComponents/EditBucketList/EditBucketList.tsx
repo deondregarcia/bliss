@@ -42,9 +42,6 @@ const EditBucketList = ({
     contributorUserObjectsArray
   );
 
-  // console.log("log from EditBucketList");
-  // console.log(contributorUserObjectsArray);
-
   const deleteBucketList = () => {
     if (window.confirm("Are you sure you want to delete this?")) {
       Axios.post("/content/delete-bucket-list", {
@@ -230,11 +227,21 @@ const EditBucketList = ({
           console.log(err);
         });
     } else {
+      // else if privacyType is "private"
       // check if any fields are empty
       if (!newTitle || !newDescription) {
         alert("Please make sure all sections are filled out");
         return;
       }
+      Axios.put("/content/update-bucket-list", {
+        id: arraySpecificObject?.id,
+        privacy_type: privacyType,
+        title: newTitle,
+        description: newDescription,
+        permissions: permissions,
+      }).catch((err) => {
+        console.log(err);
+      });
     }
 
     setTriggerRefresh(!triggerRefresh);

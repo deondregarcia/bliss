@@ -38,7 +38,7 @@ const Profile = () => {
   >();
   const [friendManager, setFriendManager] = useState("friends"); // state to display friendlist or search component
   const [requestTabSelected, setRequestTabSelected] = useState(false);
-  const [userObject, setUserObject] = useState<UserType | undefined>(undefined);
+  const [userObject, setUserObject] = useState<UserType>({} as UserType);
   // array of friend objects
   const [friends, setFriends] = useState<FriendListType[]>([]);
   const [fullUserList, setFullUserList] = useState<
@@ -96,8 +96,6 @@ const Profile = () => {
   const [contributorUserObjectsArray, setContributorUserObjectsArray] =
     useState<FriendListType[]>([]);
 
-  console.log("PROFILE/PARENT COMPONENT RE-RENDERED");
-
   // grab bucket_list_tracker data
   const getBucketListData = () => {
     // google_id
@@ -133,8 +131,6 @@ const Profile = () => {
   const getAllContributors = () => {
     Axios.get("/view/get-all-contributors")
       .then((res) => {
-        console.log("contributor res below");
-        console.log(res.data.contributorObjects);
         setContributorObjects(res.data.contributorObjects);
       })
       .catch((err) => {
@@ -190,7 +186,6 @@ const Profile = () => {
   const getOutgoingFriendRequests = () => {
     Axios.get(`/get-outgoing-friend-requests`)
       .then((res) => {
-        console.log(res.data.outgoingRequestUsers);
         setOutgoingFriendRequests(res.data.outgoingRequestUsers);
       })
       .catch((err) => {
@@ -202,7 +197,6 @@ const Profile = () => {
   const getIncomingFriendRequests = () => {
     Axios.get(`/get-incoming-friend-requests`)
       .then((res) => {
-        console.log(res.data.incomingRequestUsers);
         setIncomingFriendRequests(res.data.incomingRequestUsers);
       })
       .catch((err) => {
@@ -272,6 +266,8 @@ const Profile = () => {
               privacyType="public"
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
+              friends={friends}
+              userObject={userObject}
             />
           )}
           {publicEdit && (
@@ -301,6 +297,7 @@ const Profile = () => {
                       setContributorUserObjectsArray
                     }
                     privacyType="public"
+                    userID={userObject.id}
                   />
                 );
               })
@@ -326,6 +323,8 @@ const Profile = () => {
               privacyType="shared"
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
+              friends={friends}
+              userObject={userObject}
             />
           )}
           {sharedEdit && (
@@ -354,6 +353,7 @@ const Profile = () => {
                       setContributorUserObjectsArray
                     }
                     privacyType="shared"
+                    userID={userObject.id}
                   />
                 );
               })
@@ -437,6 +437,8 @@ const Profile = () => {
               privacyType="private"
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
+              friends={friends}
+              userObject={userObject}
             />
           )}
           {privateEdit && (
@@ -465,6 +467,7 @@ const Profile = () => {
                       setContributorUserObjectsArray
                     }
                     privacyType="private"
+                    userID={userObject.id}
                   />
                 );
               })

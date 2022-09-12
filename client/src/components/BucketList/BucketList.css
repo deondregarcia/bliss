@@ -58,3 +58,11 @@
 .bucket-list-edit-button:hover h2 {
     color: white;
 }
+
+.bucket-list-owner-text {
+    position: absolute;
+    top: 14px;
+    right: 26px;
+    font-family: "Sarabun";
+    font-size: 15px;
+}

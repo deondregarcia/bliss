@@ -69,6 +69,15 @@
     overflow-y: scroll;
 }
 
+.shared-dropdown-options-list > h3 {
+    font-family: "Sarabun";
+    color: var(--text-color);
+    font-size: 20px;
+    position: relative;
+    top: 20px;
+    text-align: center;
+}
+
 .shared-dropdown-options-list::-webkit-scrollbar {
     display: none;
 }
