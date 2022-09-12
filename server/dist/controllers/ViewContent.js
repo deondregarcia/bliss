@@ -34,7 +34,7 @@ const getBucketLists = (googleId, callback) => {
 exports.getBucketLists = getBucketLists;
 // get all public_random bucket lists for non-friend profile pages
 const getPublicBucketLists = (userGoogleID, callback) => {
-    const getUserQueryString = "SELECT id FROM users WHERE google_id=?";
+    const getUserQueryString = "(SELECT id FROM users WHERE google_id=?)";
     // get only public bucket lists
     const queryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=${getUserQueryString} AND privacy_type=?`;
     db_1.db.query(queryString, [userGoogleID, "public_random"], (err, result) => {

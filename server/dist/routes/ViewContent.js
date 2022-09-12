@@ -28,9 +28,9 @@ viewContentRouter.get("/lists/:google_id", (req, res) => __awaiter(void 0, void 
         res.status(200).json({ data: lists });
     });
 }));
-// get only public_random lists for viewing profiles where you arent a friend
+// get only public_random lists for viewing profiles where user is not friends with them
 viewContentRouter.get("/get-public-lists/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userGoogleID = req.params.google_id;
+    const userGoogleID = req.params.id;
     (0, ViewContent_1.getPublicBucketLists)(userGoogleID, (err, lists) => {
         if (err) {
             return res.status(500).json({ message: err.message });
@@ -119,8 +119,13 @@ viewContentRouter.get("/get-user-info/:id", (req, res) => __awaiter(void 0, void
     });
 }));
 // get list of friends from google id
-viewContentRouter.get("/get-list-of-friends/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userGoogleID = Number(req.params.id);
+viewContentRouter.get("/get-list-of-friends", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _c, _d;
+    // check if user is logged in/google id exists
+    if (!((_c = req.user) === null || _c === void 0 ? void 0 : _c.id)) {
+        return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const userGoogleID = Number((_d = req.user) === null || _d === void 0 ? void 0 : _d.id);
     (0, ViewContent_1.getListOfFriends)(userGoogleID, (err, friends) => {
         if (err) {
             return res.status(500).json({ message: err.message });

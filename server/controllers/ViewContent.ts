@@ -137,7 +137,6 @@ export const getPrivacyTypeAndOwner = (
       const privacyAndOwner: PrivacyAndOwnerType = {
         privacy_type: row.privacy_type,
         owner_id: row.owner_id,
-        permissions: row.permissions,
       };
       privacyAndOwners.push(privacyAndOwner);
     });

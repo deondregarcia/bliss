@@ -2,8 +2,7 @@
     height: 100%;
     width: 100%;
     background-color: var(--faded-bg-color);
-    border-bottom-left-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
+    border-radius: var(--border-radius);
     position: absolute;
     z-index: 5;
     top: 0;
@@ -19,7 +18,7 @@
     top: 0;
     bottom: 0;
     margin: auto;
-    height: 50%;
+    height: 90%;
     width: 90%;
 }
 

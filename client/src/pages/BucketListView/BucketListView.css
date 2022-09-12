@@ -1,33 +1,65 @@
 
 .bucket-list-view-wrapper {
-    /* background-color: red; */
-    /* height: calc(100vh - 100px); */
-    height: 70vh;
+    /* height: 70vh; */
+    height: 500px;
     display: flex;
     justify-content: center;
-    /* height: 500px; */
   }
   
   .bucket-list-view-container {
-    /* height: calc(100% - 50px); */
     background-color: var(--content-bg-color);
-    /* min-width: 500px; */
+    height: 500px;
     width: 40%;
     border: var(--border-style);
     border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
+    position: relative;
   }
 
   .bucket-list-view-content-container {
+    /* position: relative; */
+    /* height: 390px; */
+    background-color: var(--content-bg-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    /* border-radius: var(--border-radius);
+    border: var(--border-style); */
+  }
+
+  .bucket-list-view-content-container::-webkit-scrollbar {
+    display: none;
+}
+
+  .bucket-list-view-list-wrapper {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* position: relative; */
+    width: 100%;
+  }
+
+  .bucket-list-view-list-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+  .bucket-list-view-empty {
     position: relative;
-    flex-grow: 1;
+    text-align: center;
+    top: 20px;
+    font-family: "Sarabun";
+    color: gray;
+    font-size: 50px;
   }
   
   .bucket-list-view-header-container {
     background-color: var(--main-color);
     border-radius: var(--border-radius) var(--border-radius) 0 0;
-    position: relative;
+    /* position: relative; */
   }
   
   .bucket-list-view-header {

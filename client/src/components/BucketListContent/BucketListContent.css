@@ -1,3 +1,11 @@
+.bucket-list-content-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
 .bucket-list-content-container {
     /* background-color: lightblue; */
     width: 100%;

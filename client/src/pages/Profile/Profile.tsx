@@ -280,11 +280,7 @@ const Profile = () => {
           <h2 className="side-container-header">Recent Friend Activities</h2>
           <div className="side-container-header-separator" />
         </div>
-        <div
-          id="test3"
-          className="content-container shared"
-          style={sharedEdit ? { overflowY: "hidden" } : { overflowY: "scroll" }}
-        >
+        <div className="content-container shared">
           <ContentContainerHeader
             setCallback={setSharedAdd}
             addState={sharedAdd}
@@ -387,12 +383,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <div
-          className="content-container private"
-          style={
-            privateEdit ? { overflowY: "hidden" } : { overflowY: "scroll" }
-          }
-        >
+        <div className="content-container private">
           <ContentContainerHeader
             setCallback={setPrivateAdd}
             addState={privateAdd}

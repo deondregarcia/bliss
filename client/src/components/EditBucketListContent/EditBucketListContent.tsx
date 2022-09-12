@@ -1,30 +1,27 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import "./EditBucketListContent.css";
+import { BucketListContentType } from "../../types/content";
 
 const EditBucketListContent = ({
-  activityInput,
-  descriptionInput,
-  contentID,
+  content,
   trackerID,
   setEditMode,
   triggerRefresh,
   setTriggerRefresh,
 }: {
-  activityInput: string;
-  descriptionInput: string;
-  contentID: number;
+  content: BucketListContentType;
   trackerID: number;
   setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
   triggerRefresh: boolean;
   setTriggerRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const [newActivity, setNewActivity] = useState(activityInput);
-  const [newDescription, setNewDescription] = useState(descriptionInput);
+  const [newActivity, setNewActivity] = useState(content.activity);
+  const [newDescription, setNewDescription] = useState(content.description);
 
   const saveContent = async () => {
     await Axios.put("/content/update-activity", {
-      id: contentID,
+      id: content.id,
       activity: newActivity,
       description: newDescription,
     })
@@ -43,7 +40,7 @@ const EditBucketListContent = ({
     if (window.confirm("Are you sure you want to delete this?")) {
       Axios.post("/content/delete-activity", {
         tracker_id: trackerID,
-        content_id: contentID,
+        content_id: content.id,
       })
         .then((res) => {
           console.log(res);
