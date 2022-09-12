@@ -69,9 +69,9 @@ const BucketList = ({
         <h3 className="bucket-list-owner-text">
           Owned by{" "}
           {
-            friends.filter(
+            friends?.filter(
               (friend) => friend.user_id === bucketList.owner_id
-            )[0].first_name
+            )[0]?.first_name
           }
         </h3>
       )}
