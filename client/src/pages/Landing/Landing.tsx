@@ -42,7 +42,7 @@ const Landing = () => {
         <div className="what-is-it-text-container">
           <h2>
             Blissely is a platform for you and your friends and family to create
-            collaborative bucket lists
+            collaborative bucket lists!
           </h2>
         </div>
       </div>

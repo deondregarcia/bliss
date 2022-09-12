@@ -8,6 +8,7 @@ import {
   deleteBucketList,
   addSharedListUsers,
   removeSharedListUsers,
+  updateGooglePhoto,
 } from "../controllers/ManageContent";
 import { BucketList, BucketListContent } from "../types/content";
 
@@ -177,6 +178,31 @@ contentRouter.post(
 
       res.status(200).json({ message: insertID });
     });
+  }
+);
+
+// update profile photo to reflect new google photo
+contentRouter.put(
+  "/update-google-photo",
+  async (req: Request, res: Response) => {
+    // check if user is logged in/google id exists
+    if (!req.user?.id) {
+      return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const userGoogleID = String(req.user?.id);
+    const googlePhotoLink = String(req.body.googlePhotoLink);
+
+    updateGooglePhoto(
+      userGoogleID,
+      googlePhotoLink,
+      (err: Error, insertID: number) => {
+        if (err) {
+          return res.status(500).json({ message: err.message });
+        }
+
+        res.status(200).json({ insertID: insertID });
+      }
+    );
   }
 );
 

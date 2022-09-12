@@ -204,6 +204,25 @@ const Profile = () => {
       });
   };
 
+  // check if google photo is new; if so, update
+  const updateGooglePhoto = () => {
+    console.log(googleUserObject?.photos[0].value);
+    console.log(googleUserObject);
+    if (googleUserObject?.photos[0].value === userObject?.google_photo_link) {
+      return;
+    } else {
+      Axios.put("/content/update-google-photo", {
+        googlePhotoLink: googleUserObject?.photos[0].value,
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   // combine funcs to hopefully improve performance
   const runInitialFunctions = () => {
     getBucketListData();
@@ -214,6 +233,7 @@ const Profile = () => {
     getFullUserList();
     getOutgoingFriendRequests();
     getIncomingFriendRequests();
+    updateGooglePhoto();
   };
 
   useEffect(() => {

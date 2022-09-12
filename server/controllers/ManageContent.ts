@@ -187,3 +187,21 @@ export const removeSharedListUsers = (
     callback(null, insertID);
   });
 };
+
+// update google photo based on google id since you can't select "FROM" the table you're updating
+export const updateGooglePhoto = (
+  userGoogleID: string,
+  googlePhotoLink: string,
+  callback: Function
+) => {
+  const queryString = "UPDATE users SET google_photo_link=? WHERE google_id=?";
+
+  db.query(queryString, [googlePhotoLink, userGoogleID], (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const insertID = (<OkPacket>result).insertId;
+    callback(null, insertID);
+  });
+};
