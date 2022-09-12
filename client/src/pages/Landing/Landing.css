@@ -7,9 +7,7 @@
 
 .landing-page-header-container {
     position: relative;
-    /* height: 720px; */
     height: 70%;
-    /* background-color: red; */
 }
 
 .landing-page-title {
@@ -36,7 +34,6 @@
 
 .landing-page-landing-graphic-wrapper {
     position: absolute;
-    /* background-color: green; */
     top: 10%;
     left: 55%;
 }
@@ -57,7 +54,6 @@
 }
 
 .what-is-it-container {
-    /* height: 300px; */
     height: 30%;
     display: flex;
     justify-content: center;
@@ -83,4 +79,64 @@
     font-family: "Sarabun";
     font-size: 35px;
     color: var(--text-color);
+}
+
+@media screen and (max-width: 500px) {
+    .landing-page-header-container {
+        height: 75%;
+    }
+    .landing-page-hero-text {
+        font-size: 16px;
+        top: 22%;
+        text-align: center;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    .landing-login-button-wrapper{
+        margin-top: 7%;
+    }
+    .landing-page-landing-graphic-wrapper {
+        top: 44%;
+        left: 11%;
+    }
+    .landing-page-landing-graphic {
+        height: 300px;
+        width: 300px;
+    }
+    .landing-page-landing-graphic-link {
+        font-size: 14px;
+        top: 76%;
+        left: 49%;
+    }
+    .value-proposition-text {
+        font-size: 16px;
+        left: 3%;
+        bottom: 3%;
+        width: 400px;
+    }
+    .what-is-it-container {
+        height: 25%;
+        padding-top: 10px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    .what-is-it-header {
+        font-size: 30px;
+    }
+    .what-is-it-text-container {
+        width: 70%;
+        height: 40%;
+        margin-top: 18px;
+        margin-left: 0;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+    }
+    .what-is-it-text-container > h2 {
+        font-size: 18px;
+    }
 }

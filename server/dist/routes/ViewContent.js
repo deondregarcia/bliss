@@ -108,6 +108,31 @@ viewContentRouter.get("/get-shared-lists/:id", (req, res) => {
         res.status(200).json({ bucketListIDs: bucketListIDs });
     });
 });
+// get all users in a shared list based on provided bucket list tracker id (id)
+viewContentRouter.get("/get-shared-list-users/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const trackerID = Number(req.params.id);
+    (0, ViewContent_1.getSharedListUsers)(trackerID, (err, contributorIDs) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ contributorIDs });
+    });
+}));
+// get all contributor's for all of user's owned, shared bucket lists
+viewContentRouter.get("/get-all-contributors", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _c, _d;
+    // check if user is logged in/google id exists
+    if (!((_c = req.user) === null || _c === void 0 ? void 0 : _c.id)) {
+        return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const userGoogleID = String((_d = req.user) === null || _d === void 0 ? void 0 : _d.profile.id);
+    (0, ViewContent_1.getAllContributors)(userGoogleID, (err, contributorObjects) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ contributorObjects });
+    });
+}));
 // get user info from database from google ID
 viewContentRouter.get("/get-user-info/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const googleID = req.params.id;
@@ -120,12 +145,12 @@ viewContentRouter.get("/get-user-info/:id", (req, res) => __awaiter(void 0, void
 }));
 // get list of friends from google id
 viewContentRouter.get("/get-list-of-friends", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c, _d;
+    var _e, _f;
     // check if user is logged in/google id exists
-    if (!((_c = req.user) === null || _c === void 0 ? void 0 : _c.id)) {
+    if (!((_e = req.user) === null || _e === void 0 ? void 0 : _e.id)) {
         return res.status(403).json({ message: "User's Google ID not found" });
     }
-    const userGoogleID = Number((_d = req.user) === null || _d === void 0 ? void 0 : _d.id);
+    const userGoogleID = Number((_f = req.user) === null || _f === void 0 ? void 0 : _f.id);
     (0, ViewContent_1.getListOfFriends)(userGoogleID, (err, friends) => {
         if (err) {
             return res.status(500).json({ message: err.message });

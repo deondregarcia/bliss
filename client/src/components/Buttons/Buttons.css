@@ -97,3 +97,11 @@ a {
     border-bottom: 1px solid var(--main-color);
 }
 
+@media screen and (max-width: 500px) {
+    .landing-login-button {
+        margin: auto;
+        height: 50px;
+        width: 200px;
+        font-size: 18px;
+    }
+}
