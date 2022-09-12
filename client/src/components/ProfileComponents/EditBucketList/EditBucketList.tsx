@@ -265,6 +265,7 @@ const EditBucketList = ({
             className="edit-bucket-list-title-input"
             type="text"
             id="edit-bucket-list-title-input"
+            maxLength={50}
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
           />
@@ -275,6 +276,7 @@ const EditBucketList = ({
             className="edit-bucket-list-description-input"
             type="text"
             id="edit-bucket-list-description-input"
+            maxLength={100}
             value={newDescription}
             onChange={(e) => setNewDescription(e.target.value)}
           />

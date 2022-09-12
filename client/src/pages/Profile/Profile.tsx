@@ -96,6 +96,8 @@ const Profile = () => {
   const [contributorUserObjectsArray, setContributorUserObjectsArray] =
     useState<FriendListType[]>([]);
 
+  console.log("PROFILE/PARENT COMPONENT RE-RENDERED");
+
   // grab bucket_list_tracker data
   const getBucketListData = () => {
     // google_id
@@ -210,6 +212,7 @@ const Profile = () => {
 
   // combine funcs to hopefully improve performance
   const runInitialFunctions = () => {
+    getBucketListData();
     getAllContributors();
     getGoogleUserInfo();
     getUserInfo();
@@ -217,7 +220,6 @@ const Profile = () => {
     getFullUserList();
     getOutgoingFriendRequests();
     getIncomingFriendRequests();
-    getBucketListData();
   };
 
   useEffect(() => {
