@@ -70,6 +70,7 @@ const EditBucketList = ({
           console.log(err);
         });
     } else if (privacyType === "shared") {
+      // same as public but also indicating which users it's shared with
     } else {
     }
 
@@ -165,6 +166,14 @@ const EditBucketList = ({
                   Anyone can see this bucket list.
                 </label>
               </div>
+            </div>
+          )}
+          {privacyType === "shared" && (
+            <div className="edit-bucket-list-shared-container">
+              <h2 className="edit-bucket-list-shared-header">
+                Who do you want to share this with?
+              </h2>
+              <div className="edit-bucket-list-shared-selected-container"></div>
             </div>
           )}
         </div>

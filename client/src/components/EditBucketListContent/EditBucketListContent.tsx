@@ -76,6 +76,7 @@ const EditBucketListContent = ({
             className="edit-bucket-list-content-title-input"
             type="text"
             id="activity-title-input"
+            maxLength={50}
             value={newActivity}
             onChange={(e) => setNewActivity(e.target.value)}
           />
@@ -84,6 +85,7 @@ const EditBucketListContent = ({
             className="edit-bucket-list-content-description-input"
             type="text"
             id="activity-description-input"
+            maxLength={150}
             value={newDescription}
             onChange={(e) => setNewDescription(e.target.value)}
           />

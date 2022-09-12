@@ -155,3 +155,15 @@
 .edit-bucket-list-public-radio-buttons-wrapper > input {
     accent-color: var(--main-color);
 }
+
+.edit-bucket-list-shared-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.edit-bucket-list-shared-header {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Sarabun";
+}

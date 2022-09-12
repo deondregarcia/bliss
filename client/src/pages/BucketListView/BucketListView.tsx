@@ -176,7 +176,7 @@ const BucketListView = () => {
           )}
           <h1 className="bucket-list-view-header">{bucketListInfo?.title}</h1>
           <p className="bucket-list-view-description">
-            {bucketListInfo?.description}
+            Description: {bucketListInfo?.description}
           </p>
         </div>
         <div className="bucket-list-view-content-container">

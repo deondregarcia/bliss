@@ -4,10 +4,10 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    margin-top: 10px;
 }
 
 .bucket-list-content-container {
-    /* background-color: lightblue; */
     width: 100%;
     display: flex;
     position: relative;

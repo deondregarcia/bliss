@@ -1,6 +1,5 @@
 
 .bucket-list-view-wrapper {
-    /* height: 70vh; */
     height: 500px;
     display: flex;
     justify-content: center;
@@ -18,16 +17,12 @@
   }
 
   .bucket-list-view-content-container {
-    /* position: relative; */
-    /* height: 390px; */
     background-color: var(--content-bg-color);
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow-y: scroll;
     scrollbar-width: none;
-    /* border-radius: var(--border-radius);
-    border: var(--border-style); */
   }
 
   .bucket-list-view-content-container::-webkit-scrollbar {
@@ -39,7 +34,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* position: relative; */
     width: 100%;
   }
 
@@ -48,9 +42,9 @@
 }
 
   .bucket-list-view-empty {
-    position: relative;
+    position: absolute;
     text-align: center;
-    top: 20px;
+    top: 60px;
     font-family: "Sarabun";
     color: gray;
     font-size: 50px;
@@ -59,7 +53,6 @@
   .bucket-list-view-header-container {
     background-color: var(--main-color);
     border-radius: var(--border-radius) var(--border-radius) 0 0;
-    /* position: relative; */
   }
   
   .bucket-list-view-header {
