@@ -149,3 +149,44 @@ export const updateBucketList = (
     }
   );
 };
+
+// add various users to shared_list_users from supplied user ID's
+export const addSharedListUsers = (
+  convertedArray: number[][],
+  callback: Function
+) => {
+  const queryString =
+    "INSERT INTO shared_list_users (bucket_list_id, contributor_id, owner_id) VALUES ?";
+
+  // using converted array for bulk insertion
+  db.query(queryString, [convertedArray], (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const insertID = (<OkPacket>result).insertId;
+    callback(null, insertID);
+  });
+};
+
+// remove various users to shared_list_users from supplied user ID's
+export const removeSharedListUsers = (
+  convertedArray: number[][],
+  callback: Function
+) => {
+  const queryString =
+    "DELETE FROM shared_list_users WHERE (bucket_list_id, contributor_id) IN ?";
+
+  console.log(db.format(queryString, [[convertedArray]]));
+
+  // using converted array for bulk insertion; this converted array needs an extra wrapped array to work
+  db.query(queryString, [[convertedArray]], (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    console.log(result);
+    const insertID = (<OkPacket>result).insertId;
+    callback(null, insertID);
+  });
+};

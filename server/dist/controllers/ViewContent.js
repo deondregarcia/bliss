@@ -109,7 +109,6 @@ const getPrivacyTypeAndOwner = (trackerID, callback) => {
             const privacyAndOwner = {
                 privacy_type: row.privacy_type,
                 owner_id: row.owner_id,
-                permissions: row.permissions,
             };
             privacyAndOwners.push(privacyAndOwner);
         });

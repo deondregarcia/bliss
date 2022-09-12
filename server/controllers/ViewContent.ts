@@ -207,6 +207,26 @@ export const getSharedLists = (
   );
 };
 
+// get all users in shared_list_users
+export const getSharedListUsers = (trackerID: number, callback: Function) => {
+  const queryString =
+    "SELECT contributor_id FROM shared_list_users WHERE bucket_list_id=?";
+
+  db.query(queryString, trackerID, (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const rows = <RowDataPacket[]>result;
+    const contributorIDs: number[] = [];
+    rows.forEach((row) => {
+      const contributorID: number = row.contributor_id;
+      contributorIDs.push(contributorID);
+    });
+    callback(null, contributorIDs);
+  });
+};
+
 // get all of friend's public lists, and relevant shared lists
 export const getFriendsLists = (
   sharedListArray: number[],
@@ -259,7 +279,7 @@ export const getUserInfo = (googleID: string, callback: Function) => {
 // get list of friends from google id
 export const getListOfFriends = (userGoogleID: number, callback: Function) => {
   const getUserID = "(SELECT id FROM users WHERE google_id=?)";
-  const queryString = `SELECT username, first_name, last_name, google_photo_link, google_id, wants_to FROM bliss_db.users WHERE id IN (SELECT user_id FROM bliss_db.friends WHERE friend_id=${getUserID} UNION SELECT friend_id FROM bliss_db.friends WHERE user_id=${getUserID})`;
+  const queryString = `SELECT username, first_name, last_name, google_photo_link, google_id, id, wants_to FROM bliss_db.users WHERE id IN (SELECT user_id FROM bliss_db.friends WHERE friend_id=${getUserID} UNION SELECT friend_id FROM bliss_db.friends WHERE user_id=${getUserID})`;
 
   db.query(queryString, [userGoogleID, userGoogleID], (err, result) => {
     if (err) {
@@ -276,6 +296,7 @@ export const getListOfFriends = (userGoogleID: number, callback: Function) => {
         last_name: row.last_name,
         google_photo_link: row.google_photo_link,
         google_id: row.google_id,
+        user_id: row.id,
         wants_to: row.wants_to,
       };
       friends.push(friend);

@@ -38,6 +38,7 @@ const Profile = () => {
   const [friendManager, setFriendManager] = useState("friends"); // state to display friendlist or search component
   const [requestTabSelected, setRequestTabSelected] = useState(false);
   const [userObject, setUserObject] = useState<UserType | undefined>(undefined);
+  // array of friend objects
   const [friends, setFriends] = useState<FriendListType[]>([]);
   const [fullUserList, setFullUserList] = useState<
     FullUserListType[] | undefined
@@ -256,6 +257,7 @@ const Profile = () => {
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
               arraySpecificObject={publicEditObject}
+              friends={friends}
             />
           )}
           <div className="content-container-bucket-list-wrapper">
@@ -302,6 +304,7 @@ const Profile = () => {
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
               arraySpecificObject={sharedEditObject}
+              friends={friends}
             />
           )}
           <div className="content-container-bucket-list-wrapper">
@@ -405,6 +408,7 @@ const Profile = () => {
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
               arraySpecificObject={privateEditObject}
+              friends={friends}
             />
           )}
           <div className="content-container-bucket-list-wrapper">

@@ -11,6 +11,7 @@ import {
   getListOfFriends,
   getUserList,
   getPublicBucketLists,
+  getSharedListUsers,
 } from "../controllers/ViewContent";
 import {
   BucketList,
@@ -173,6 +174,22 @@ viewContentRouter.get(
         res.status(200).json({ bucketListIDs: bucketListIDs });
       }
     );
+  }
+);
+
+// get all users in a shared list based on provided bucket list tracker id (id)
+viewContentRouter.get(
+  "/get-shared-list-users/:id",
+  async (req: Request, res: Response) => {
+    const trackerID = Number(req.params.id);
+
+    getSharedListUsers(trackerID, (err: Error, contributorIDs: number[]) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ contributorIDs });
+    });
   }
 );
 

@@ -41,6 +41,7 @@ export interface FriendListType {
   last_name: string;
   google_photo_link: string;
   google_id: string;
+  user_id: number;
   wants_to?: string;
 }
 

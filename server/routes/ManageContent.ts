@@ -6,6 +6,8 @@ import {
   deleteActivity,
   updateBucketList,
   deleteBucketList,
+  addSharedListUsers,
+  removeSharedListUsers,
 } from "../controllers/ManageContent";
 import { BucketList, BucketListContent } from "../types/content";
 
@@ -106,6 +108,76 @@ contentRouter.put(
       }
 
       res.status(200).json({ updateID: updateID });
+    });
+  }
+);
+
+// add various users to shared_list_users from supplied user ID's
+contentRouter.post(
+  "/add-shared-list-users",
+  async (req: Request, res: Response) => {
+    const ownerID = Number(req.body.ownerID);
+    const bucketListID = Number(req.body.bucketListID);
+    const selectedUserIDs: number[] = req.body.selectedUserIDs;
+
+    // if anything is empty, return
+    if (
+      !ownerID ||
+      !bucketListID ||
+      !selectedUserIDs ||
+      selectedUserIDs.length === 0
+    ) {
+      return res
+        .status(400)
+        .json({ message: "Not all necessary inputs were sent." });
+    }
+
+    // convert provided values into array of arrays for bulk insertion
+    let convertedArray: number[][] = [];
+
+    for (let i = 0; i < selectedUserIDs.length; i++) {
+      convertedArray.push([bucketListID, selectedUserIDs[i], ownerID]);
+    }
+
+    addSharedListUsers(convertedArray, (err: Error, insertID: number) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ message: insertID });
+    });
+  }
+);
+
+// remove various users to shared_list_users from supplied user ID's
+contentRouter.post(
+  "/remove-shared-list-users",
+  async (req: Request, res: Response) => {
+    const bucketListID = Number(req.body.bucketListID);
+    const removedUserIDs: number[] = req.body.removedUserIDs;
+
+    // if anything is empty, return
+    if (!bucketListID || !removedUserIDs || removedUserIDs.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "Not all necessary inputs were sent." });
+    }
+
+    // convert provided values into array of arrays for bulk insertion
+    let convertedArray: number[][] = [];
+
+    for (let i = 0; i < removedUserIDs.length; i++) {
+      convertedArray.push([bucketListID, removedUserIDs[i]]);
+    }
+
+    console.log(convertedArray);
+
+    removeSharedListUsers(convertedArray, (err: Error, insertID: number) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ message: insertID });
     });
   }
 );
