@@ -177,15 +177,12 @@ export const removeSharedListUsers = (
   const queryString =
     "DELETE FROM shared_list_users WHERE (bucket_list_id, contributor_id) IN ?";
 
-  console.log(db.format(queryString, [[convertedArray]]));
-
   // using converted array for bulk insertion; this converted array needs an extra wrapped array to work
   db.query(queryString, [[convertedArray]], (err, result) => {
     if (err) {
       callback(err);
     }
 
-    console.log(result);
     const insertID = (<OkPacket>result).insertId;
     callback(null, insertID);
   });

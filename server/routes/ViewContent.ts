@@ -12,6 +12,7 @@ import {
   getUserList,
   getPublicBucketLists,
   getSharedListUsers,
+  getAllContributors,
 } from "../controllers/ViewContent";
 import {
   BucketList,
@@ -190,6 +191,29 @@ viewContentRouter.get(
 
       res.status(200).json({ contributorIDs });
     });
+  }
+);
+
+// get all contributor's for all of user's owned, shared bucket lists
+viewContentRouter.get(
+  "/get-all-contributors",
+  async (req: Request, res: Response) => {
+    // check if user is logged in/google id exists
+    if (!req.user?.id) {
+      return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const userGoogleID = String(req.user?.profile.id);
+
+    getAllContributors(
+      userGoogleID,
+      (err: Error, contributorObjects: SharedListUserType[]) => {
+        if (err) {
+          return res.status(500).json({ message: err.message });
+        }
+
+        res.status(200).json({ contributorObjects });
+      }
+    );
   }
 );
 

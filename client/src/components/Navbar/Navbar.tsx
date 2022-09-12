@@ -23,14 +23,6 @@ const Navbar = () => {
     navigate("../");
   };
 
-  const deleteThis = () => {
-    Axios.get("/googleuser")
-      .then((res) => console.log(res))
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   return (
     <div className="navbar-container">
       <h1
@@ -50,21 +42,6 @@ const Navbar = () => {
         ) : (
           <LoginButton googleLink="http://localhost:3000/auth/google" />
         )}
-      </div>
-
-      <div className="login">
-        <button onClick={deleteThis}>get google user profile</button>
-        <button onClick={() => console.log(auth)}>Console Log Auth</button>
-        <button
-          onClick={() =>
-            console.log(JSON.parse(auth.session_info.data).passport.user.id)
-          }
-        >
-          Console Log User ID
-        </button>
-        <h3>
-          <a href="http://localhost:3000/auth/google">Login with Google</a>
-        </h3>
       </div>
     </div>
   );

@@ -170,8 +170,6 @@ contentRouter.post(
       convertedArray.push([bucketListID, removedUserIDs[i]]);
     }
 
-    console.log(convertedArray);
-
     removeSharedListUsers(convertedArray, (err: Error, insertID: number) => {
       if (err) {
         return res.status(500).json({ message: err.message });

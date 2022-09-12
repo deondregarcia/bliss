@@ -13,6 +13,7 @@ import {
   FriendListType,
   FullUserListType,
   FriendRequestUserType,
+  SharedListUserType,
 } from "../../types/content";
 
 // import components
@@ -87,6 +88,14 @@ const Profile = () => {
     BucketListType[]
   >([]);
 
+  // bucket_list_id's and contributor id's of all shared_list_users
+  const [contributorObjects, setContributorObjects] = useState<
+    SharedListUserType[]
+  >([]);
+  // contributers' ID array to grab when editing
+  const [contributorUserObjectsArray, setContributorUserObjectsArray] =
+    useState<FriendListType[]>([]);
+
   // grab bucket_list_tracker data
   const getBucketListData = () => {
     // google_id
@@ -112,6 +121,19 @@ const Profile = () => {
             return bucketList.privacy_type === "private";
           })
         );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // get list of shared_list_users user objects where owner_id=(user's ID)
+  const getAllContributors = () => {
+    Axios.get("/view/get-all-contributors")
+      .then((res) => {
+        console.log("contributor res below");
+        console.log(res.data.contributorObjects);
+        setContributorObjects(res.data.contributorObjects);
       })
       .catch((err) => {
         console.log(err);
@@ -188,18 +210,18 @@ const Profile = () => {
 
   // combine funcs to hopefully improve performance
   const runInitialFunctions = () => {
-    getBucketListData();
+    getAllContributors();
     getGoogleUserInfo();
     getUserInfo();
     getFriendsList();
     getFullUserList();
     getOutgoingFriendRequests();
     getIncomingFriendRequests();
+    getBucketListData();
   };
 
   useEffect(() => {
     runInitialFunctions();
-
     return () => {};
   }, []);
 
@@ -258,6 +280,7 @@ const Profile = () => {
               triggerRefresh={triggerRefresh}
               arraySpecificObject={publicEditObject}
               friends={friends}
+              contributorUserObjectsArray={contributorUserObjectsArray}
             />
           )}
           <div className="content-container-bucket-list-wrapper">
@@ -270,6 +293,12 @@ const Profile = () => {
                     setArrayObject={setPublicEditObject}
                     setEditMode={setPublicEdit}
                     key={bucketList.id}
+                    contributorObjects={contributorObjects}
+                    friends={friends}
+                    setContributorUserObjectsArray={
+                      setContributorUserObjectsArray
+                    }
+                    privacyType="public"
                   />
                 );
               })
@@ -305,6 +334,7 @@ const Profile = () => {
               triggerRefresh={triggerRefresh}
               arraySpecificObject={sharedEditObject}
               friends={friends}
+              contributorUserObjectsArray={contributorUserObjectsArray}
             />
           )}
           <div className="content-container-bucket-list-wrapper">
@@ -316,6 +346,12 @@ const Profile = () => {
                     setArrayObject={setSharedEditObject}
                     setEditMode={setSharedEdit}
                     key={bucketList.id}
+                    contributorObjects={contributorObjects}
+                    friends={friends}
+                    setContributorUserObjectsArray={
+                      setContributorUserObjectsArray
+                    }
+                    privacyType="shared"
                   />
                 );
               })
@@ -409,6 +445,7 @@ const Profile = () => {
               triggerRefresh={triggerRefresh}
               arraySpecificObject={privateEditObject}
               friends={friends}
+              contributorUserObjectsArray={contributorUserObjectsArray}
             />
           )}
           <div className="content-container-bucket-list-wrapper">
@@ -420,6 +457,12 @@ const Profile = () => {
                     setArrayObject={setPrivateEditObject}
                     setEditMode={setPrivateEdit}
                     key={bucketList.id}
+                    contributorObjects={contributorObjects}
+                    friends={friends}
+                    setContributorUserObjectsArray={
+                      setContributorUserObjectsArray
+                    }
+                    privacyType="private"
                   />
                 );
               })

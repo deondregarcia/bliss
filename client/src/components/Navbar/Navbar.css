@@ -26,8 +26,3 @@
     grid-column-start: 13;
     align-self: center;
 }
-
-.login {
-    position: absolute;
-    right: 100px;
-}

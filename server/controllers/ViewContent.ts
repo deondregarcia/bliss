@@ -227,6 +227,32 @@ export const getSharedListUsers = (trackerID: number, callback: Function) => {
   });
 };
 
+// get all contributor's for all of user's owned, shared bucket lists
+export const getAllContributors = (
+  userGoogleID: string,
+  callback: Function
+) => {
+  const getUserID = "(SELECT id FROM users WHERE google_id=?)";
+  const queryString = `SELECT bucket_list_id, contributor_id FROM shared_list_users WHERE owner_id=${getUserID}`;
+
+  db.query(queryString, userGoogleID, (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const rows = <RowDataPacket[]>result;
+    const contributorObjects: SharedListUserType[] = [];
+    rows.forEach((row) => {
+      const contributorObject: SharedListUserType = {
+        bucket_list_id: row.bucket_list_id,
+        contributor_id: row.contributor_id,
+      };
+      contributorObjects.push(contributorObject);
+    });
+    callback(null, contributorObjects);
+  });
+};
+
 // get all of friend's public lists, and relevant shared lists
 export const getFriendsLists = (
   sharedListArray: number[],

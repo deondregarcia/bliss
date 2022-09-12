@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { BucketListType, FriendListType } from "../../../types/content";
+import {
+  BucketListType,
+  FriendListType,
+  SharedListUserType,
+} from "../../../types/content";
 import Axios from "axios";
 import "./EditBucketList.css";
 import SelectSharedDropdown from "../Dropdown/SelectSharedDropdown";
@@ -11,6 +15,7 @@ const EditBucketList = ({
   triggerRefresh,
   arraySpecificObject,
   friends,
+  contributorUserObjectsArray,
 }: {
   setCallback: React.Dispatch<React.SetStateAction<boolean>>;
   editState: boolean;
@@ -18,6 +23,7 @@ const EditBucketList = ({
   triggerRefresh: boolean;
   arraySpecificObject: BucketListType | null;
   friends: FriendListType[];
+  contributorUserObjectsArray: FriendListType[];
 }) => {
   const [newTitle, setNewTitle] = useState<string | undefined>(
     arraySpecificObject!.title
@@ -31,7 +37,13 @@ const EditBucketList = ({
   const [permissions, setPermissions] = useState<string | undefined>(
     arraySpecificObject!.permissions
   );
-  const [selectedUsers, setSelectedUsers] = useState<FriendListType[]>([]);
+  // const [selectedUsers, setSelectedUsers] = useState<FriendListType[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<FriendListType[]>(
+    contributorUserObjectsArray
+  );
+
+  // console.log("log from EditBucketList");
+  // console.log(contributorUserObjectsArray);
 
   const deleteBucketList = () => {
     if (window.confirm("Are you sure you want to delete this?")) {

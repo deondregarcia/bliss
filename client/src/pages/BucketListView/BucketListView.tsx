@@ -98,7 +98,6 @@ const BucketListView = () => {
                 // check if shared_list_user
                 Axios.get(`/view/check-if-user-in-shared-list/${id}`)
                   .then((response) => {
-                    console.log(response);
                     if (response.data.data[0]) {
                       getBucketListContent();
                     } else {

@@ -31,10 +31,10 @@ export interface PrivacyAndOwnerType {
 }
 
 export interface SharedListUserType {
-  id: number;
+  id?: number;
   bucket_list_id: number;
   contributor_id: number;
-  owner_id: number;
+  owner_id?: number;
 }
 
 export interface UserType {

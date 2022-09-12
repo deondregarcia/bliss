@@ -57,3 +57,10 @@ export interface FriendRequestUserType {
   google_id: string;
   google_photo_link: string;
 }
+
+export interface SharedListUserType {
+  id?: number;
+  bucket_list_id: number;
+  contributor_id: number;
+  owner_id?: number;
+}
