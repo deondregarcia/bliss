@@ -1,8 +1,6 @@
 .landing-page-container {
     height: 100vh;
-    /* height: 100%; */
     position: relative;
-    /* background-color: red; */
 }
 
 .landing-page-header-container {
@@ -111,9 +109,11 @@
     }
     .value-proposition-text {
         font-size: 16px;
-        left: 3%;
-        bottom: 3%;
-        width: 400px;
+        position: relative;
+        top: 91%;
+        left: 0;
+        margin: auto;
+        text-align: center;
     }
     .what-is-it-container {
         height: 25%;

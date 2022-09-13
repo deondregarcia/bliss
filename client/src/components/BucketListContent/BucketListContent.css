@@ -52,3 +52,27 @@
 .bucket-list-content-edit-button:hover p {
     color: white;
 }
+
+@media screen and (max-width: 500px) {
+    .bucket-list-content-wrapper {
+        margin-top: 20px;
+    }
+    .bucket-list-content-bullet-point {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    .bucket-list-content-activities-container {
+        width: 80%;
+        /* background-color: red; */
+    }
+    .bucket-list-content-activities-header {
+        font-size: 16px;
+    }
+    .bucket-list-content-activities-description {
+        font-size: 16px;
+    }
+    .bucket-list-content-edit-button {
+        top: 10px;
+        right: 5px;
+    }
+}
