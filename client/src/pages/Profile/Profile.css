@@ -1,8 +1,6 @@
 .home-container {
     display: grid;
     grid-template-columns: repeat(18, minmax(80px, 1fr));
-    /* grid-template-rows: repeat(3, 400px); */
-    /* grid-template-rows: repeat(9, 130px); */
     grid-template-rows: repeat(9, 130px);
     justify-content: center;
     grid-gap: 15px;
@@ -19,6 +17,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 5px;
 }
 
 .profile-pic {
@@ -35,7 +34,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* background-color: red; */
 }
 
 .profile-wants-to-container {
@@ -85,6 +83,19 @@
 }
 
 .content-container::-webkit-scrollbar {
+    display: none;
+}
+
+.content-container-bucket-list-wrapper {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.content-container-bucket-list-wrapper::-webkit-scrollbar {
     display: none;
 }
 
@@ -171,26 +182,23 @@
 
 .friend-manager-request-tab {
     position: absolute;
-    height: 26px;
+    height: 2px;
     transition: height 250ms ease;
     width: 100%;
     bottom: 0;
-    /* transform: translateY(150px); */
-    /* left: 60px; */
-    /* background-color: red; */
+    background-color: var(--content-bg-color);
 }
 
 .request-tab-selected {
-    /* transform: translateY(-200px); */
     height: 40%;
 }
 
 .friend-manager-request-tab-button {
-    /* background-color: green; */
-    /* position: absolute; */
     height: 24px;
     width: 120px;
     margin-left: 35px;
+    position: absolute;
+    top: -23px;
     display: flex;
     justify-content: center;
     border: 2px solid var(--main-color);
@@ -200,7 +208,6 @@
     font-family: "Sarabun";
     background-color: var(--main-color);
     color: var(--content-bg-color);
-    /* color: var(--main-color); */
     font-size: 15px;
 }
 
@@ -222,11 +229,8 @@
 }
 
 .friend-manager-request-tab-bar {
-    /* height: 40px; */
-    /* height: 100%; */
     width: 100%;
     border-top: 2px solid var(--main-color);
-    /* background-color: blue; */
 }
 
 /* these should be h2 tags */
@@ -257,6 +261,52 @@
     border: var(--border-style);
 }
 
-.test {
-    background-color: red;
+@media screen and (max-width: 500px) {
+    .home-container {
+        /* grid-template-columns: repeat(3, minmax(130px, 1fr)); */
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(5, 300px);
+        grid-gap: 25px;
+        margin-bottom: 20px;
+    }
+    .content-container {
+        grid-column: 1 / 4;
+        grid-row: span 1;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .right-column-container {
+        grid-column: 1 / 4;
+        grid-row: span 1;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .public {
+        grid-row-start: 1;
+    }
+    .shared {
+        grid-row-start: 2;
+    }
+    .friend-manager {
+        grid-row-start: 3;
+    }
+    .private {
+        grid-row-start: 4;
+    }
+    .profile-info {
+        grid-column: 1 / 4;
+        grid-row: 5 / 6;
+        margin-left: 50px;
+        margin-right: 50px;
+        overflow-y: scroll;
+    }
+    .profile-info::-webkit-scrollbar {
+        display: none;
+    }
+    .friend-feed {
+        display: none;
+    }
+    .recipe-suggestions {
+        display: none;
+    }
 }

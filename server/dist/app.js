@@ -183,9 +183,46 @@ app.post("/send-friend-request", (req, res) => __awaiter(void 0, void 0, void 0,
         res.status(200).json({ insertID: insertID });
     });
 }));
+// accept a friend request -> insert into friends
+app.post("/accept-request", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _c, _d;
+    // check if user is logged in/google id exists
+    if (!((_c = req.user) === null || _c === void 0 ? void 0 : _c.id)) {
+        return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const userGoogleID = String((_d = req.user) === null || _d === void 0 ? void 0 : _d.id);
+    const friendGoogleID = req.body.google_id;
+    (0, UserManagement_1.acceptRequest)(userGoogleID, friendGoogleID, (err, insertID) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ insertID: insertID });
+    });
+}));
+// deny a friend request -> delete from friend_requests
+app.post("/deny-request", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _e, _f;
+    // check if user is logged in/google id exists
+    if (!((_e = req.user) === null || _e === void 0 ? void 0 : _e.id)) {
+        return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const userGoogleID = String((_f = req.user) === null || _f === void 0 ? void 0 : _f.id);
+    const friendGoogleID = req.body.google_id;
+    (0, UserManagement_1.denyRequest)(userGoogleID, friendGoogleID, (err, deletionID) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ deletionID: deletionID });
+    });
+}));
 // get outgoing friend requests for a user from user's google id
-app.get("/get-outgoing-friend-requests/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userGoogleID = String(req.params.id);
+app.get("/get-outgoing-friend-requests", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _g, _h;
+    // check if user is logged in/google id exists
+    if (!((_g = req.user) === null || _g === void 0 ? void 0 : _g.id)) {
+        return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const userGoogleID = String((_h = req.user) === null || _h === void 0 ? void 0 : _h.id);
     (0, UserManagement_1.getOutgoingFriendRequests)(userGoogleID, (err, outgoingRequestUsers) => {
         if (err) {
             return res.status(500).json({ message: err.message });
@@ -194,8 +231,13 @@ app.get("/get-outgoing-friend-requests/:id", (req, res) => __awaiter(void 0, voi
     });
 }));
 // get incoming friend requests for a user from user's google id
-app.get("/get-incoming-friend-requests/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userGoogleID = String(req.params.id);
+app.get("/get-incoming-friend-requests", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _j, _k;
+    // check if user is logged in/google id exists
+    if (!((_j = req.user) === null || _j === void 0 ? void 0 : _j.id)) {
+        return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const userGoogleID = String((_k = req.user) === null || _k === void 0 ? void 0 : _k.id);
     (0, UserManagement_1.getIncomingFriendRequests)(userGoogleID, (err, incomingRequestUsers) => {
         if (err) {
             return res.status(500).json({ message: err.message });
@@ -231,8 +273,8 @@ app.post("/check-if-username-exists", (req, res) => __awaiter(void 0, void 0, vo
     });
 }));
 app.post("/create-user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c, _d, _e;
-    if (!((_c = req.user) === null || _c === void 0 ? void 0 : _c.profile.id)) {
+    var _l, _m, _o;
+    if (!((_l = req.user) === null || _l === void 0 ? void 0 : _l.profile.id)) {
         return res.status(500).json({ message: "No Google ID" });
     }
     const newUser = {
@@ -240,9 +282,9 @@ app.post("/create-user", (req, res) => __awaiter(void 0, void 0, void 0, functio
         first_name: req.body.firstName,
         last_name: req.body.lastName,
         created_at: new Date(),
-        google_id: String((_d = req.user) === null || _d === void 0 ? void 0 : _d.profile.id),
+        google_id: String((_m = req.user) === null || _m === void 0 ? void 0 : _m.profile.id),
         wants_to: req.body.wantsTo,
-        google_photo_link: String((_e = req.user) === null || _e === void 0 ? void 0 : _e.profile.photos[0].value),
+        google_photo_link: String((_o = req.user) === null || _o === void 0 ? void 0 : _o.profile.photos[0].value),
     };
     (0, UserManagement_1.createUser)(newUser, (err, insertID) => {
         if (err) {

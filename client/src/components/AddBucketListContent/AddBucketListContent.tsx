@@ -24,6 +24,7 @@ const AddBucketListContent = ({
       alert("Please enter a title/description.");
       return;
     }
+
     await Axios.post("/content/add", {
       tracker_id: bucketListID,
       activity: newActivity,
@@ -60,6 +61,8 @@ const AddBucketListContent = ({
             className="add-bucket-list-content-title-input"
             type="text"
             id="new-activity-title-input"
+            maxLength={50}
+            placeholder="Max 50 characters"
             value={newActivity}
             onChange={(e) => setNewActivity(e.target.value)}
           />
@@ -68,6 +71,8 @@ const AddBucketListContent = ({
             className="add-bucket-list-content-description-input"
             type="text"
             id="new-activity-description-input"
+            maxLength={150}
+            placeholder="Max 150 characters"
             value={newDescription}
             onChange={(e) => setNewDescription(e.target.value)}
           />

@@ -12,17 +12,20 @@ const SearchList = ({
   fullUserList,
   friends,
   outgoingFriendRequests,
+  incomingFriendRequests,
 }: {
   searchInput: string;
   fullUserList: FullUserListType[] | undefined;
   friends: FriendListType[];
   outgoingFriendRequests: FriendRequestUserType[];
+  incomingFriendRequests: FriendRequestUserType[];
 }) => {
   // using this to force a refresh
   const [outgoingFriendRequestStateList, setOutgoingFriendRequestStateList] =
     useState<string[]>([]);
   const friendList: string[] = [];
   const outgoingFriendRequestList: string[] = [];
+  const incomingFriendRequestList: string[] = [];
 
   for (let i = 0; i < friends.length; i++) {
     friendList.push(friends[i].username);
@@ -30,6 +33,10 @@ const SearchList = ({
 
   for (let i = 0; i < outgoingFriendRequests.length; i++) {
     outgoingFriendRequestList.push(outgoingFriendRequests[i].username);
+  }
+
+  for (let i = 0; i < incomingFriendRequests.length; i++) {
+    incomingFriendRequestList.push(incomingFriendRequests[i].username);
   }
 
   // send friend request
@@ -78,6 +85,11 @@ const SearchList = ({
                     {/* check if friends if username matches that in friends list */}
                     {friendList.includes(user?.username) ? (
                       <h3 className="search-list-user-text">Friends!</h3>
+                    ) : incomingFriendRequestList.includes(user?.username) ? (
+                      <p className="search-list-user-text-small">
+                        Has already requested you. Check the requests tab to
+                        accept or deny.
+                      </p>
                     ) : outgoingFriendRequestList.includes(user?.username) ||
                       outgoingFriendRequestStateList.includes(
                         user?.username

@@ -1,33 +1,58 @@
 
 .bucket-list-view-wrapper {
-    /* background-color: red; */
-    /* height: calc(100vh - 100px); */
-    height: 70vh;
+    height: 500px;
     display: flex;
     justify-content: center;
-    /* height: 500px; */
   }
   
   .bucket-list-view-container {
-    /* height: calc(100% - 50px); */
     background-color: var(--content-bg-color);
-    /* min-width: 500px; */
+    height: 500px;
     width: 40%;
     border: var(--border-style);
     border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
+    position: relative;
   }
 
   .bucket-list-view-content-container {
-    position: relative;
-    flex-grow: 1;
+    background-color: var(--content-bg-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    scrollbar-width: none;
+  }
+
+  .bucket-list-view-content-container::-webkit-scrollbar {
+    display: none;
+}
+
+  .bucket-list-view-list-wrapper {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .bucket-list-view-list-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+  .bucket-list-view-empty {
+    position: absolute;
+    text-align: center;
+    top: 60px;
+    font-family: "Sarabun";
+    color: gray;
+    font-size: 50px;
   }
   
   .bucket-list-view-header-container {
     background-color: var(--main-color);
     border-radius: var(--border-radius) var(--border-radius) 0 0;
-    position: relative;
   }
   
   .bucket-list-view-header {
@@ -63,4 +88,33 @@
     font-family: var(--text-font);
     color: var(--content-bg-color);
     text-align: center;
+  }
+
+  @media screen and (max-width: 500px) {
+    .bucket-list-view-container {
+      height: 600px;
+      width: 95%;
+    }
+    .bucket-list-view-header-container {
+      min-height: 50px;
+    }
+    .bucket-list-view-header {
+      font-size: 22px;
+      /* background-color: red; */
+      margin-left: 10px;
+    }
+    .bucket-list-view-add-button {
+      font-size: 15px;
+      height: 40px;
+      width: 100px;
+      top: 550px;
+      left: 150px;
+      border: 2px solid var(--main-color);
+      background-color: var(--content-bg-color);
+      color: var(--main-color);
+      z-index: 5;
+    }
+    .bucket-list-view-description {
+      margin-left: 10px;
+    }
   }

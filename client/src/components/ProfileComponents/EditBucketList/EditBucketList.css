@@ -2,8 +2,7 @@
     height: 100%;
     width: 100%;
     background-color: var(--faded-bg-color);
-    border-bottom-left-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
+    border-radius: var(--border-radius);
     position: absolute;
     z-index: 5;
 }
@@ -154,4 +153,17 @@
 
 .edit-bucket-list-public-radio-buttons-wrapper > input {
     accent-color: var(--main-color);
+}
+
+.edit-bucket-list-shared-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.edit-bucket-list-shared-header {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Sarabun";
 }

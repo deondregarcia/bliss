@@ -10,6 +10,9 @@ import {
   getFriendsLists,
   getListOfFriends,
   getUserList,
+  getPublicBucketLists,
+  getSharedListUsers,
+  getAllContributors,
 } from "../controllers/ViewContent";
 import {
   BucketList,
@@ -28,7 +31,24 @@ viewContentRouter.get(
   "/lists/:google_id",
   async (req: Request, res: Response) => {
     const googleID: string = String(req.params.google_id);
+
     getBucketLists(googleID, (err: Error, lists: BucketList[]) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ data: lists });
+    });
+  }
+);
+
+// get only public_random lists for viewing profiles where user is not friends with them
+viewContentRouter.get(
+  "/get-public-lists/:id",
+  async (req: Request, res: Response) => {
+    const userGoogleID = req.params.id;
+
+    getPublicBucketLists(userGoogleID, (err: Error, lists: BucketList[]) => {
       if (err) {
         return res.status(500).json({ message: err.message });
       }
@@ -159,6 +179,45 @@ viewContentRouter.get(
   }
 );
 
+// get all users in a shared list based on provided bucket list tracker id (id)
+viewContentRouter.get(
+  "/get-shared-list-users/:id",
+  async (req: Request, res: Response) => {
+    const trackerID = Number(req.params.id);
+
+    getSharedListUsers(trackerID, (err: Error, contributorIDs: number[]) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ contributorIDs });
+    });
+  }
+);
+
+// get all contributor's for all of user's owned, shared bucket lists
+viewContentRouter.get(
+  "/get-all-contributors",
+  async (req: Request, res: Response) => {
+    // check if user is logged in/google id exists
+    if (!req.user?.id) {
+      return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const userGoogleID = String(req.user?.profile.id);
+
+    getAllContributors(
+      userGoogleID,
+      (err: Error, contributorObjects: SharedListUserType[]) => {
+        if (err) {
+          return res.status(500).json({ message: err.message });
+        }
+
+        res.status(200).json({ contributorObjects });
+      }
+    );
+  }
+);
+
 // get user info from database from google ID
 viewContentRouter.get(
   "/get-user-info/:id",
@@ -177,9 +236,14 @@ viewContentRouter.get(
 
 // get list of friends from google id
 viewContentRouter.get(
-  "/get-list-of-friends/:id",
+  "/get-list-of-friends",
   async (req: Request, res: Response) => {
-    const userGoogleID = Number(req.params.id);
+    // check if user is logged in/google id exists
+    if (!req.user?.id) {
+      return res.status(403).json({ message: "User's Google ID not found" });
+    }
+
+    const userGoogleID = Number(req.user?.id);
 
     getListOfFriends(userGoogleID, (err: Error, friends: FriendListType[]) => {
       if (err) {

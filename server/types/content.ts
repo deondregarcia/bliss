@@ -28,14 +28,13 @@ export interface FriendPairType {
 export interface PrivacyAndOwnerType {
   privacy_type: string;
   owner_id: number;
-  permissions: string;
 }
 
 export interface SharedListUserType {
-  id: number;
+  id?: number;
   bucket_list_id: number;
   contributor_id: number;
-  owner_id: number;
+  owner_id?: number;
 }
 
 export interface UserType {
@@ -60,6 +59,7 @@ export interface FriendListType {
   last_name: string;
   google_photo_link: string;
   google_id: string;
+  user_id: number;
   wants_to?: string;
 }
 

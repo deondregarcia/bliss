@@ -14,7 +14,6 @@
     grid-column-start: 6;
     font-size: 40px;
     color: var(--main-color);
-    /* font-family: 'Lucida Sans'; */
     font-family: Georgia;
 }
 
@@ -25,9 +24,4 @@
 .login-logout-container {
     grid-column-start: 13;
     align-self: center;
-}
-
-.login {
-    position: absolute;
-    right: 100px;
 }

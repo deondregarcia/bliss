@@ -6,6 +6,9 @@ import {
   deleteActivity,
   updateBucketList,
   deleteBucketList,
+  addSharedListUsers,
+  removeSharedListUsers,
+  updateGooglePhoto,
 } from "../controllers/ManageContent";
 import { BucketList, BucketListContent } from "../types/content";
 
@@ -107,6 +110,99 @@ contentRouter.put(
 
       res.status(200).json({ updateID: updateID });
     });
+  }
+);
+
+// add various users to shared_list_users from supplied user ID's
+contentRouter.post(
+  "/add-shared-list-users",
+  async (req: Request, res: Response) => {
+    const ownerID = Number(req.body.ownerID);
+    const bucketListID = Number(req.body.bucketListID);
+    const selectedUserIDs: number[] = req.body.selectedUserIDs;
+
+    // if anything is empty, return
+    if (
+      !ownerID ||
+      !bucketListID ||
+      !selectedUserIDs ||
+      selectedUserIDs.length === 0
+    ) {
+      return res
+        .status(400)
+        .json({ message: "Not all necessary inputs were sent." });
+    }
+
+    // convert provided values into array of arrays for bulk insertion
+    let convertedArray: number[][] = [];
+
+    for (let i = 0; i < selectedUserIDs.length; i++) {
+      convertedArray.push([bucketListID, selectedUserIDs[i], ownerID]);
+    }
+
+    addSharedListUsers(convertedArray, (err: Error, insertID: number) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ message: insertID });
+    });
+  }
+);
+
+// remove various users to shared_list_users from supplied user ID's
+contentRouter.post(
+  "/remove-shared-list-users",
+  async (req: Request, res: Response) => {
+    const bucketListID = Number(req.body.bucketListID);
+    const removedUserIDs: number[] = req.body.removedUserIDs;
+
+    // if anything is empty, return
+    if (!bucketListID || !removedUserIDs || removedUserIDs.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "Not all necessary inputs were sent." });
+    }
+
+    // convert provided values into array of arrays for bulk insertion
+    let convertedArray: number[][] = [];
+
+    for (let i = 0; i < removedUserIDs.length; i++) {
+      convertedArray.push([bucketListID, removedUserIDs[i]]);
+    }
+
+    removeSharedListUsers(convertedArray, (err: Error, insertID: number) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ message: insertID });
+    });
+  }
+);
+
+// update profile photo to reflect new google photo
+contentRouter.put(
+  "/update-google-photo",
+  async (req: Request, res: Response) => {
+    // check if user is logged in/google id exists
+    if (!req.user?.id) {
+      return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const userGoogleID = String(req.user?.id);
+    const googlePhotoLink = String(req.body.googlePhotoLink);
+
+    updateGooglePhoto(
+      userGoogleID,
+      googlePhotoLink,
+      (err: Error, insertID: number) => {
+        if (err) {
+          return res.status(500).json({ message: err.message });
+        }
+
+        res.status(200).json({ insertID: insertID });
+      }
+    );
   }
 );
 

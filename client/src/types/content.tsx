@@ -41,6 +41,7 @@ export interface FriendListType {
   last_name: string;
   google_photo_link: string;
   google_id: string;
+  user_id: number;
   wants_to?: string;
 }
 
@@ -55,4 +56,11 @@ export interface FriendRequestUserType {
   username: string;
   google_id: string;
   google_photo_link: string;
+}
+
+export interface SharedListUserType {
+  id?: number;
+  bucket_list_id: number;
+  contributor_id: number;
+  owner_id?: number;
 }

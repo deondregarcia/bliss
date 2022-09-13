@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateBucketList = exports.updateActivity = exports.deleteBucketList = exports.deleteActivity = exports.addActivity = exports.createBucketList = void 0;
+exports.updateGooglePhoto = exports.removeSharedListUsers = exports.addSharedListUsers = exports.updateBucketList = exports.updateActivity = exports.deleteBucketList = exports.deleteActivity = exports.addActivity = exports.createBucketList = void 0;
 // controller callback functions for CRUD operations on bucket list content
 const db_1 = require("../db");
 // creates the bucket list tracker
@@ -94,3 +94,41 @@ const updateBucketList = (updatedBucketList, callback) => {
     });
 };
 exports.updateBucketList = updateBucketList;
+// add various users to shared_list_users from supplied user ID's
+const addSharedListUsers = (convertedArray, callback) => {
+    const queryString = "INSERT INTO shared_list_users (bucket_list_id, contributor_id, owner_id) VALUES ?";
+    // using converted array for bulk insertion
+    db_1.db.query(queryString, [convertedArray], (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const insertID = result.insertId;
+        callback(null, insertID);
+    });
+};
+exports.addSharedListUsers = addSharedListUsers;
+// remove various users to shared_list_users from supplied user ID's
+const removeSharedListUsers = (convertedArray, callback) => {
+    const queryString = "DELETE FROM shared_list_users WHERE (bucket_list_id, contributor_id) IN ?";
+    // using converted array for bulk insertion; this converted array needs an extra wrapped array to work
+    db_1.db.query(queryString, [[convertedArray]], (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const insertID = result.insertId;
+        callback(null, insertID);
+    });
+};
+exports.removeSharedListUsers = removeSharedListUsers;
+// update google photo based on google id since you can't select "FROM" the table you're updating
+const updateGooglePhoto = (userGoogleID, googlePhotoLink, callback) => {
+    const queryString = "UPDATE users SET google_photo_link=? WHERE google_id=?";
+    db_1.db.query(queryString, [googlePhotoLink, userGoogleID], (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const insertID = result.insertId;
+        callback(null, insertID);
+    });
+};
+exports.updateGooglePhoto = updateGooglePhoto;

@@ -78,3 +78,36 @@ a {
 .get-recipes-button:hover .get-recipes-button-text {
     color: #FFF;
 }
+
+.view-profile-button {
+    /* background-color: red; */
+    padding: 0 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.view-profile-button-text {
+    font-family: Arial;
+    font-size: 16px;
+    border-bottom: 1px solid transparent;
+}
+
+.view-profile-button-text:hover {
+    border-bottom: 1px solid var(--main-color);
+}
+
+@media screen and (max-width: 500px) {
+    .landing-login-button {
+        margin: auto;
+        height: 50px;
+        width: 200px;
+        font-size: 18px;
+    }
+    .logout-button {
+        display: flex;
+        align-items: center;
+        margin-top: 7px;
+        height: 40px;
+    }
+}

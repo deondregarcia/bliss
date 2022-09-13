@@ -12,11 +12,13 @@ const Search = ({
   fullUserList,
   friends,
   outgoingFriendRequests,
+  incomingFriendRequests,
 }: {
   friendManager: string;
   fullUserList: FullUserListType[] | undefined;
   friends: FriendListType[];
   outgoingFriendRequests: FriendRequestUserType[];
+  incomingFriendRequests: FriendRequestUserType[];
 }) => {
   const [searchInput, setSearchInput] = useState<string>("");
 
@@ -49,6 +51,7 @@ const Search = ({
             fullUserList={fullUserList}
             friends={friends}
             outgoingFriendRequests={outgoingFriendRequests}
+            incomingFriendRequests={incomingFriendRequests}
           />
         </div>
       </div>

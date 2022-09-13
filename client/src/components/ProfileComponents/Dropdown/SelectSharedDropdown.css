@@ -1,0 +1,162 @@
+.shared-dropdown-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.shared-dropdown-input-container {
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.shared-dropdown-input-box {
+    height: 30px;
+    width: 200px;
+    display: flex;
+    position: relative;
+    background-color: var(--content-bg-color);
+    border: 2px solid var(--text-color);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    z-index: 7;
+}
+
+.shared-dropdown-input-box:hover {
+    cursor: pointer;
+}
+
+.shared-dropdown-input-box > h3 {
+    font-family: "Sarabun";
+    color: var(--text-color);
+    font-size: 20px;
+    margin-left: 8px;
+}
+
+.shared-dropdown-input-box-arrow {
+    position: absolute;
+    right: 5px;
+    top: 2px;
+    transition: transform 600ms ease;
+}
+
+.shared-dropdown-input-box-arrow-opened {
+    transform: rotateZ(180deg);
+    transition: transform 600ms ease;
+}
+
+.shared-dropdown-options-list-background-wrapper {
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    bottom: 0px;
+    overflow: hidden;
+    z-index: 6;
+}
+
+.shared-dropdown-options-list {
+    height: 200px;
+    width: 200px;
+    background-color: var(--content-bg-color);
+    position: absolute;
+    bottom: 0px;
+    transition: bottom 600ms ease;
+    border: 2px solid var(--text-color);
+    border-top: 0px solid transparent;
+    z-index: 5;
+    overflow-y: scroll;
+}
+
+.shared-dropdown-options-list > h3 {
+    font-family: "Sarabun";
+    color: var(--text-color);
+    font-size: 20px;
+    position: relative;
+    top: 20px;
+    text-align: center;
+}
+
+.shared-dropdown-options-list::-webkit-scrollbar {
+    display: none;
+}
+
+.shared-dropdown-options-list-closed {
+    bottom: 200px;
+    transition: bottom 750ms ease;
+}
+
+.shared-dropdown-options-list-user-container {
+    display: flex;
+    align-items: flex-end;
+    height: 25px;
+}
+
+.shared-dropdown-options-list-user-container-selected {
+    background-color: var(--main-color-light);
+}
+
+.shared-dropdown-options-list-user-container:hover {
+    background-color: var(--main-color-light);
+    cursor: pointer;
+}
+
+.shared-dropdown-options-list-user-container > p {
+    font-family: Arial;
+    font-size: 18px;
+    margin-left: 5px;
+}
+
+.shared-dropdown-selected-section-container {
+    height: 230px;
+    width: 200px;
+    margin-left: 50px;
+    border: 2px solid var(--text-color);
+    border-radius: 10px;
+}
+
+.shared-dropdown-selected-section-header {
+    font-size: 20px;
+    font-family: "Sarabun";
+    text-align: center;
+    height: 30px;
+}
+
+.shared-dropdown-selected-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 200px;
+    overflow-y: scroll;
+}
+
+.shared-dropdown-selected-section::-webkit-scrollbar {
+    display: none;
+}
+
+.shared-dropdown-selected-user-container {
+    display: flex;
+    align-items: flex-end;
+    height: 25px;
+    width: 90%;
+    margin-top: 5px;
+    border-radius: 6px;
+    background-color: lightgray;
+}
+
+.shared-dropdown-selected-user-remove {
+    font-family: Arial;
+    font-size: 18px;
+    margin-left: 5px;
+}
+
+.shared-dropdown-selected-user-remove:hover {
+    cursor: pointer;
+}
+
+.shared-dropdown-selected-user-username {
+    font-family: Arial;
+    font-size: 18px;
+    margin-left: 5px;
+}

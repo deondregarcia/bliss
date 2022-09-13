@@ -32,14 +32,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* background-color: red; */
 }
 
 .friend-profile-profile-wants-to-container {
     width: 80%;
     margin-top: 5px;
     overflow-wrap: break-word;
-    /* background-color: red; */
 }
 
 .friend-profile-profile-wants-to-container-header {
@@ -132,4 +130,42 @@
     grid-column: 4/6;
     border-radius: var(--border-radius);
     border: var(--border-style);
+}
+
+@media screen and (max-width: 500px) {
+    .friend-profile-container {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 300px);
+        grid-gap: 25px;
+        margin-bottom: 20px;
+    }
+    .friend-profile-content-container {
+        grid-column: 1 / 4;
+        grid-row: span 1;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .public {
+        grid-row-start: 1;
+    }
+    .shared {
+        grid-row-start: 2;
+    }
+    .friend-profile-profile-info {
+        grid-column: 1 / 4;
+        grid-row-start: 3;
+        grid-row: span 1;
+        margin-left: 50px;
+        margin-right: 50px;
+        overflow-y: scroll;
+    }
+    .friend-profile-right-column-container {
+        display: none;
+    }
+    .friend-profile-today-i-should-container {
+        display: none;
+    }
+    .friend-feed {
+        display: none;
+    }
 }

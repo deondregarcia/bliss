@@ -58,3 +58,44 @@
 .bucket-list-edit-button:hover h2 {
     color: white;
 }
+
+.bucket-list-owner-text {
+    position: absolute;
+    top: 14px;
+    right: 26px;
+    font-family: "Sarabun";
+    font-size: 15px;
+}
+
+@media screen and (max-width: 500px) {
+    .bucket-list-container {
+        height: 100%;
+    }
+    .bucket-list-title {
+        font-size: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 80%;
+        min-width: 190px;
+    }
+    .bucket-list-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 80%;
+        min-width: 190px;
+    }
+    .bucket-list-edit-button {
+        top: 20px;
+        right: 20px;
+        height: 50px;
+        width: 60px;
+    }
+    .bucket-list-owner-text {
+        top: 5px;
+        font-size: 10px;
+        width: 50px;
+        text-align: center;
+    }
+}

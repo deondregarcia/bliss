@@ -13,6 +13,7 @@ import {
   FriendListType,
   FullUserListType,
   FriendRequestUserType,
+  SharedListUserType,
 } from "../../types/content";
 
 // import components
@@ -37,7 +38,8 @@ const Profile = () => {
   >();
   const [friendManager, setFriendManager] = useState("friends"); // state to display friendlist or search component
   const [requestTabSelected, setRequestTabSelected] = useState(false);
-  const [userObject, setUserObject] = useState<UserType | undefined>(undefined);
+  const [userObject, setUserObject] = useState<UserType>({} as UserType);
+  // array of friend objects
   const [friends, setFriends] = useState<FriendListType[]>([]);
   const [fullUserList, setFullUserList] = useState<
     FullUserListType[] | undefined
@@ -85,24 +87,14 @@ const Profile = () => {
   const [privateBucketListArray, setPrivateBucketListArray] = useState<
     BucketListType[]
   >([]);
-  const [initialPublicBound, setInitialPublicBound] = useState<
-    number | undefined
-  >(undefined);
-  const [publicOffset, setPublicOffset] = useState<number | undefined>(
-    undefined
-  );
-  const [initialSharedBound, setInitialSharedBound] = useState<
-    number | undefined
-  >(undefined);
-  const [sharedOffset, setSharedOffset] = useState<number | undefined>(
-    undefined
-  );
-  const [initialPrivateBound, setInitialPrivateBound] = useState<
-    number | undefined
-  >(undefined);
-  const [privateOffset, setPrivateOffset] = useState<number | undefined>(
-    undefined
-  );
+
+  // bucket_list_id's and contributor id's of all shared_list_users
+  const [contributorObjects, setContributorObjects] = useState<
+    SharedListUserType[]
+  >([]);
+  // contributers' ID array to grab when editing
+  const [contributorUserObjectsArray, setContributorUserObjectsArray] =
+    useState<FriendListType[]>([]);
 
   // grab bucket_list_tracker data
   const getBucketListData = () => {
@@ -135,6 +127,17 @@ const Profile = () => {
       });
   };
 
+  // get list of shared_list_users user objects where owner_id=(user's ID)
+  const getAllContributors = () => {
+    Axios.get("/view/get-all-contributors")
+      .then((res) => {
+        setContributorObjects(res.data.contributorObjects);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   // get google user info
   const getGoogleUserInfo = () => {
     Axios.get("/googleuser")
@@ -159,7 +162,7 @@ const Profile = () => {
 
   // get list of friends
   const getFriendsList = () => {
-    Axios.get(`/view/get-list-of-friends/${id}`)
+    Axios.get(`/view/get-list-of-friends`)
       .then((res) => {
         setFriends(res.data.friends);
       })
@@ -181,9 +184,8 @@ const Profile = () => {
 
   // get outgoing friend requests (user sent these)
   const getOutgoingFriendRequests = () => {
-    Axios.get(`/get-outgoing-friend-requests/${id}`)
+    Axios.get(`/get-outgoing-friend-requests`)
       .then((res) => {
-        console.log(res.data.outgoingRequestUsers);
         setOutgoingFriendRequests(res.data.outgoingRequestUsers);
       })
       .catch((err) => {
@@ -191,11 +193,10 @@ const Profile = () => {
       });
   };
 
-  // get outgoing friend requests (user sent these)
+  // get incoming friend requests (user received these)
   const getIncomingFriendRequests = () => {
-    Axios.get(`/get-incoming-friend-requests/${id}`)
+    Axios.get(`/get-incoming-friend-requests`)
       .then((res) => {
-        console.log(res.data.incomingRequestUsers);
         setIncomingFriendRequests(res.data.incomingRequestUsers);
       })
       .catch((err) => {
@@ -203,65 +204,47 @@ const Profile = () => {
       });
   };
 
+  // check if google photo is new; if so, update
+  const updateGooglePhoto = () => {
+    console.log(googleUserObject?.photos[0].value);
+    console.log(googleUserObject);
+    if (googleUserObject?.photos[0].value === userObject?.google_photo_link) {
+      return;
+    } else {
+      Axios.put("/content/update-google-photo", {
+        googlePhotoLink: googleUserObject?.photos[0].value,
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   // combine funcs to hopefully improve performance
   const runInitialFunctions = () => {
     getBucketListData();
+    getAllContributors();
     getGoogleUserInfo();
     getUserInfo();
     getFriendsList();
     getFullUserList();
     getOutgoingFriendRequests();
     getIncomingFriendRequests();
+    // updateGooglePhoto();
   };
 
   useEffect(() => {
     runInitialFunctions();
-
     return () => {};
   }, []);
 
   useEffect(() => {
     getBucketListData();
-
     return () => {};
   }, [triggerRefresh]);
-
-  // --------- Below useEffects set and calculate necessary offset values for edit overlays --------------
-  // without these offset values for a transform, overlay would not render in correct position
-
-  useEffect(() => {
-    setInitialPublicBound(
-      document?.getElementById("public-bound")?.getBoundingClientRect().top
-    );
-    setInitialSharedBound(
-      document?.getElementById("shared-bound")?.getBoundingClientRect().top
-    );
-    setInitialPrivateBound(
-      document?.getElementById("private-bound")?.getBoundingClientRect().top
-    );
-  }, [publicBucketListArray]);
-
-  useEffect(() => {
-    const offset =
-      initialPublicBound! -
-      document?.getElementById("public-bound")?.getBoundingClientRect().top! -
-      window.scrollY;
-    setPublicOffset(offset);
-  }, [publicEdit]);
-  useEffect(() => {
-    const offset =
-      initialSharedBound! -
-      document?.getElementById("shared-bound")?.getBoundingClientRect().top! -
-      window.scrollY;
-    setSharedOffset(offset);
-  }, [sharedEdit]);
-  useEffect(() => {
-    const offset =
-      initialPrivateBound! -
-      document?.getElementById("private-bound")?.getBoundingClientRect().top! -
-      window.scrollY;
-    setPrivateOffset(offset);
-  }, [privateEdit]);
 
   return (
     <>
@@ -269,7 +252,6 @@ const Profile = () => {
         <div className="profile-info">
           <h2>{userObject?.username}</h2>
           <img
-            // src={googleUserObject?.photos[0].value}
             src={userObject?.google_photo_link}
             referrerPolicy="no-referrer" // referrer policy that blocked loading of img sometimes - look into it
             alt="google profile picture"
@@ -291,10 +273,7 @@ const Profile = () => {
             )}
           </div>
         </div>
-        <div
-          className="content-container public"
-          style={publicEdit ? { overflowY: "hidden" } : { overflowY: "scroll" }}
-        >
+        <div className="content-container public">
           <ContentContainerHeader
             setCallback={setPublicAdd}
             addState={publicAdd}
@@ -307,6 +286,8 @@ const Profile = () => {
               privacyType="public"
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
+              friends={friends}
+              userObject={userObject}
             />
           )}
           {publicEdit && (
@@ -316,41 +297,40 @@ const Profile = () => {
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
               arraySpecificObject={publicEditObject}
-              offset={publicOffset}
+              friends={friends}
+              contributorUserObjectsArray={contributorUserObjectsArray}
             />
           )}
-          {/* if publicBucketListArray is true, render, if null, display message */}
-          {publicBucketListArray.length > 0 ? (
-            publicBucketListArray.map((bucketList) => {
-              return (
-                <BucketList
-                  bucketList={bucketList}
-                  setArrayObject={setPublicEditObject}
-                  setEditMode={setPublicEdit}
-                  key={bucketList.id}
-                  category="public"
-                />
-              );
-            })
-          ) : (
-            <EmptyArrayMessage />
-          )}
+          <div className="content-container-bucket-list-wrapper">
+            {/* if publicBucketListArray is true, render, if null, display message */}
+            {publicBucketListArray.length > 0 ? (
+              publicBucketListArray.map((bucketList) => {
+                return (
+                  <BucketList
+                    bucketList={bucketList}
+                    setArrayObject={setPublicEditObject}
+                    setEditMode={setPublicEdit}
+                    key={bucketList.id}
+                    contributorObjects={contributorObjects}
+                    friends={friends}
+                    setContributorUserObjectsArray={
+                      setContributorUserObjectsArray
+                    }
+                    privacyType="public"
+                    userID={userObject.id}
+                  />
+                );
+              })
+            ) : (
+              <EmptyArrayMessage accountType="owner" />
+            )}
+          </div>
         </div>
         <div className="right-column-container friend-feed">
           <h2 className="side-container-header">Recent Friend Activities</h2>
           <div className="side-container-header-separator" />
         </div>
-
-        {/* <div className="today-i-should-container">
-          <h2 className="side-container-header">Today, I should...</h2>
-          <div className="side-container-header-separator" />
-          <p>Today I should try working out</p>
-        </div> */}
-        <div
-          id="test3"
-          className="content-container shared"
-          style={sharedEdit ? { overflowY: "hidden" } : { overflowY: "scroll" }}
-        >
+        <div className="content-container shared">
           <ContentContainerHeader
             setCallback={setSharedAdd}
             addState={sharedAdd}
@@ -363,6 +343,8 @@ const Profile = () => {
               privacyType="shared"
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
+              friends={friends}
+              userObject={userObject}
             />
           )}
           {sharedEdit && (
@@ -372,24 +354,33 @@ const Profile = () => {
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
               arraySpecificObject={sharedEditObject}
-              offset={sharedOffset}
+              friends={friends}
+              contributorUserObjectsArray={contributorUserObjectsArray}
             />
           )}
-          {sharedBucketListArray.length > 0 ? (
-            sharedBucketListArray.map((bucketList) => {
-              return (
-                <BucketList
-                  bucketList={bucketList}
-                  setArrayObject={setSharedEditObject}
-                  setEditMode={setSharedEdit}
-                  key={bucketList.id}
-                  category="shared"
-                />
-              );
-            })
-          ) : (
-            <EmptyArrayMessage />
-          )}
+          <div className="content-container-bucket-list-wrapper">
+            {sharedBucketListArray.length > 0 ? (
+              sharedBucketListArray.map((bucketList) => {
+                return (
+                  <BucketList
+                    bucketList={bucketList}
+                    setArrayObject={setSharedEditObject}
+                    setEditMode={setSharedEdit}
+                    key={bucketList.id}
+                    contributorObjects={contributorObjects}
+                    friends={friends}
+                    setContributorUserObjectsArray={
+                      setContributorUserObjectsArray
+                    }
+                    privacyType="shared"
+                    userID={userObject.id}
+                  />
+                );
+              })
+            ) : (
+              <EmptyArrayMessage accountType="owner" />
+            )}
+          </div>
         </div>
         <div className="right-column-container friend-manager">
           <div className="friend-manager-header-container">
@@ -422,6 +413,7 @@ const Profile = () => {
               fullUserList={fullUserList}
               friends={friends}
               outgoingFriendRequests={outgoingFriendRequests}
+              incomingFriendRequests={incomingFriendRequests}
             />
             <div
               className={
@@ -444,17 +436,15 @@ const Profile = () => {
                 </div>
               </div>
               <div className="friend-manager-request-tab-bar">
-                <RequestList incomingFriendRequests={incomingFriendRequests} />
+                <RequestList
+                  incomingFriendRequests={incomingFriendRequests}
+                  requestTabSelected={requestTabSelected}
+                />
               </div>
             </div>
           </div>
         </div>
-        <div
-          className="content-container private"
-          style={
-            privateEdit ? { overflowY: "hidden" } : { overflowY: "scroll" }
-          }
-        >
+        <div className="content-container private">
           <ContentContainerHeader
             setCallback={setPrivateAdd}
             addState={privateAdd}
@@ -467,6 +457,8 @@ const Profile = () => {
               privacyType="private"
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
+              friends={friends}
+              userObject={userObject}
             />
           )}
           {privateEdit && (
@@ -476,24 +468,33 @@ const Profile = () => {
               setTriggerRefresh={setTriggerRefresh}
               triggerRefresh={triggerRefresh}
               arraySpecificObject={privateEditObject}
-              offset={privateOffset}
+              friends={friends}
+              contributorUserObjectsArray={contributorUserObjectsArray}
             />
           )}
-          {privateBucketListArray.length > 0 ? (
-            privateBucketListArray.map((bucketList) => {
-              return (
-                <BucketList
-                  bucketList={bucketList}
-                  setArrayObject={setPrivateEditObject}
-                  setEditMode={setPrivateEdit}
-                  key={bucketList.id}
-                  category="private"
-                />
-              );
-            })
-          ) : (
-            <EmptyArrayMessage />
-          )}
+          <div className="content-container-bucket-list-wrapper">
+            {privateBucketListArray.length > 0 ? (
+              privateBucketListArray.map((bucketList) => {
+                return (
+                  <BucketList
+                    bucketList={bucketList}
+                    setArrayObject={setPrivateEditObject}
+                    setEditMode={setPrivateEdit}
+                    key={bucketList.id}
+                    contributorObjects={contributorObjects}
+                    friends={friends}
+                    setContributorUserObjectsArray={
+                      setContributorUserObjectsArray
+                    }
+                    privacyType="private"
+                    userID={userObject.id}
+                  />
+                );
+              })
+            ) : (
+              <EmptyArrayMessage accountType="owner" />
+            )}
+          </div>
         </div>
         <div className="right-column-container recipe-suggestions">
           <h2 className="side-container-header">Recipe Suggestions</h2>

@@ -149,3 +149,59 @@ export const updateBucketList = (
     }
   );
 };
+
+// add various users to shared_list_users from supplied user ID's
+export const addSharedListUsers = (
+  convertedArray: number[][],
+  callback: Function
+) => {
+  const queryString =
+    "INSERT INTO shared_list_users (bucket_list_id, contributor_id, owner_id) VALUES ?";
+
+  // using converted array for bulk insertion
+  db.query(queryString, [convertedArray], (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const insertID = (<OkPacket>result).insertId;
+    callback(null, insertID);
+  });
+};
+
+// remove various users to shared_list_users from supplied user ID's
+export const removeSharedListUsers = (
+  convertedArray: number[][],
+  callback: Function
+) => {
+  const queryString =
+    "DELETE FROM shared_list_users WHERE (bucket_list_id, contributor_id) IN ?";
+
+  // using converted array for bulk insertion; this converted array needs an extra wrapped array to work
+  db.query(queryString, [[convertedArray]], (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const insertID = (<OkPacket>result).insertId;
+    callback(null, insertID);
+  });
+};
+
+// update google photo based on google id since you can't select "FROM" the table you're updating
+export const updateGooglePhoto = (
+  userGoogleID: string,
+  googlePhotoLink: string,
+  callback: Function
+) => {
+  const queryString = "UPDATE users SET google_photo_link=? WHERE google_id=?";
+
+  db.query(queryString, [googlePhotoLink, userGoogleID], (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const insertID = (<OkPacket>result).insertId;
+    callback(null, insertID);
+  });
+};

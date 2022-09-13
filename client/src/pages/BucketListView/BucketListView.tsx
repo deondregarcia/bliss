@@ -6,6 +6,7 @@ import "./BucketListView.css";
 import UnauthorizedBucketListView from "../../auth/Unauthorized/UnauthorizedBucketListView";
 import BucketListContent from "../../components/BucketListContent/BucketListContent";
 import AddBucketListContent from "../../components/AddBucketListContent/AddBucketListContent";
+import EditBucketListContent from "../../components/EditBucketListContent/EditBucketListContent";
 
 const BucketListView = () => {
   const [privacyType, setPrivacyType] = useState<string | null>(null);
@@ -18,6 +19,10 @@ const BucketListView = () => {
   >([]);
   const [unauthorizedType, setUnauthorizedType] = useState<string | null>(null);
   const [addMode, setAddMode] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [contentObject, setContentObject] = useState<BucketListContentType>(
+    {} as BucketListContentType
+  );
   const [triggerRefresh, setTriggerRefresh] = useState(false);
   const { id } = useParams();
 
@@ -93,7 +98,6 @@ const BucketListView = () => {
                 // check if shared_list_user
                 Axios.get(`/view/check-if-user-in-shared-list/${id}`)
                   .then((response) => {
-                    console.log(response);
                     if (response.data.data[0]) {
                       getBucketListContent();
                     } else {
@@ -161,15 +165,17 @@ const BucketListView = () => {
     <div className="bucket-list-view-wrapper">
       <div className="bucket-list-view-container">
         <div className="bucket-list-view-header-container">
-          <div
-            onClick={() => setAddMode(true)}
-            className="bucket-list-view-add-button"
-          >
-            <h2>Add</h2>
-          </div>
+          {bucketListInfo?.permissions === "view_and_edit" && (
+            <div
+              onClick={() => setAddMode(true)}
+              className="bucket-list-view-add-button"
+            >
+              <h2>Add</h2>
+            </div>
+          )}
           <h1 className="bucket-list-view-header">{bucketListInfo?.title}</h1>
           <p className="bucket-list-view-description">
-            {bucketListInfo?.description}
+            Description: {bucketListInfo?.description}
           </p>
         </div>
         <div className="bucket-list-view-content-container">
@@ -183,20 +189,31 @@ const BucketListView = () => {
             />
           )}
 
-          <p>{unauthorizedType}</p>
-          {bucketListContent[0] ? (
-            bucketListContent.map((content, index) => (
-              <BucketListContent
-                content={content}
-                permissions={bucketListInfo?.permissions}
-                key={index}
-                setTriggerRefresh={setTriggerRefresh}
-                triggerRefresh={triggerRefresh}
-              />
-            ))
-          ) : (
-            <h1>No Content</h1>
+          {editMode && (
+            <EditBucketListContent
+              content={contentObject}
+              trackerID={Number(id)}
+              setEditMode={setEditMode}
+              triggerRefresh={triggerRefresh}
+              setTriggerRefresh={setTriggerRefresh}
+            />
           )}
+
+          <div className="bucket-list-view-list-wrapper">
+            {bucketListContent[0] ? (
+              bucketListContent.map((content, index) => (
+                <BucketListContent
+                  content={content}
+                  permissions={bucketListInfo?.permissions}
+                  key={index}
+                  setEditMode={setEditMode}
+                  setContentObject={setContentObject}
+                />
+              ))
+            ) : (
+              <h1 className="bucket-list-view-empty">No Content</h1>
+            )}
+          </div>
         </div>
       </div>
     </div>

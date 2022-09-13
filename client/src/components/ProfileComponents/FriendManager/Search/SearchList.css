@@ -67,6 +67,14 @@
     top: 5px;
 }
 
+.search-list-user-text-small {
+    font-family: Arial;
+    font-size: 15px;
+    position: absolute;
+    bottom: 30px;
+    left: 10px;
+}
+
 .search-list-request-button {
     height: 35px;
     width: 100px;

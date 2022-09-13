@@ -5,7 +5,6 @@ import Axios from "axios";
 import EmptyArrayMessage from "../../components/EmptyArrayMessage/EmptyArrayMessage";
 import FriendProfileContentContainerHeader from "../../components/FriendProfileComponents/FriendProfileContentContainerHeader/FriendProfileContentContainerHeader";
 import "./FriendProfile.css";
-import BucketList from "../../components/BucketList/BucketList";
 import FriendBucketList from "../../components/FriendProfileComponents/FriendBucketList/FriendBucketList";
 
 const FriendProfile = () => {
@@ -109,7 +108,7 @@ const FriendProfile = () => {
             );
           })
         ) : (
-          <EmptyArrayMessage />
+          <EmptyArrayMessage accountType="friend" />
         )}
       </div>
       <div className="friend-profile-right-column-container friend-feed">
@@ -130,7 +129,7 @@ const FriendProfile = () => {
             );
           })
         ) : (
-          <EmptyArrayMessage />
+          <EmptyArrayMessage accountType="friend" />
         )}
       </div>
       <div className="friend-profile-right-column-container "></div>

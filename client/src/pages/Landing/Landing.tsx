@@ -25,7 +25,7 @@ const Landing = () => {
 
         {/* hero graphic */}
         <div className="landing-page-landing-graphic-wrapper">
-          <LandingGraphic />
+          <LandingGraphic className="landing-page-landing-graphic" />
           <div className="landing-page-landing-graphic-link">
             <a href="https://www.freepik.com/free-vector/isometric-composition-with-two-workers-from-professional-cleaning-service-washing-floor-windows-study-office-room-3d-vector-illustration_23243582.htm#query=bucket%20list&amp;position=48&amp;from_view=search">
               Image by macrovector
@@ -34,7 +34,7 @@ const Landing = () => {
           </div>
         </div>
         <div className="value-proposition-text">
-          <h3>Start creating shared bucket lists with Blissely</h3>
+          <h3>Start creating shared bucket lists with Blissely!</h3>
         </div>
       </div>
       <div className="what-is-it-container">
@@ -42,7 +42,7 @@ const Landing = () => {
         <div className="what-is-it-text-container">
           <h2>
             Blissely is a platform for you and your friends and family to create
-            collaborative bucket lists
+            collaborative bucket lists!
           </h2>
         </div>
       </div>
