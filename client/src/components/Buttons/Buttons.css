@@ -104,4 +104,10 @@ a {
         width: 200px;
         font-size: 18px;
     }
+    .logout-button {
+        display: flex;
+        align-items: center;
+        margin-top: 7px;
+        height: 40px;
+    }
 }

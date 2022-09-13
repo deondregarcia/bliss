@@ -76,18 +76,21 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: 87%;
+        width: 80%;
         min-width: 190px;
-        /* background-color: red; */
     }
     .bucket-list-text {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        width: 80%;
+        min-width: 190px;
     }
     .bucket-list-edit-button {
-        top: 10px;
+        top: 20px;
         right: 20px;
+        height: 50px;
+        width: 60px;
     }
     .bucket-list-owner-text {
         top: 5px;

@@ -233,7 +233,7 @@ const Profile = () => {
     getFullUserList();
     getOutgoingFriendRequests();
     getIncomingFriendRequests();
-    updateGooglePhoto();
+    // updateGooglePhoto();
   };
 
   useEffect(() => {
