@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineShareAlt } from "react-icons/ai";
 import {
   BucketListType,
   FriendListType,
@@ -28,6 +29,7 @@ const BucketList = ({
   privacyType: string;
   userID: number;
 }) => {
+  const [viewState, setViewState] = useState(false);
   const navigate = useNavigate();
   let friendList: number[] = [];
   let contributorUserIDs: number[] = [];
@@ -59,8 +61,22 @@ const BucketList = ({
     setEditMode(true);
   };
 
+  // copy to clipboard and alert confirmation
+  const handleCopy = () => {
+    navigator.clipboard.writeText(
+      `localhost:3001/bucket-list/${bucketList.id}`
+    );
+    alert("Copied bucket list link to clipboard!");
+  };
+
   return (
     <div className="bucket-list-wrapper">
+      {bucketList.privacy_type === "public_random" && (
+        <div onClick={handleCopy} className="bucket-list-public-share-button">
+          <h2>Share</h2>
+          <AiOutlineShareAlt size={20} />
+        </div>
+      )}
       {userID === bucketList.owner_id ? (
         <div onClick={handleBucketListEdit} className="bucket-list-edit-button">
           <h2>Edit</h2>
@@ -75,6 +91,42 @@ const BucketList = ({
           }
         </h3>
       )}
+      {/* display privacy types and copy to clipboard option if public_random */}
+      {bucketList.privacy_type === "public_random" ? (
+        <div className="bucket-list-privacy-type">
+          <h4>Anyone can view</h4>
+        </div>
+      ) : bucketList.privacy_type === "public_friends" ? (
+        <div className="bucket-list-privacy-type">
+          <h4>Friends can view</h4>
+        </div>
+      ) : bucketList.privacy_type === "shared" ? (
+        <div
+          onClick={() => setViewState(!viewState)}
+          className="bucket-list-privacy-type-shared"
+        >
+          <h4>View shared users</h4>
+        </div>
+      ) : (
+        // else privacyType === "private"
+        <div className="bucket-list-privacy-type">
+          <h4>Private</h4>
+        </div>
+      )}
+
+      {/* view shared users overlay */}
+      {viewState && (
+        <div className="bucket-list-shared-users-overlay">
+          {localContributorUserObjects?.map((user, index) => {
+            return (
+              <p key={index}>
+                {user.first_name} {user.last_name[0]}
+              </p>
+            );
+          })}
+        </div>
+      )}
+
       <div
         onClick={() => navigate(`../../bucket-list/${bucketList.id}`)}
         className="bucket-list-container"

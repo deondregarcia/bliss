@@ -17,14 +17,10 @@ const AccountCreation = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // check if username is taken
-    // checkUsername();
     await Axios.post("/check-if-username-exists", {
       username: username,
     })
       .then((res) => {
-        // console.log(res.data.username[0]);
-        // console.log(res.data.username[0] ? "exists" : "doesn't exist");
         console.log("username check ran");
         if (res.data.username[0]) {
           console.log("username true");

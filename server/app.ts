@@ -133,7 +133,7 @@ app.post("/get-recipes", (req: Request, res: Response) => {
   const recipeOptions = {
     params: {
       query: recipeSearch,
-      number: 1,
+      number: 3,
       sort: "popularity",
       ranking: 2,
     },
