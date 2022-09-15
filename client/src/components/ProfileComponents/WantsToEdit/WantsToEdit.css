@@ -1,22 +1,37 @@
 .wants-to-edit-container {
-    /* width: 80%;
-    height: 90%; */
-    height: 100%;
-    background-color: red;
     margin-top: 5px;
 }
 
 .wants-to-edit-container-input {
-    /* height: 160px;
-    width: 150px; */
-    height: 100%;
+    height: 100px;
     width: 100%;
+    resize: none;
+    border: 2px solid var(--main-color);
+    padding: 5px;
+    border-radius: 5px;
+    font-family: Arial;
+    font-size: 14px;
+}
+
+.wants-to-edit-container-input:focus {
+    outline: none;
 }
 
 .wants-to-edit-container-save {
-    position: absolute;
-    bottom: -20px;
-    height: 30px;
+    height: 28px;
     width: 60px;
-    background-color: blue;
+    margin: auto;
+    border-radius: 5px;
+    font-family: Arial;
+    font-size: 18px;
+    color: var(--content-bg-color);
+    background-color: var(--main-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wants-to-edit-container-save:hover {
+    transform: scale(1.08);
+    cursor: pointer;
 }

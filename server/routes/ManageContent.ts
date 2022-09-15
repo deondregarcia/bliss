@@ -199,7 +199,4 @@ contentRouter.delete(
   }
 );
 
-// updates wants_to portion of user
-// contentRouter.patch("/")
-
 export { contentRouter };

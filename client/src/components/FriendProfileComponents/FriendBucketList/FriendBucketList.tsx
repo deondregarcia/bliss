@@ -21,7 +21,7 @@ const FriendBucketList = ({
             Owned by {userObject?.first_name}
           </h3>
         ) : (
-          <h3 className="friend-bucket-list-owner-text">Owned by you.</h3>
+          <h3 className="friend-bucket-list-owner-text">Owned by you</h3>
         ))}
       <div
         onClick={() => navigate(`../../bucket-list/${bucketList.id}`)}

@@ -110,8 +110,6 @@ const AccountCreation = () => {
               <label htmlFor="wants-to">
                 What's one thing you want to do?<p>(Max 90 characters)</p>
               </label>
-              {/* <p>This will be seen by your future friends!</p> */}
-
               <textarea
                 maxLength={90}
                 id="wants-to"

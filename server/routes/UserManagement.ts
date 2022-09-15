@@ -11,6 +11,7 @@ import {
   checkIfFriendWithUserID,
   getUserID,
   updateGooglePhoto,
+  updateWantsTo,
 } from "../controllers/UserManagement";
 import { FriendPairType, FriendRequestUserType } from "../types/content";
 
@@ -269,6 +270,27 @@ manageUserRouter.patch("/google-photo", async (req: Request, res: Response) => {
       res.status(200).json({ insertID: insertID });
     }
   );
+});
+
+// update wants_to portion of user
+manageUserRouter.patch("/wants-to", async (req: Request, res: Response) => {
+  // check if user is logged in/google id exists
+  if (!req.user?.id) {
+    return res.status(403).json({ message: "User's Google ID not found" });
+  }
+  const userGoogleID = req.user?.id;
+  const wantsToText = req.body.newWantsToText;
+
+  console.log(userGoogleID);
+  console.log(wantsToText);
+
+  updateWantsTo(userGoogleID, wantsToText, (err: Error, insertID: number) => {
+    if (err) {
+      return res.status(500).json({ message: err.message });
+    }
+
+    res.status(200).json({ insertID: insertID });
+  });
 });
 
 export { manageUserRouter };

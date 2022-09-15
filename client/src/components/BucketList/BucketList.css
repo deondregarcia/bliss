@@ -107,6 +107,7 @@
 }
 
 .bucket-list-public-share-button:hover {
+    transform: scale(1.08);
     cursor: pointer;
 }
 
