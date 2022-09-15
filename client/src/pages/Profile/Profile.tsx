@@ -155,8 +155,6 @@ const Profile = () => {
         Axios.get("/user/googleuser")
           .then((responseTwo) => {
             setGoogleUserObject(responseTwo.data.google_user);
-            console.log("google photo below");
-            console.log(responseTwo.data.google_user.photos[0].value);
             if (
               responseTwo.data.google_user.photos[0].value ===
                 res.data.userInfo[0].google_photo_link ||
@@ -335,6 +333,8 @@ const Profile = () => {
               arraySpecificObject={publicEditObject}
               friends={friends}
               contributorUserObjectsArray={contributorUserObjectsArray}
+              setListArray={setPublicBucketListArray}
+              listArray={publicBucketListArray}
             />
           )}
           <div className="content-container-bucket-list-wrapper">
@@ -393,6 +393,8 @@ const Profile = () => {
               arraySpecificObject={sharedEditObject}
               friends={friends}
               contributorUserObjectsArray={contributorUserObjectsArray}
+              setListArray={setSharedBucketListArray}
+              listArray={sharedBucketListArray}
             />
           )}
           <div className="content-container-bucket-list-wrapper">
@@ -508,6 +510,8 @@ const Profile = () => {
               arraySpecificObject={privateEditObject}
               friends={friends}
               contributorUserObjectsArray={contributorUserObjectsArray}
+              setListArray={setPrivateBucketListArray}
+              listArray={privateBucketListArray}
             />
           )}
           <div className="content-container-bucket-list-wrapper">
