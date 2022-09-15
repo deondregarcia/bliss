@@ -8,7 +8,8 @@ import "./FriendProfile.css";
 import FriendBucketList from "../../components/FriendProfileComponents/FriendBucketList/FriendBucketList";
 
 const FriendProfile = () => {
-  const [userObject, setUserObject] = useState<UserType | undefined>(undefined);
+  // user object of the friend
+  const [userObject, setUserObject] = useState<UserType>({} as UserType);
 
   // separate the bucket list arrays for easier nullish checks in render
   const [publicBucketListArray, setPublicBucketListArray] = useState<
@@ -35,14 +36,16 @@ const FriendProfile = () => {
     // check if user is in any of friend's shared lists and return the list ID's
     Axios.get(`/view/shared-lists/${id}`)
       .then((res) => {
+        console.log(res);
         // get bucket lists
         Axios.post("/view/friend-lists", {
           sharedListArray: res.data.bucketListIDs,
           friendGoogleID: id,
         })
-          .then((res) => {
+          .then((responseTwo) => {
+            console.log(responseTwo.data.data);
             setPublicBucketListArray(
-              res.data.data.filter((bucketList: BucketListType) => {
+              responseTwo.data.data.filter((bucketList: BucketListType) => {
                 return (
                   bucketList.privacy_type === "public_friends" ||
                   bucketList.privacy_type === "public_random"
@@ -50,7 +53,8 @@ const FriendProfile = () => {
               })
             );
             setSharedBucketListArray(
-              res.data.data.filter((bucketList: BucketListType) => {
+              responseTwo.data.data.filter((bucketList: BucketListType) => {
+                console.log(bucketList);
                 return bucketList.privacy_type === "shared";
               })
             );
@@ -104,35 +108,43 @@ const FriendProfile = () => {
         {publicBucketListArray.length > 0 ? (
           publicBucketListArray.map((bucketList) => {
             return (
-              <FriendBucketList bucketList={bucketList} key={bucketList.id} />
+              <FriendBucketList
+                bucketList={bucketList}
+                key={bucketList.id}
+                userObject={userObject}
+              />
             );
           })
         ) : (
           <EmptyArrayMessage accountType="friend" />
         )}
       </div>
-      <div className="friend-profile-right-column-container friend-feed">
+      {/* <div className="friend-profile-right-column-container friend-feed">
         <h2 className="friend-profile-side-container-header">
           Recent Friend Activities
         </h2>
         <div className="friend-profile-side-container-header-separator" />
-      </div>
+      </div> */}
       {/* second row of elements */}
-      <div className="friend-profile-today-i-should-container"></div>
+      {/* <div className="friend-profile-today-i-should-container"></div> */}
       <div className="friend-profile-content-container shared">
         <FriendProfileContentContainerHeader category="Shared" />
         {/* if sharedBucketListArray is true, render, if null, display message */}
         {sharedBucketListArray.length > 0 ? (
           sharedBucketListArray.map((bucketList) => {
             return (
-              <FriendBucketList bucketList={bucketList} key={bucketList.id} />
+              <FriendBucketList
+                bucketList={bucketList}
+                key={bucketList.id}
+                userObject={userObject}
+              />
             );
           })
         ) : (
           <EmptyArrayMessage accountType="friend" />
         )}
       </div>
-      <div className="friend-profile-right-column-container "></div>
+      {/* <div className="friend-profile-right-column-container "></div> */}
     </div>
   );
 };

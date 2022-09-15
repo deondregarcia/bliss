@@ -17,6 +17,7 @@ const BucketList = ({
   setContributorUserObjectsArray,
   privacyType,
   userID,
+  triggerRefresh,
 }: {
   bucketList: BucketListType;
   setArrayObject: React.Dispatch<React.SetStateAction<BucketListType | null>>;
@@ -28,6 +29,7 @@ const BucketList = ({
   >;
   privacyType: string;
   userID: number;
+  triggerRefresh: boolean;
 }) => {
   const [viewState, setViewState] = useState(false);
   const navigate = useNavigate();
@@ -106,24 +108,27 @@ const BucketList = ({
           className="bucket-list-privacy-type-shared"
         >
           <h4>View shared users</h4>
+          {/* view shared users overlay */}
+          {viewState && (
+            <div className="bucket-list-shared-users-overlay">
+              {localContributorUserObjects.length > 0 ? (
+                localContributorUserObjects.map((user, index) => {
+                  return (
+                    <p key={index}>
+                      {user.first_name} {user.last_name[0]}
+                    </p>
+                  );
+                })
+              ) : (
+                <p>Shared with no one</p>
+              )}
+            </div>
+          )}
         </div>
       ) : (
         // else privacyType === "private"
         <div className="bucket-list-privacy-type">
           <h4>Private</h4>
-        </div>
-      )}
-
-      {/* view shared users overlay */}
-      {viewState && (
-        <div className="bucket-list-shared-users-overlay">
-          {localContributorUserObjects?.map((user, index) => {
-            return (
-              <p key={index}>
-                {user.first_name} {user.last_name[0]}
-              </p>
-            );
-          })}
         </div>
       )}
 

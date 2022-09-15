@@ -74,6 +74,7 @@ const Profile = () => {
 
   // state to display "I want to..." editing overlay
   const [wantsToState, setWantsToState] = useState(false);
+  const [didWantsToUpdate, setDidWantsToUpdate] = useState<string>("no");
 
   // ID's to grab when editing per each section
   const [publicEditObject, setPublicEditObject] =
@@ -282,9 +283,22 @@ const Profile = () => {
             </div>
             <div className="profile-separator" />
             {wantsToState ? (
-              <WantsToEdit wantsToText={userObject.wants_to} />
+              <WantsToEdit
+                // wantsToText={userObject?.wants_to}
+                wantsToText={
+                  didWantsToUpdate === "no"
+                    ? userObject?.wants_to
+                    : didWantsToUpdate
+                }
+                setWantsToState={setWantsToState}
+                setDidWantsToUpdate={setDidWantsToUpdate}
+              />
             ) : userObject?.wants_to ? (
-              <p className="profile-wants-to">{userObject.wants_to}</p>
+              <p className="profile-wants-to">
+                {didWantsToUpdate === "no"
+                  ? userObject?.wants_to
+                  : didWantsToUpdate}
+              </p>
             ) : (
               <p className="profile-wants-to-empty">
                 You haven't added anything here yet!
@@ -337,6 +351,7 @@ const Profile = () => {
                     }
                     privacyType="public"
                     userID={userObject.id}
+                    triggerRefresh={triggerRefresh}
                   />
                 );
               })
@@ -393,6 +408,7 @@ const Profile = () => {
                     }
                     privacyType="shared"
                     userID={userObject.id}
+                    triggerRefresh={triggerRefresh}
                   />
                 );
               })
@@ -507,6 +523,7 @@ const Profile = () => {
                     }
                     privacyType="private"
                     userID={userObject.id}
+                    triggerRefresh={triggerRefresh}
                   />
                 );
               })
