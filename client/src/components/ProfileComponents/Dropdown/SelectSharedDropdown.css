@@ -161,7 +161,7 @@
     margin-left: 5px;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
     .shared-dropdown-container {
         transform: scale(0.7);
     }
