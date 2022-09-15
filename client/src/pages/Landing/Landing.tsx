@@ -19,7 +19,8 @@ const Landing = () => {
           <h2>Great memories start with a spark.</h2>
           <h2>Find yours here.</h2>
           <div className="landing-login-button-wrapper">
-            <LandingLoginButton googleLink="https://blissely.herokuapp.com/auth/google" />
+            {/* <LandingLoginButton googleLink="https://blissely.herokuapp.com/auth/google" /> */}
+            <LandingLoginButton googleLink="http://localhost:3000/auth/google" />
           </div>
         </div>
 

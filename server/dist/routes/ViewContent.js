@@ -99,7 +99,11 @@ viewContentRouter.get("/shared-list-user/:id", (req, res) => __awaiter(void 0, v
 // (uses Google ID)
 viewContentRouter.get("/shared-lists/:id", (req, res) => {
     var _a;
-    const userGoogleID = (_a = req.user) === null || _a === void 0 ? void 0 : _a.profile.id;
+    // check if user is logged in/google id exists
+    if (!((_a = req.user) === null || _a === void 0 ? void 0 : _a.profile.id)) {
+        return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const userGoogleID = req.user.profile.id;
     const friendGoogleID = req.params.id;
     (0, ViewContent_1.getSharedLists)(userGoogleID, friendGoogleID, (err, bucketListIDs) => {
         if (err) {

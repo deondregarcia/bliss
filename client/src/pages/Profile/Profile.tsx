@@ -155,14 +155,17 @@ const Profile = () => {
         Axios.get("/user/googleuser")
           .then((responseTwo) => {
             setGoogleUserObject(responseTwo.data.google_user);
+            console.log("google photo below");
+            console.log(responseTwo.data.google_user.photos[0].value);
             if (
               responseTwo.data.google_user.photos[0].value ===
-              res.data.userInfo[0].google_photo_link
+                res.data.userInfo[0].google_photo_link ||
+              responseTwo.data.google_user.photos[0].value === undefined
             ) {
               return;
             } else {
               Axios.patch("/user/google-photo", {
-                googlePhotoLink: googleUserObject?.photos[0].value,
+                googlePhotoLink: responseTwo.data.google_user.photos[0].value,
               })
                 .then((responseThree) => {
                   console.log(responseThree);

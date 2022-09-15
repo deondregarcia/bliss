@@ -38,6 +38,7 @@ const ViewContent_1 = require("./routes/ViewContent");
 const UserManagement_1 = require("./routes/UserManagement");
 const passport_1 = __importDefault(require("passport"));
 const express_session_1 = __importDefault(require("express-session"));
+const path_1 = __importDefault(require("path"));
 // import packages for MySQl session store
 const mysql = require("mysql2/promise");
 const MySQLStore = require("express-mysql-session")(express_session_1.default);
@@ -80,21 +81,14 @@ const isLoggedIn = (req, res, next) => {
 app.get("/auth/google", passport_1.default.authenticate("google", { scope: ["email", "profile"] }));
 app.get("/auth/google/callback", passport_1.default.authenticate("google", { failureRedirect: "/auth/failure" }), (req, res) => {
     var _a;
-    // res.redirect(`http://localhost:3001/${req?.user?.id}`);
-    // in the future, redirect to profile by /profile/:id
     res.redirect(`http://localhost:3001/my-profile/${(_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id}`);
+    // res.redirect(`https://blissely.herokuapp.com/my-profile/${req?.user?.id}`);
 });
 app.get("/auth/user", passport_1.default.authenticate("google", { scope: ["email", "profile"] }), (req, res) => {
     res.json({ user: req.user });
 });
-app.get("/", (req, res) => {
-    res.send('<a href="/auth/google">Authenticate with Google</a>');
-});
 app.get("/auth/failure", (req, res) => {
     res.send("something went wrong...");
-});
-app.get("/protected", isLoggedIn, (req, res) => {
-    res.send(req.user);
 });
 // for testing client-server interactions
 app.get("/verify", (req, res) => {
@@ -137,6 +131,13 @@ app.get("/logout", (req, res, err) => {
         res.status(200).json({ message: "Successfuly cleared session" });
     });
 });
+// serve react frontend
+if (process.env.NODE_ENV === "production") {
+    app.use(express_1.default.static(path_1.default.join(__dirname, "build")));
+    app.get("/*", (req, res) => {
+        res.sendFile(path_1.default.join(__dirname, "build", "index.html"));
+    });
+}
 app.listen(process.env.PORT, () => {
     console.log(`Node server started running on Port ${process.env.PORT}`);
 });

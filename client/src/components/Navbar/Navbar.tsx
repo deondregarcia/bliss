@@ -40,7 +40,8 @@ const Navbar = () => {
         {auth.session_info ? (
           <LogoutButton logout={logout} />
         ) : (
-          <LoginButton googleLink="https://blissely.herokuapp.com/auth/google" />
+          // <LoginButton googleLink="https://blissely.herokuapp.com/auth/google" />
+          <LoginButton googleLink="http://localhost:3000/auth/google" />
         )}
       </div>
     </div>

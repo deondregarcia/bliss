@@ -14,7 +14,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://blissely.herokuapp.com/auth/google/callback",
+      // callbackURL: "https://blissely.herokuapp.com/auth/google/callback",
+      callbackURL: "http://localhost:3000/auth/google/callback",
     },
     function (
       accessToken: string,

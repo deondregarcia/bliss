@@ -75,10 +75,8 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/auth/failure" }),
   (req: Request, res: Response) => {
-    // res.redirect(`http://localhost:3001/${req?.user?.id}`);
-    // in the future, redirect to profile by /profile/:id
-    // res.redirect(`http://localhost:3001/my-profile/${req?.user?.id}`);
-    res.redirect(`https://blissely.herokuapp.com/my-profile/${req?.user?.id}`);
+    res.redirect(`http://localhost:3001/my-profile/${req?.user?.id}`);
+    // res.redirect(`https://blissely.herokuapp.com/my-profile/${req?.user?.id}`);
   }
 );
 
