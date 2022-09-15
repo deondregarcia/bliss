@@ -15,11 +15,7 @@ const CheckUserOrFriend = ({ status }: { status: string }) => {
   // combine all funcs to ensure they get called before continuing
   const runAllChecks = async () => {
     // take the google id's and check if they are friends
-    await Axios.post("/check-if-friend-with-google-id", {
-      // this commented out JSON.parse.... is the google id stored in session
-      // secondID: JSON.parse(auth.session_info.data).passport.user.id,
-      secondID: id,
-    })
+    await Axios.get(`/user/friend/google-id/${id}`)
       .then((res) => {
         if (res.data.friendPairsInfo[0]) {
           setIsFriends(true);
@@ -31,7 +27,7 @@ const CheckUserOrFriend = ({ status }: { status: string }) => {
       });
 
     // get user's google id from server for verification
-    await Axios.get("/googleuser")
+    await Axios.get("/user/googleuser")
       .then((res) => {
         setGoogleID(res.data.google_user.id);
       })

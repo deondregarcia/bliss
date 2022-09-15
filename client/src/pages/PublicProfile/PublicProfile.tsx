@@ -55,14 +55,16 @@ const PublicProfile = () => {
 
   // handle accept request
   const acceptRequest = (username: string) => {
-    Axios.post("/accept-request", {
+    Axios.post("/user/friends", {
       google_id: id,
     })
       .then((res) => {
         if (res.status === 200) {
           // call deny request to delete from friend_requests
-          Axios.post("/deny-request", {
-            google_id: id,
+          Axios.delete("/user/friend-request", {
+            params: {
+              google_id: id,
+            },
           })
             .then((res) => {
               if (res.status === 200) {
@@ -83,8 +85,10 @@ const PublicProfile = () => {
 
   // handle deny request
   const denyRequest = (username: string) => {
-    Axios.post("/deny-request", {
-      google_id: id,
+    Axios.delete("/user/friend-request", {
+      params: {
+        google_id: id,
+      },
     })
       .then((res) => {
         if (res.status === 200) {
@@ -98,7 +102,7 @@ const PublicProfile = () => {
 
   // send friend request
   const sendFriendRequest = (username: string) => {
-    Axios.post("/send-friend-request", {
+    Axios.post("/user/friend-request", {
       requesteeGoogleID: id,
     })
       .then((res) => {
@@ -113,7 +117,7 @@ const PublicProfile = () => {
 
   // get user info from google id
   const getUserInfo = () => {
-    Axios.get(`/view/get-user-info/${id}`)
+    Axios.get(`/view/user-info/${id}`)
       .then((res) => {
         setUserObject(res.data.userInfo[0]);
       })
@@ -124,7 +128,7 @@ const PublicProfile = () => {
 
   // get all public_random lists
   const getPublicBucketLists = () => {
-    Axios.get(`/view/get-public-lists/${id}`)
+    Axios.get(`/view/public-lists/${id}`)
       .then((res) => {
         setPublicLists(res.data.data);
       })
@@ -135,7 +139,7 @@ const PublicProfile = () => {
 
   // get outgoing friend requests (user sent these)
   const getOutgoingFriendRequests = () => {
-    Axios.get(`/get-outgoing-friend-requests`)
+    Axios.get(`/user/outgoing-friend-requests`)
       .then((res) => {
         setOutgoingFriendRequests(res.data.outgoingRequestUsers);
       })
@@ -146,7 +150,7 @@ const PublicProfile = () => {
 
   // get incoming friend requests (user received these)
   const getIncomingFriendRequests = () => {
-    Axios.get(`/get-incoming-friend-requests`)
+    Axios.get(`/user/incoming-friend-requests`)
       .then((res) => {
         setIncomingFriendRequests(res.data.incomingRequestUsers);
       })
@@ -157,7 +161,7 @@ const PublicProfile = () => {
 
   // get list of friends in case user enters in /public/:id
   const getFriendsList = () => {
-    Axios.get(`/view/get-list-of-friends`)
+    Axios.get(`/view/list-of-friends`)
       .then((res) => {
         setFriends(res.data.friends);
       })

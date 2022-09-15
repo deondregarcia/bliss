@@ -62,5 +62,4 @@ export interface SharedListUserType {
   id?: number;
   bucket_list_id: number;
   contributor_id: number;
-  owner_id?: number;
 }

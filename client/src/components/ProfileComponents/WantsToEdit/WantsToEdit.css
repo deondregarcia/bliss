@@ -1,0 +1,22 @@
+.wants-to-edit-container {
+    /* width: 80%;
+    height: 90%; */
+    height: 100%;
+    background-color: red;
+    margin-top: 5px;
+}
+
+.wants-to-edit-container-input {
+    /* height: 160px;
+    width: 150px; */
+    height: 100%;
+    width: 100%;
+}
+
+.wants-to-edit-container-save {
+    position: absolute;
+    bottom: -20px;
+    height: 30px;
+    width: 60px;
+    background-color: blue;
+}

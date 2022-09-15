@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FriendListType, SharedListUserType } from "../../../types/content";
+import { FriendListType } from "../../../types/content";
 import { AiFillCaretUp } from "react-icons/ai";
 import "./SelectSharedDropdown.css";
 

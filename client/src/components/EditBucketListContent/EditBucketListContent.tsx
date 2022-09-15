@@ -20,7 +20,7 @@ const EditBucketListContent = ({
   const [newDescription, setNewDescription] = useState(content.description);
 
   const saveContent = async () => {
-    await Axios.put("/content/update-activity", {
+    await Axios.patch("/content/activity", {
       id: content.id,
       activity: newActivity,
       description: newDescription,
@@ -38,9 +38,11 @@ const EditBucketListContent = ({
 
   const deleteContent = () => {
     if (window.confirm("Are you sure you want to delete this?")) {
-      Axios.post("/content/delete-activity", {
-        tracker_id: trackerID,
-        content_id: content.id,
+      Axios.delete("/content/activity", {
+        params: {
+          tracker_id: trackerID,
+          content_id: content.id,
+        },
       })
         .then((res) => {
           console.log(res);

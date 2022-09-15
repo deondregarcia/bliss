@@ -17,9 +17,7 @@ const AccountCreation = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await Axios.post("/check-if-username-exists", {
-      username: username,
-    })
+    await Axios.get(`/user/username/${username}`)
       .then((res) => {
         console.log("username check ran");
         if (res.data.username[0]) {
@@ -32,18 +30,14 @@ const AccountCreation = () => {
             alert("Please fill out all fields with an asterisk.");
             return;
           }
-          Axios.post("/create-user", {
+          Axios.post("/user/user", {
             firstName: firstName,
             lastName: lastName,
             username: username,
             wantsTo: wantsTo,
-          })
-            .then((res) => {
-              console.log(res);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+          }).catch((err) => {
+            console.log(err);
+          });
         }
       })
       .catch((err) => {
@@ -57,7 +51,7 @@ const AccountCreation = () => {
 
   useEffect(() => {
     // check if logged in google user already has account
-    Axios.get("/get-user-id")
+    Axios.get("/user/user-id")
       .then((res) => {
         if (res.data.userID[0]) {
           navigate(

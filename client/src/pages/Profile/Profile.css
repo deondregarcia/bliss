@@ -40,13 +40,22 @@
     width: 80%;
     margin-top: 5px;
     overflow-wrap: break-word;
-    /* background-color: red; */
+}
+
+.profile-wants-to-header-wrapper {
+    display: flex;
+    justify-content: space-between;
 }
 
 .profile-wants-to-container-header {
     font-size: 20px;
     font-family: "Sarabun";
     color: var(--text-color);
+}
+
+.profile-wants-to-icon:hover {
+    color: var(--main-color);
+    cursor: pointer;
 }
 
 .profile-wants-to {
