@@ -50,9 +50,6 @@ const PublicProfile = () => {
     incomingFriendRequestList.push(incomingFriendRequests[i].username);
   }
 
-  console.log(outgoingFriendRequestStateList);
-  console.log("refreshed");
-
   // handle accept request
   const acceptRequest = (username: string) => {
     Axios.post("/user/friends", {

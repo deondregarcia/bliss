@@ -76,7 +76,7 @@ manageUserRouter.delete(
     }
 
     const userGoogleID = String(req.user?.id);
-    const friendGoogleID = req.params.google_id;
+    const friendGoogleID = String(req.query.google_id);
 
     denyRequest(
       userGoogleID,

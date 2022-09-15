@@ -39,6 +39,9 @@
     align-items: flex-end;
     top: 8px;
     left: 80px;
+    white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 }
 
 .search-list-user-username {
@@ -99,4 +102,21 @@
 
 .search-list-request-button:hover h3 {
     color: var(--content-bg-color);
+}
+
+.search-list-link {
+    position: absolute;
+    bottom: 0;
+    right: 5px;
+}
+
+.search-list-link > a {
+    font-family: "Sarabun";
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+.search-list-link:hover {
+    transform: scale(1.05);
+    cursor: pointer;
 }

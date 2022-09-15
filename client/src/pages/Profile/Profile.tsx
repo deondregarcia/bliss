@@ -164,13 +164,9 @@ const Profile = () => {
             } else {
               Axios.patch("/user/google-photo", {
                 googlePhotoLink: responseTwo.data.google_user.photos[0].value,
-              })
-                .then((responseThree) => {
-                  console.log(responseThree);
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
+              }).catch((err) => {
+                console.log(err);
+              });
             }
           })
           .catch((err) => {

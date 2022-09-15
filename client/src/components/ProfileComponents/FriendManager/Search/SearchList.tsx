@@ -106,6 +106,11 @@ const SearchList = ({
                       </div>
                     )}
                   </div>
+                  <div className="search-list-link">
+                    <a href={`/profile/${user?.google_id}`}>
+                      <h4 className="search-list-link-text">View profile</h4>
+                    </a>
+                  </div>
                 </div>
               );
             }

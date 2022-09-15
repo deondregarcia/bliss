@@ -36,14 +36,12 @@ const FriendProfile = () => {
     // check if user is in any of friend's shared lists and return the list ID's
     Axios.get(`/view/shared-lists/${id}`)
       .then((res) => {
-        console.log(res);
         // get bucket lists
         Axios.post("/view/friend-lists", {
           sharedListArray: res.data.bucketListIDs,
           friendGoogleID: id,
         })
           .then((responseTwo) => {
-            console.log(responseTwo.data.data);
             setPublicBucketListArray(
               responseTwo.data.data.filter((bucketList: BucketListType) => {
                 return (
@@ -54,7 +52,6 @@ const FriendProfile = () => {
             );
             setSharedBucketListArray(
               responseTwo.data.data.filter((bucketList: BucketListType) => {
-                console.log(bucketList);
                 return bucketList.privacy_type === "shared";
               })
             );

@@ -8,7 +8,7 @@
   .bucket-list-view-container {
     background-color: var(--content-bg-color);
     height: 500px;
-    width: 40%;
+    width: 60%;
     border: var(--border-style);
     border-radius: var(--border-radius);
     display: flex;
@@ -90,7 +90,7 @@
     text-align: center;
   }
 
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 1000px) {
     .bucket-list-view-container {
       height: 600px;
       width: 95%;
