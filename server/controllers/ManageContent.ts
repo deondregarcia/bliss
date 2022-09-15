@@ -84,6 +84,19 @@ export const deleteActivity = (
   );
 };
 
+export const deleteAllActivities = (trackerID: number, callback: Function) => {
+  const queryString = "DELETE FROM bucket_list_content WHERE tracker_id=?";
+
+  db.query(queryString, trackerID, (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const insertID = (<OkPacket>result).insertId;
+    callback(null, insertID);
+  });
+};
+
 export const deleteBucketList = (trackerID: number, callback: Function) => {
   const queryString = "DELETE FROM bucket_list_tracker WHERE id=?";
 
@@ -176,6 +189,22 @@ export const removeSharedListUsers = (
 
   // using converted array for bulk insertion; this converted array needs an extra wrapped array to work
   db.query(queryString, [[convertedArray]], (err, result) => {
+    if (err) {
+      callback(err);
+    }
+
+    const insertID = (<OkPacket>result).insertId;
+    callback(null, insertID);
+  });
+};
+
+export const deleteAllSharedListUsers = (
+  trackerID: number,
+  callback: Function
+) => {
+  const queryString = "DELETE FROM shared_list_users WHERE bucket_list_id=?";
+
+  db.query(queryString, trackerID, (err, result) => {
     if (err) {
       callback(err);
     }

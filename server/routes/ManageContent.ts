@@ -9,6 +9,8 @@ import {
   deleteActivity,
   addSharedListUsers,
   removeSharedListUsers,
+  deleteAllActivities,
+  deleteAllSharedListUsers,
 } from "../controllers/ManageContent";
 import { BucketList, BucketListContent } from "../types/content";
 
@@ -35,7 +37,7 @@ contentRouter.post("/bucket-list", async (req: Request, res: Response) => {
 
 // delete a bucket list
 contentRouter.delete("/bucket-list", async (req: Request, res: Response) => {
-  const trackerID = Number(req.params.id);
+  const trackerID = Number(req.query.id);
 
   deleteBucketList(trackerID, (err: Error, insertId: number) => {
     if (err) {
@@ -107,6 +109,19 @@ contentRouter.delete("/activity", async (req: Request, res: Response) => {
   });
 });
 
+// delete all activities from a bucket list based on id of that list
+contentRouter.delete("/all-activities", async (req: Request, res: Response) => {
+  const trackerID = Number(req.query.id);
+
+  deleteAllActivities(trackerID, (err: Error, insertID: number) => {
+    if (err) {
+      return res.status(500).json({ message: err.message });
+    }
+
+    res.status(200).json({ insertID: insertID });
+  });
+});
+
 // add various users to shared_list_users from supplied user ID's
 contentRouter.post(
   "/shared-list-users",
@@ -165,6 +180,21 @@ contentRouter.post(
       }
 
       res.status(200).json({ message: insertID });
+    });
+  }
+);
+
+contentRouter.delete(
+  "/all-shared-list-users",
+  async (req: Request, res: Response) => {
+    const trackerID = Number(req.query.id);
+
+    deleteAllSharedListUsers(trackerID, (err: Error, insertID: number) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+
+      res.status(200).json({ insertID: insertID });
     });
   }
 );

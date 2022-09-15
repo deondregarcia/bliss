@@ -43,19 +43,75 @@ const EditBucketList = ({
   );
 
   const deleteBucketList = () => {
-    if (window.confirm("Are you sure you want to delete this?")) {
-      Axios.delete("/content/bucket-list", {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this bucket-list? All the activities in it will also be deleted."
+      )
+    ) {
+      // delete all activities first
+      Axios.delete("/content/all-activities", {
         params: {
           id: arraySpecificObject?.id,
         },
-      }).catch((err) => {
-        console.log(err);
-      });
-
+      })
+        .then((res) => {
+          if (
+            res.status === 200 &&
+            arraySpecificObject?.privacy_type === "shared"
+          ) {
+            // if bucket list was shared, then delete all shared users
+            Axios.delete("/content/all-shared-list-users", {
+              params: {
+                id: arraySpecificObject?.id,
+              },
+            })
+              .then((responseTwo) => {
+                if (responseTwo.status === 200) {
+                  // if deleting all activities was successful, then delete bucket list
+                  Axios.delete("/content/bucket-list", {
+                    params: {
+                      id: arraySpecificObject?.id,
+                    },
+                  })
+                    .then((responseThree) => {
+                      if (responseThree.status === 200) {
+                        setTriggerRefresh(!triggerRefresh);
+                        setCallback(!editState);
+                      }
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                } else {
+                  console.log("something went wrong");
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else if (
+            res.status === 200 &&
+            arraySpecificObject?.privacy_type !== "shared"
+          ) {
+            // if deleting all activities was successful, then delete bucket list
+            Axios.delete("/content/bucket-list", {
+              params: {
+                id: arraySpecificObject?.id,
+              },
+            }).catch((err) => {
+              console.log(err);
+            });
+          } else {
+            console.log("something went wrong");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       setTriggerRefresh(!triggerRefresh);
-      setCallback(false);
+      setCallback(!editState);
     } else {
-      setCallback(false);
+      setCallback(!editState);
     }
   };
 
@@ -240,7 +296,6 @@ const EditBucketList = ({
         console.log(err);
       });
     }
-
     setTriggerRefresh(!triggerRefresh);
     setCallback(false);
   };

@@ -17,6 +17,7 @@ const BucketList = ({
   setContributorUserObjectsArray,
   privacyType,
   userID,
+  triggerRefresh,
 }: {
   bucketList: BucketListType;
   setArrayObject: React.Dispatch<React.SetStateAction<BucketListType | null>>;
@@ -28,6 +29,7 @@ const BucketList = ({
   >;
   privacyType: string;
   userID: number;
+  triggerRefresh: boolean;
 }) => {
   const [viewState, setViewState] = useState(false);
   const navigate = useNavigate();

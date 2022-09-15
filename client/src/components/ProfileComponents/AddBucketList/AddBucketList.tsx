@@ -60,15 +60,13 @@ const AddBucketList = ({
         });
     } else if (privacyType === "shared") {
       // create new bucket list and then add respective shared users
-      Axios.post("/content/create", {
+      Axios.post("/content/bucket-list", {
         privacy_type: "shared",
         title: title,
         description: description,
         permissions: "view_and_edit",
       })
         .then((res) => {
-          console.log(res);
-          console.log(res.data.creationId);
           let bucketListID = res.data.creationId;
           // if length is not greater than zero then no one is being added
           if (res.status === 200 && selectedUsers.length > 0) {
@@ -88,7 +86,7 @@ const AddBucketList = ({
           console.log(err);
         });
     } else {
-      Axios.post("/content/create", {
+      Axios.post("/content/bucket-list", {
         privacy_type: "private",
         title: title,
         description: description,

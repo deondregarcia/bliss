@@ -337,6 +337,7 @@ const Profile = () => {
                     }
                     privacyType="public"
                     userID={userObject.id}
+                    triggerRefresh={triggerRefresh}
                   />
                 );
               })
@@ -393,6 +394,7 @@ const Profile = () => {
                     }
                     privacyType="shared"
                     userID={userObject.id}
+                    triggerRefresh={triggerRefresh}
                   />
                 );
               })
@@ -507,6 +509,7 @@ const Profile = () => {
                     }
                     privacyType="private"
                     userID={userObject.id}
+                    triggerRefresh={triggerRefresh}
                   />
                 );
               })
