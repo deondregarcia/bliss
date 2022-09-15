@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthProvider";
 import Axios from "axios";
 
-Axios.defaults.baseURL = "https://blissely.herokuapp.com";
+// Axios.defaults.baseURL = "https://blissely.herokuapp.com";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
