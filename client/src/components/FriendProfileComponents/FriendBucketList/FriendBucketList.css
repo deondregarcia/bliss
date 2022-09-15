@@ -31,6 +31,14 @@
     font-family: var(--text-font);
 }
 
+.friend-bucket-list-owner-text {
+    position: absolute;
+    top: 36px;
+    right: 26px;
+    font-family: "Sarabun";
+    font-size: 15px;
+}
+
 @media screen and (max-width: 500px) {
     .friend-bucket-list-container {
         height: 100%;

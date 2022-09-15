@@ -15,7 +15,7 @@ export const getBucketLists = (googleId: string, callback: Function) => {
   // pull from bucket_list_tracker table
   const firstQueryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=(${getUserQueryString}) OR `;
   // query shared_list_users table
-  const secondQueryString = `id IN (SELECT bucket_list_id FROM bliss_db.shared_list_users WHERE contributor_id=(${getUserQueryString}))`;
+  const secondQueryString = `id IN (SELECT bucket_list_id FROM shared_list_users WHERE contributor_id=(${getUserQueryString}))`;
   const mainQueryString = firstQueryString + secondQueryString;
 
   db.query(mainQueryString, [googleId, googleId], (err, result) => {
@@ -184,8 +184,8 @@ export const getSharedLists = (
   // get friend ID from Google ID
   const getFriendID = "(SELECT id FROM users WHERE google_id=?)";
 
-  // select all (contributor_id, owner_id) or (owner_id, contributor_id) pairs for user and friend
-  const queryString = `SELECT bucket_list_id FROM shared_list_users WHERE (contributor_id=${getUserID} AND owner_id=${getFriendID}) OR (contributor_id=${getFriendID} AND owner_id=${getUserID})`;
+  // select all bucket_list_id's where either friend or user is the contributor_id and the other is the owner of the bucket list
+  const queryString = `SELECT bucket_list_id FROM shared_list_users WHERE (contributor_id=${getUserID} AND bucket_list_id IN (SELECT id FROM bucket_list_tracker WHERE owner_id=${getFriendID})) OR (contributor_id=${getFriendID} AND bucket_list_id IN (SELECT id FROM bucket_list_tracker WHERE owner_id=${getUserID}))`;
 
   db.query(
     queryString,
@@ -232,7 +232,7 @@ export const getAllContributors = (
   callback: Function
 ) => {
   const getUserID = "(SELECT id FROM users WHERE google_id=?)";
-  const getRelevantBucketListIDs = `(SELECT id FROM bliss_db.bucket_list_tracker WHERE owner_id=${getUserID})`;
+  const getRelevantBucketListIDs = `(SELECT id FROM bucket_list_tracker WHERE owner_id=${getUserID})`;
   const queryString = `SELECT bucket_list_id, contributor_id FROM shared_list_users WHERE bucket_list_id IN ${getRelevantBucketListIDs}`;
 
   db.query(queryString, userGoogleID, (err, result) => {
@@ -262,7 +262,7 @@ export const getFriendsLists = (
   // get friend ID from Google ID
   const getFriendID = "(SELECT id FROM users WHERE google_id=?)";
 
-  const queryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=${getFriendID} AND (privacy_type="public_friends" OR privacy_type="public_random" OR id IN (?))`;
+  const queryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=${getFriendID} AND (privacy_type="public_friends" OR privacy_type="public_random") OR id IN (?)`;
 
   db.query(queryString, [friendGoogleID, sharedListArray], (err, result) => {
     if (err) {
@@ -305,7 +305,7 @@ export const getUserInfo = (googleID: string, callback: Function) => {
 // get list of friends from google id
 export const getListOfFriends = (userGoogleID: number, callback: Function) => {
   const getUserID = "(SELECT id FROM users WHERE google_id=?)";
-  const queryString = `SELECT username, first_name, last_name, google_photo_link, google_id, id, wants_to FROM bliss_db.users WHERE id IN (SELECT user_id FROM bliss_db.friends WHERE friend_id=${getUserID} UNION SELECT friend_id FROM bliss_db.friends WHERE user_id=${getUserID})`;
+  const queryString = `SELECT username, first_name, last_name, google_photo_link, google_id, id, wants_to FROM users WHERE id IN (SELECT user_id FROM friends WHERE friend_id=${getUserID} UNION SELECT friend_id FROM friends WHERE user_id=${getUserID})`;
 
   db.query(queryString, [userGoogleID, userGoogleID], (err, result) => {
     if (err) {

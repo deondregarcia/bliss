@@ -266,7 +266,11 @@ const PublicProfile = () => {
         {publicLists.length > 0 ? (
           publicLists.map((bucketList) => {
             return (
-              <FriendBucketList bucketList={bucketList} key={bucketList.id} />
+              <FriendBucketList
+                bucketList={bucketList}
+                key={bucketList.id}
+                userObject={userObject}
+              />
             );
           })
         ) : (

@@ -121,7 +121,7 @@ export const getOutgoingFriendRequests = (
 ) => {
   // get user id from google id
   const getUserID = "(SELECT id FROM users WHERE google_id=?)";
-  const getAllRequesteeIDs = `(SELECT requestee_id FROM bliss_db.friend_requests WHERE requestor_id=${getUserID})`;
+  const getAllRequesteeIDs = `(SELECT requestee_id FROM friend_requests WHERE requestor_id=${getUserID})`;
   const queryString = `SELECT username, google_id, google_photo_link FROM users WHERE id IN ${getAllRequesteeIDs}`;
 
   db.query(queryString, [userGoogleID], (err, result) => {
@@ -151,7 +151,7 @@ export const getIncomingFriendRequests = (
 ) => {
   // get user id from google id
   const getUserID = "(SELECT id FROM users WHERE google_id=?)";
-  const getAllRequestorIDs = `(SELECT requestor_id FROM bliss_db.friend_requests WHERE requestee_id=${getUserID})`;
+  const getAllRequestorIDs = `(SELECT requestor_id FROM friend_requests WHERE requestee_id=${getUserID})`;
   const queryString = `SELECT username, google_id, google_photo_link FROM users WHERE id IN ${getAllRequestorIDs}`;
 
   db.query(queryString, [userGoogleID], (err, result) => {
@@ -176,7 +176,7 @@ export const getIncomingFriendRequests = (
 
 // gets user id from the google id
 export const getUserID = (userGoogleID: string, callback: Function) => {
-  const queryString = "SELECT id FROM bliss_db.users WHERE google_id=?";
+  const queryString = "SELECT id FROM users WHERE google_id=?";
 
   db.query(queryString, userGoogleID, (err, result) => {
     if (err) {
@@ -195,13 +195,13 @@ export const checkIfFriend = (
   callback: Function
 ) => {
   // friends table is [id, user_id, friend_id] so must check if (user_id, friend_id) OR (friend_id, user_id) exists
-  const queryStringOne = "SELECT * FROM bliss_db.friends WHERE ";
+  const queryStringOne = "SELECT * FROM friends WHERE ";
   // check if (user_id, friend_id) exists
   const queryStringTwo =
-    "(user_id=(SELECT id FROM bliss_db.users WHERE google_id=?) AND friend_id=(SELECT id FROM bliss_db.users WHERE google_id=?))";
+    "(user_id=(SELECT id FROM users WHERE google_id=?) AND friend_id=(SELECT id FROM users WHERE google_id=?))";
   // check if "OR" (friend_id, user_id) exists
   const queryStringThree =
-    " OR (user_id=(SELECT id FROM bliss_db.users WHERE google_id=?) AND friend_id=(SELECT id FROM bliss_db.users WHERE google_id=?))";
+    " OR (user_id=(SELECT id FROM users WHERE google_id=?) AND friend_id=(SELECT id FROM users WHERE google_id=?))";
 
   // combine all query strings
   const mainQueryString: string =
@@ -237,13 +237,13 @@ export const checkIfFriendWithUserID = (
   callback: Function
 ) => {
   // friends table is [id, user_id, friend_id] so must check if (user_id, friend_id) OR (friend_id, user_id) exists
-  const queryStringOne = "SELECT * FROM bliss_db.friends WHERE ";
+  const queryStringOne = "SELECT * FROM friends WHERE ";
   // check if (user_id, friend_id) exists
   const queryStringTwo =
-    "(user_id=(SELECT id FROM bliss_db.users WHERE google_id=?) AND friend_id=?)";
+    "(user_id=(SELECT id FROM users WHERE google_id=?) AND friend_id=?)";
   // check if "OR" (friend_id, user_id) exists
   const queryStringThree =
-    " OR (user_id=? AND friend_id=(SELECT id FROM bliss_db.users WHERE google_id=?))";
+    " OR (user_id=? AND friend_id=(SELECT id FROM users WHERE google_id=?))";
 
   // combine all query strings
   const mainQueryString: string =
