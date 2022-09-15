@@ -90,16 +90,8 @@ app.get(
   }
 );
 
-// app.get("/", (req: Request, res: Response) => {
-//   res.send('<a href="/auth/google">Authenticate with Google</a>');
-// });
-
 app.get("/auth/failure", (req: Request, res: Response) => {
   res.send("something went wrong...");
-});
-
-app.get("/protected", isLoggedIn, (req: Request, res: Response) => {
-  res.send(req.user);
 });
 
 // for testing client-server interactions
