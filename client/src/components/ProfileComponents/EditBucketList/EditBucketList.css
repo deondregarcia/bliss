@@ -167,3 +167,12 @@
     font-weight: bold;
     font-family: "Sarabun";
 }
+
+@media screen and (max-width: 500px) {
+    .edit-bucket-list-container {
+        overflow-x: hidden;
+    }
+    .edit-bucket-list-shared-header {
+        font-size: 17px;
+    }
+}

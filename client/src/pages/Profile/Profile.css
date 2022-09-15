@@ -135,6 +135,7 @@
 
 .friend-manager {
     grid-row: 2 / 5;
+    overflow-x: hidden;
 }
 
 .recipe-suggestions {
@@ -298,6 +299,7 @@
     }
     .friend-manager {
         grid-row-start: 3;
+        overflow-x: hidden;
     }
     .private {
         grid-row-start: 4;
@@ -308,6 +310,7 @@
         margin-left: 50px;
         margin-right: 50px;
         overflow-y: scroll;
+        padding-bottom: 50px;
     }
     .profile-info::-webkit-scrollbar {
         display: none;
@@ -317,5 +320,12 @@
     }
     .recipe-suggestions {
         display: none;
+    }
+    .profile-wants-to-icon {
+        height: 30px;
+        width: 30px;
+    }
+    .content-container-bucket-list-wrapper {
+        padding-bottom: 20px;
     }
 }

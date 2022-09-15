@@ -160,3 +160,9 @@
     font-size: 18px;
     margin-left: 5px;
 }
+
+@media screen and (max-width: 500px) {
+    .shared-dropdown-container {
+        transform: scale(0.7);
+    }
+}
