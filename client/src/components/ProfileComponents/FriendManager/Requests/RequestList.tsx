@@ -16,14 +16,16 @@ const RequestList = ({
 
   // handle accept request
   const acceptRequest = (friendGoogleID: string, username: string) => {
-    Axios.post("/accept-request", {
+    Axios.post("/user/friends", {
       google_id: friendGoogleID,
     })
       .then((res) => {
         if (res.status === 200) {
           // call deny request to delete from friend_requests
-          Axios.post("/deny-request", {
-            google_id: friendGoogleID,
+          Axios.delete("/user/friend-request", {
+            params: {
+              google_id: friendGoogleID,
+            },
           })
             .then((res) => {
               if (res.status === 200) {
@@ -44,8 +46,10 @@ const RequestList = ({
 
   // handle deny request
   const denyRequest = (friendGoogleID: string, username: string) => {
-    Axios.post("/deny-request", {
-      google_id: friendGoogleID,
+    Axios.delete("/user/friend-request", {
+      params: {
+        google_id: friendGoogleID,
+      },
     })
       .then((res) => {
         if (res.status === 200) {

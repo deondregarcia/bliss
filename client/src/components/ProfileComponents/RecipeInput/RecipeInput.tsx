@@ -13,8 +13,10 @@ const RecipeInput = ({
 
   // request recipes with spoonacular api from backend
   const getRecipes = () => {
-    Axios.post("/get-recipes", {
-      query: recipeSearch,
+    Axios.get("/recipes", {
+      params: {
+        query: recipeSearch,
+      },
     })
       .then((res) => {
         console.log(res.data.data);
@@ -27,9 +29,6 @@ const RecipeInput = ({
 
   return (
     <div className="recipe-api-input-wrapper">
-      {/* <label htmlFor="recipe-input" className="recipe-api-text">
-        Enter recipe:
-      </label> */}
       <div className="recipe-api-input-interactables">
         <input
           type="text"

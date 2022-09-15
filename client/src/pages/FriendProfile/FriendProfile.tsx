@@ -21,7 +21,7 @@ const FriendProfile = () => {
 
   // get user info from google id
   const getUserInfo = () => {
-    Axios.get(`/view/get-user-info/${id}`)
+    Axios.get(`/view/user-info/${id}`)
       .then((res) => {
         setUserObject(res.data.userInfo[0]);
       })
@@ -33,10 +33,10 @@ const FriendProfile = () => {
   // verify if in any shared lists, and then pull relevant content
   const getRelevantBucketLists = () => {
     // check if user is in any of friend's shared lists and return the list ID's
-    Axios.get(`/view/get-shared-lists/${id}`)
+    Axios.get(`/view/shared-lists/${id}`)
       .then((res) => {
         // get bucket lists
-        Axios.post("/view/get-friend-lists", {
+        Axios.post("/view/friend-lists", {
           sharedListArray: res.data.bucketListIDs,
           friendGoogleID: id,
         })

@@ -4,7 +4,6 @@ import useAuth from "../hooks/useAuth";
 
 const RequireAuth = () => {
   const { auth, setAuth } = useAuth();
-  // const [didAuthRun, setDidAuthRun] = useState(false);
 
   return (
     <>{auth?.session_info ? <Outlet /> : <Navigate to="unauthorized" />}</>

@@ -32,7 +32,7 @@ const AddBucketList = ({
     bucketListID: number,
     addArray: number[]
   ) => {
-    Axios.post("/content/add-shared-list-users", {
+    Axios.post("/content/shared-list-users", {
       ownerID: ownerID,
       bucketListID: bucketListID,
       selectedUserIDs: addArray,
@@ -45,7 +45,7 @@ const AddBucketList = ({
   const addBucketList = () => {
     // if privacyType === "public", set whether its public_friends or public_random
     if (privacyType === "public") {
-      Axios.post("/content/create", {
+      Axios.post("/content/bucket-list", {
         privacy_type: publicType,
         title: title,
         description: description,

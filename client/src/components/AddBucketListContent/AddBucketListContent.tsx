@@ -25,7 +25,7 @@ const AddBucketListContent = ({
       return;
     }
 
-    await Axios.post("/content/add", {
+    await Axios.post("/content/activity", {
       tracker_id: bucketListID,
       activity: newActivity,
       description: newDescription,

@@ -33,10 +33,12 @@ const FriendList = ({
               >
                 <img
                   src={
-                    friend.google_photo_link
+                    friend.google_photo_link &&
+                    friend.google_photo_link !== "undefined"
                       ? friend.google_photo_link
                       : imagesIndex[0]
                   }
+                  referrerPolicy="no-referrer"
                   alt="default profile picture"
                   className="friend-image"
                 />

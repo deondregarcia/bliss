@@ -165,7 +165,6 @@ export const checkIfShared = (
         id: row.id,
         bucket_list_id: row.bucket_list_id,
         contributor_id: row.contributor_id,
-        owner_id: row.owner_id,
       };
       sharedListUsers.push(sharedListUser);
     });
@@ -233,7 +232,8 @@ export const getAllContributors = (
   callback: Function
 ) => {
   const getUserID = "(SELECT id FROM users WHERE google_id=?)";
-  const queryString = `SELECT bucket_list_id, contributor_id FROM shared_list_users WHERE owner_id=${getUserID}`;
+  const getRelevantBucketListIDs = `(SELECT id FROM bliss_db.bucket_list_tracker WHERE owner_id=${getUserID})`;
+  const queryString = `SELECT bucket_list_id, contributor_id FROM shared_list_users WHERE bucket_list_id IN ${getRelevantBucketListIDs}`;
 
   db.query(queryString, userGoogleID, (err, result) => {
     if (err) {

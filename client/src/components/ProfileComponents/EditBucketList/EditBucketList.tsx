@@ -44,15 +44,13 @@ const EditBucketList = ({
 
   const deleteBucketList = () => {
     if (window.confirm("Are you sure you want to delete this?")) {
-      Axios.post("/content/delete-bucket-list", {
-        id: arraySpecificObject?.id,
-      })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      Axios.delete("/content/bucket-list", {
+        params: {
+          id: arraySpecificObject?.id,
+        },
+      }).catch((err) => {
+        console.log(err);
+      });
 
       setTriggerRefresh(!triggerRefresh);
       setCallback(false);
@@ -67,8 +65,7 @@ const EditBucketList = ({
     bucketListID: number,
     addArray: number[]
   ) => {
-    console.log(addArray);
-    Axios.post("/content/add-shared-list-users", {
+    Axios.post("/content/shared-list-users", {
       ownerID: ownerID,
       bucketListID: bucketListID,
       selectedUserIDs: addArray,
@@ -82,7 +79,7 @@ const EditBucketList = ({
     bucketListID: number,
     removeArray: number[]
   ) => {
-    Axios.post("/content/remove-shared-list-users", {
+    Axios.post("/content/delete-shared-list-users", {
       bucketListID: bucketListID,
       removedUserIDs: removeArray,
     })
@@ -102,7 +99,7 @@ const EditBucketList = ({
     }
     // if bucket list is public
     if (privacyType === "public_friends" || privacyType === "public_random") {
-      Axios.put("/content/update-bucket-list", {
+      Axios.patch("/content/bucket-list", {
         id: arraySpecificObject?.id,
         privacy_type: privacyType,
         title: newTitle,
@@ -118,7 +115,7 @@ const EditBucketList = ({
         return;
       }
       // same as public but pull shared_list_users, then compare to selctedUsers, and add/remove relevant users
-      Axios.put("/content/update-bucket-list", {
+      Axios.patch("/content/bucket-list", {
         id: arraySpecificObject?.id,
         privacy_type: privacyType,
         title: newTitle,
@@ -128,7 +125,7 @@ const EditBucketList = ({
         .then((res) => {
           if (res.status === 200) {
             // get all shared_list_users for this bucket list and compare against selectedUsers
-            Axios.get(`/view/get-shared-list-users/${arraySpecificObject?.id}`)
+            Axios.get(`/view/all-shared-list-users/${arraySpecificObject?.id}`)
               .then((responseTwo) => {
                 // copy of shared list users to compare both arrays
                 let sharedListTracker: number[] =
@@ -233,7 +230,7 @@ const EditBucketList = ({
         alert("Please make sure all sections are filled out");
         return;
       }
-      Axios.put("/content/update-bucket-list", {
+      Axios.patch("/content/bucket-list", {
         id: arraySpecificObject?.id,
         privacy_type: privacyType,
         title: newTitle,

@@ -63,7 +63,7 @@ const BucketListView = () => {
         // check if User google_id === Owner google_id
         if (res.privacy_type === "private") {
           // get user's google id from server for verification
-          Axios.get("/get-user-id")
+          Axios.get("/user/user-id")
             .then((response) => {
               // check if user is logged in
               if (!response.data.userID[0]) {
@@ -84,7 +84,7 @@ const BucketListView = () => {
           // check if User google_id === Owner google_id or in shared_list_users
         } else if (res.privacy_type === "shared") {
           // check if user is owner, then check if in shared_list_users
-          Axios.get("/get-user-id")
+          Axios.get("/user/user-id")
             .then((response) => {
               // check if user is logged in
               if (!response.data.userID[0]) {
@@ -96,7 +96,7 @@ const BucketListView = () => {
                 getBucketListContent();
               } else {
                 // check if shared_list_user
-                Axios.get(`/view/check-if-user-in-shared-list/${id}`)
+                Axios.get(`/view/shared-list-user/${id}`)
                   .then((response) => {
                     if (response.data.data[0]) {
                       getBucketListContent();
@@ -115,7 +115,7 @@ const BucketListView = () => {
           // check if user is owner, then check if User google_id is friends with Owner google_id
         } else if (res.privacy_type === "public_friends") {
           // check if user is owner
-          Axios.get("/get-user-id")
+          Axios.get("/user/user-id")
             .then((response) => {
               // check if user is logged in
               if (!response.data.userID[0]) {
@@ -127,9 +127,7 @@ const BucketListView = () => {
                 getBucketListContent();
               } else {
                 // check if user id is friends with Owner id
-                Axios.post("/check-if-friend-with-user-id", {
-                  secondID: res.owner_id,
-                })
+                Axios.get(`/user/friend/friend-id/${res.owner_id}`)
                   .then((response) => {
                     // if true then they are friends; pull public_friends content
                     if (response.data.friendPairsInfo[0]) {

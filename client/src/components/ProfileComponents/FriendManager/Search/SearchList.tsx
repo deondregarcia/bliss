@@ -41,7 +41,7 @@ const SearchList = ({
 
   // send friend request
   const sendFriendRequest = (googleID: string, username: string) => {
-    Axios.post("/send-friend-request", {
+    Axios.post("/user/friend-request", {
       requesteeGoogleID: googleID,
     })
       .then((res) => {

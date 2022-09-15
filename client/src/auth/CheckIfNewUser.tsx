@@ -8,7 +8,7 @@ const CheckIfNewUser = () => {
   const [isNewUser, setIsNewUser] = useState(false);
 
   const checkIfGoogleIDExists = async () => {
-    await Axios.get("/get-user-id")
+    await Axios.get("/user/user-id")
       .then((res) => {
         if (!res.data.userID[0]) {
           setIsNewUser(true);

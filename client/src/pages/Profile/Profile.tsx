@@ -29,6 +29,11 @@ import EditBucketList from "../../components/ProfileComponents/EditBucketList/Ed
 import FriendList from "../../components/ProfileComponents/FriendManager/FriendList/FriendList";
 import Search from "../../components/ProfileComponents/FriendManager/Search/Search";
 import RequestList from "../../components/ProfileComponents/FriendManager/Requests/RequestList";
+import WantsToEdit from "../../components/ProfileComponents/WantsToEdit/WantsToEdit";
+
+// import react-icons
+import { MdEdit } from "react-icons/md";
+import { IoClose } from "react-icons/io5";
 
 const Profile = () => {
   const [userID, setUserID] = useState<number>(0);
@@ -66,6 +71,9 @@ const Profile = () => {
   const [publicEdit, setPublicEdit] = useState(false);
   const [sharedEdit, setSharedEdit] = useState(false);
   const [privateEdit, setPrivateEdit] = useState(false);
+
+  // state to display "I want to..." editing overlay
+  const [wantsToState, setWantsToState] = useState(false);
 
   // ID's to grab when editing per each section
   const [publicEditObject, setPublicEditObject] =
@@ -129,7 +137,7 @@ const Profile = () => {
 
   // get list of shared_list_users user objects where owner_id=(user's ID)
   const getAllContributors = () => {
-    Axios.get("/view/get-all-contributors")
+    Axios.get("/view/all-contributors")
       .then((res) => {
         setContributorObjects(res.data.contributorObjects);
       })
@@ -138,22 +146,34 @@ const Profile = () => {
       });
   };
 
-  // get google user info
-  const getGoogleUserInfo = () => {
-    Axios.get("/googleuser")
-      .then((res) => {
-        setGoogleUserObject(res.data.google_user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  // get user info from google id
+  // get user info from db and google user info, and potentially update profile pic if respective photo links do not match
   const getUserInfo = () => {
-    Axios.get(`/view/get-user-info/${id}`)
+    Axios.get(`/view/user-info/${id}`)
       .then((res) => {
         setUserObject(res.data.userInfo[0]);
+        Axios.get("/user/googleuser")
+          .then((responseTwo) => {
+            setGoogleUserObject(responseTwo.data.google_user);
+            if (
+              responseTwo.data.google_user.photos[0].value ===
+              res.data.userInfo[0].google_photo_link
+            ) {
+              return;
+            } else {
+              Axios.patch("/user/google-photo", {
+                googlePhotoLink: googleUserObject?.photos[0].value,
+              })
+                .then((responseThree) => {
+                  console.log(responseThree);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -162,7 +182,7 @@ const Profile = () => {
 
   // get list of friends
   const getFriendsList = () => {
-    Axios.get(`/view/get-list-of-friends`)
+    Axios.get(`/view/list-of-friends`)
       .then((res) => {
         setFriends(res.data.friends);
       })
@@ -173,7 +193,7 @@ const Profile = () => {
 
   // get full list of users, excluding current user
   const getFullUserList = () => {
-    Axios.get(`/view/get-full-user-list/${id}`)
+    Axios.get(`/view/full-user-list/${id}`)
       .then((res) => {
         setFullUserList(res.data.userList);
       })
@@ -184,7 +204,7 @@ const Profile = () => {
 
   // get outgoing friend requests (user sent these)
   const getOutgoingFriendRequests = () => {
-    Axios.get(`/get-outgoing-friend-requests`)
+    Axios.get(`/user/outgoing-friend-requests`)
       .then((res) => {
         setOutgoingFriendRequests(res.data.outgoingRequestUsers);
       })
@@ -195,7 +215,7 @@ const Profile = () => {
 
   // get incoming friend requests (user received these)
   const getIncomingFriendRequests = () => {
-    Axios.get(`/get-incoming-friend-requests`)
+    Axios.get(`/user/incoming-friend-requests`)
       .then((res) => {
         setIncomingFriendRequests(res.data.incomingRequestUsers);
       })
@@ -204,36 +224,15 @@ const Profile = () => {
       });
   };
 
-  // check if google photo is new; if so, update
-  const updateGooglePhoto = () => {
-    console.log(googleUserObject?.photos[0].value);
-    console.log(googleUserObject);
-    if (googleUserObject?.photos[0].value === userObject?.google_photo_link) {
-      return;
-    } else {
-      Axios.put("/content/update-google-photo", {
-        googlePhotoLink: googleUserObject?.photos[0].value,
-      })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
-
   // combine funcs to hopefully improve performance
   const runInitialFunctions = () => {
     getBucketListData();
     getAllContributors();
-    getGoogleUserInfo();
     getUserInfo();
     getFriendsList();
     getFullUserList();
     getOutgoingFriendRequests();
     getIncomingFriendRequests();
-    // updateGooglePhoto();
   };
 
   useEffect(() => {
@@ -252,7 +251,8 @@ const Profile = () => {
         <div className="profile-info">
           <h2>{userObject?.username}</h2>
           <img
-            src={userObject?.google_photo_link}
+            // src={userObject?.google_photo_link}
+            src={googleUserObject?.photos[0].value}
             referrerPolicy="no-referrer" // referrer policy that blocked loading of img sometimes - look into it
             alt="google profile picture"
             className="profile-pic"
@@ -262,10 +262,29 @@ const Profile = () => {
             <h3>{userObject?.last_name}</h3>
           </div>
           <div className="profile-wants-to-container">
-            <h3 className="profile-wants-to-container-header">I want to...</h3>
+            <div className="profile-wants-to-header-wrapper">
+              <h3 className="profile-wants-to-container-header">
+                I want to...
+              </h3>
+              {wantsToState ? (
+                <IoClose
+                  onClick={() => setWantsToState(false)}
+                  size={24}
+                  className="profile-wants-to-icon"
+                />
+              ) : (
+                <MdEdit
+                  onClick={() => setWantsToState(true)}
+                  size={24}
+                  className="profile-wants-to-icon"
+                />
+              )}
+            </div>
             <div className="profile-separator" />
-            {userObject?.wants_to ? (
-              <p className="profile-wants-to">{userObject?.wants_to}</p>
+            {wantsToState ? (
+              <WantsToEdit wantsToText={userObject.wants_to} />
+            ) : userObject?.wants_to ? (
+              <p className="profile-wants-to">{userObject.wants_to}</p>
             ) : (
               <p className="profile-wants-to-empty">
                 You haven't added anything here yet!

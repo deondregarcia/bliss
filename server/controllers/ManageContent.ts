@@ -9,10 +9,7 @@ import {
 import { Axios } from "axios";
 
 // creates the bucket list tracker
-export const createBucketList = (
-  bucketList: BucketList,
-  callback: Function
-) => {
+export const addBucketList = (bucketList: BucketList, callback: Function) => {
   const getUserIDQueryString = "(SELECT id FROM users WHERE google_id=?)";
   const queryString = `INSERT INTO bucket_list_tracker (owner_id, privacy_type, created_at, title, description, permissions) VALUES (${getUserIDQueryString}, ?, ?, ?, ?, ?)`;
 
@@ -156,7 +153,7 @@ export const addSharedListUsers = (
   callback: Function
 ) => {
   const queryString =
-    "INSERT INTO shared_list_users (bucket_list_id, contributor_id, owner_id) VALUES ?";
+    "INSERT INTO shared_list_users (bucket_list_id, contributor_id) VALUES ?";
 
   // using converted array for bulk insertion
   db.query(queryString, [convertedArray], (err, result) => {
@@ -179,24 +176,6 @@ export const removeSharedListUsers = (
 
   // using converted array for bulk insertion; this converted array needs an extra wrapped array to work
   db.query(queryString, [[convertedArray]], (err, result) => {
-    if (err) {
-      callback(err);
-    }
-
-    const insertID = (<OkPacket>result).insertId;
-    callback(null, insertID);
-  });
-};
-
-// update google photo based on google id since you can't select "FROM" the table you're updating
-export const updateGooglePhoto = (
-  userGoogleID: string,
-  googlePhotoLink: string,
-  callback: Function
-) => {
-  const queryString = "UPDATE users SET google_photo_link=? WHERE google_id=?";
-
-  db.query(queryString, [googlePhotoLink, userGoogleID], (err, result) => {
     if (err) {
       callback(err);
     }
