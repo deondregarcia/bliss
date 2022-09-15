@@ -29,7 +29,7 @@ viewContentRouter.get("/lists/:google_id", (req, res) => __awaiter(void 0, void 
     });
 }));
 // get only public_random lists for viewing profiles where user is not friends with them
-viewContentRouter.get("/get-public-lists/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+viewContentRouter.get("/public-lists/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userGoogleID = req.params.id;
     (0, ViewContent_1.getPublicBucketLists)(userGoogleID, (err, lists) => {
         if (err) {
@@ -40,7 +40,7 @@ viewContentRouter.get("/get-public-lists/:id", (req, res) => __awaiter(void 0, v
 }));
 // get lists for friend profile, get all public_friends/public_random and relevant shared lists
 // note, this gets called after "/get-shared-lists/:id" gets called down below to get shared list ID's
-viewContentRouter.post("/get-friend-lists", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+viewContentRouter.post("/friend-lists", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const sharedListIDs = {
         array: (_a = req.body) === null || _a === void 0 ? void 0 : _a.sharedListArray,
@@ -84,7 +84,7 @@ viewContentRouter.get("/privacy-type-and-owner-google-id/:id", (req, res) => __a
     });
 }));
 // check if user is in shared list for a particular bucket list
-viewContentRouter.get("/check-if-user-in-shared-list/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+viewContentRouter.get("/shared-list-user/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _b;
     const userID = String((_b = req.user) === null || _b === void 0 ? void 0 : _b.id);
     const bucketListID = Number(req.params.id);
@@ -97,7 +97,7 @@ viewContentRouter.get("/check-if-user-in-shared-list/:id", (req, res) => __await
 }));
 // check if user, who is visiting friend profile, is in any shared_list_users rows with the friend and return those bucket_list_id's
 // (uses Google ID)
-viewContentRouter.get("/get-shared-lists/:id", (req, res) => {
+viewContentRouter.get("/shared-lists/:id", (req, res) => {
     var _a;
     const userGoogleID = (_a = req.user) === null || _a === void 0 ? void 0 : _a.profile.id;
     const friendGoogleID = req.params.id;
@@ -109,7 +109,7 @@ viewContentRouter.get("/get-shared-lists/:id", (req, res) => {
     });
 });
 // get all users in a shared list based on provided bucket list tracker id (id)
-viewContentRouter.get("/get-shared-list-users/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+viewContentRouter.get("/all-shared-list-users/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const trackerID = Number(req.params.id);
     (0, ViewContent_1.getSharedListUsers)(trackerID, (err, contributorIDs) => {
         if (err) {
@@ -119,7 +119,7 @@ viewContentRouter.get("/get-shared-list-users/:id", (req, res) => __awaiter(void
     });
 }));
 // get all contributor's for all of user's owned, shared bucket lists
-viewContentRouter.get("/get-all-contributors", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+viewContentRouter.get("/all-contributors", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _c, _d;
     // check if user is logged in/google id exists
     if (!((_c = req.user) === null || _c === void 0 ? void 0 : _c.id)) {
@@ -134,7 +134,7 @@ viewContentRouter.get("/get-all-contributors", (req, res) => __awaiter(void 0, v
     });
 }));
 // get user info from database from google ID
-viewContentRouter.get("/get-user-info/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+viewContentRouter.get("/user-info/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const googleID = req.params.id;
     (0, ViewContent_1.getUserInfo)(googleID, (err, userInfo) => {
         if (err) {
@@ -144,7 +144,7 @@ viewContentRouter.get("/get-user-info/:id", (req, res) => __awaiter(void 0, void
     });
 }));
 // get list of friends from google id
-viewContentRouter.get("/get-list-of-friends", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+viewContentRouter.get("/list-of-friends", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _e, _f;
     // check if user is logged in/google id exists
     if (!((_e = req.user) === null || _e === void 0 ? void 0 : _e.id)) {
@@ -159,7 +159,7 @@ viewContentRouter.get("/get-list-of-friends", (req, res) => __awaiter(void 0, vo
     });
 }));
 // get full list of users for search list, excluding current user
-viewContentRouter.get("/get-full-user-list/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+viewContentRouter.get("/full-user-list/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userGoogleID = String(req.params.id);
     (0, ViewContent_1.getUserList)(userGoogleID, (err, userList) => {
         if (err) {

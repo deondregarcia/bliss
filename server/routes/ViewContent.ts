@@ -157,7 +157,12 @@ viewContentRouter.get(
 // check if user, who is visiting friend profile, is in any shared_list_users rows with the friend and return those bucket_list_id's
 // (uses Google ID)
 viewContentRouter.get("/shared-lists/:id", (req: Request, res: Response) => {
-  const userGoogleID = req.user?.profile.id;
+  // check if user is logged in/google id exists
+  if (!req.user?.profile.id) {
+    return res.status(403).json({ message: "User's Google ID not found" });
+  }
+
+  const userGoogleID = req.user.profile.id;
   const friendGoogleID = req.params.id;
 
   getSharedLists(

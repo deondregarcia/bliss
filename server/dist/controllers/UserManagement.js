@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getIncomingFriendRequests = exports.getOutgoingFriendRequests = exports.denyRequest = exports.acceptRequest = exports.sendFriendRequest = exports.checkUsername = exports.createUser = void 0;
+exports.updateWantsTo = exports.updateGooglePhoto = exports.checkIfFriendWithUserID = exports.checkIfFriend = exports.getUserID = exports.getIncomingFriendRequests = exports.getOutgoingFriendRequests = exports.denyRequest = exports.acceptRequest = exports.sendFriendRequest = exports.checkUsername = exports.createUser = void 0;
 const db_1 = require("../db");
 const createUser = (newUser, callback) => {
     const queryString = "INSERT INTO users (username, first_name, last_name, created_at, google_id, google_photo_link, wants_to) VALUES (?,?,?,?,?,?,?)";
@@ -82,7 +82,7 @@ exports.denyRequest = denyRequest;
 const getOutgoingFriendRequests = (userGoogleID, callback) => {
     // get user id from google id
     const getUserID = "(SELECT id FROM users WHERE google_id=?)";
-    const getAllRequesteeIDs = `(SELECT requestee_id FROM bliss_db.friend_requests WHERE requestor_id=${getUserID})`;
+    const getAllRequesteeIDs = `(SELECT requestee_id FROM friend_requests WHERE requestor_id=${getUserID})`;
     const queryString = `SELECT username, google_id, google_photo_link FROM users WHERE id IN ${getAllRequesteeIDs}`;
     db_1.db.query(queryString, [userGoogleID], (err, result) => {
         if (err) {
@@ -106,7 +106,7 @@ exports.getOutgoingFriendRequests = getOutgoingFriendRequests;
 const getIncomingFriendRequests = (userGoogleID, callback) => {
     // get user id from google id
     const getUserID = "(SELECT id FROM users WHERE google_id=?)";
-    const getAllRequestorIDs = `(SELECT requestor_id FROM bliss_db.friend_requests WHERE requestee_id=${getUserID})`;
+    const getAllRequestorIDs = `(SELECT requestor_id FROM friend_requests WHERE requestee_id=${getUserID})`;
     const queryString = `SELECT username, google_id, google_photo_link FROM users WHERE id IN ${getAllRequestorIDs}`;
     db_1.db.query(queryString, [userGoogleID], (err, result) => {
         if (err) {
@@ -126,3 +126,95 @@ const getIncomingFriendRequests = (userGoogleID, callback) => {
     });
 };
 exports.getIncomingFriendRequests = getIncomingFriendRequests;
+// gets user id from the google id
+const getUserID = (userGoogleID, callback) => {
+    const queryString = "SELECT id FROM users WHERE google_id=?";
+    db_1.db.query(queryString, userGoogleID, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        const userID = result;
+        callback(null, userID);
+    });
+};
+exports.getUserID = getUserID;
+// check if ID in url user is navigating to, is a friend of logged in user
+const checkIfFriend = (reqUserID, urlID, callback) => {
+    // friends table is [id, user_id, friend_id] so must check if (user_id, friend_id) OR (friend_id, user_id) exists
+    const queryStringOne = "SELECT * FROM friends WHERE ";
+    // check if (user_id, friend_id) exists
+    const queryStringTwo = "(user_id=(SELECT id FROM users WHERE google_id=?) AND friend_id=(SELECT id FROM users WHERE google_id=?))";
+    // check if "OR" (friend_id, user_id) exists
+    const queryStringThree = " OR (user_id=(SELECT id FROM users WHERE google_id=?) AND friend_id=(SELECT id FROM users WHERE google_id=?))";
+    // combine all query strings
+    const mainQueryString = queryStringOne + queryStringTwo + queryStringThree;
+    db_1.db.query(mainQueryString, [reqUserID, urlID, urlID, reqUserID], (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        // there should only be one, so add a check for this later
+        const rows = result;
+        const friendPairs = [];
+        rows.forEach((row) => {
+            const friendPair = {
+                friend_one_id: row.user_id,
+                friend_two_id: row.friend_id,
+            };
+            friendPairs.push(friendPair);
+        });
+        callback(null, friendPairs);
+    });
+};
+exports.checkIfFriend = checkIfFriend;
+const checkIfFriendWithUserID = (reqUserGoogleID, secondID, callback) => {
+    // friends table is [id, user_id, friend_id] so must check if (user_id, friend_id) OR (friend_id, user_id) exists
+    const queryStringOne = "SELECT * FROM friends WHERE ";
+    // check if (user_id, friend_id) exists
+    const queryStringTwo = "(user_id=(SELECT id FROM users WHERE google_id=?) AND friend_id=?)";
+    // check if "OR" (friend_id, user_id) exists
+    const queryStringThree = " OR (user_id=? AND friend_id=(SELECT id FROM users WHERE google_id=?))";
+    // combine all query strings
+    const mainQueryString = queryStringOne + queryStringTwo + queryStringThree;
+    db_1.db.query(mainQueryString, [reqUserGoogleID, secondID, secondID, reqUserGoogleID], (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        // there should only be one, so add a check for this later
+        const rows = result;
+        const friendPairs = [];
+        rows.forEach((row) => {
+            const friendPair = {
+                friend_one_id: row.user_id,
+                friend_two_id: row.friend_id,
+            };
+            friendPairs.push(friendPair);
+        });
+        callback(null, friendPairs);
+    });
+};
+exports.checkIfFriendWithUserID = checkIfFriendWithUserID;
+// update google photo based on google id since you can't select "FROM" the table you're updating
+const updateGooglePhoto = (userGoogleID, googlePhotoLink, callback) => {
+    const queryString = "UPDATE users SET google_photo_link=? WHERE google_id=?";
+    db_1.db.query(queryString, [googlePhotoLink, userGoogleID], (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const insertID = result.insertId;
+        callback(null, insertID);
+    });
+};
+exports.updateGooglePhoto = updateGooglePhoto;
+const updateWantsTo = (userGoogleID, wantsToText, callback) => {
+    const queryString = "UPDATE users SET wants_to=? WHERE google_id=?";
+    console.log(db_1.db.format(queryString, [userGoogleID, wantsToText]));
+    db_1.db.query(queryString, [wantsToText, userGoogleID], (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        console.log(result);
+        const insertID = result.insertId;
+        callback(null, insertID);
+    });
+};
+exports.updateWantsTo = updateWantsTo;
