@@ -155,7 +155,7 @@ manageUserRouter.post("/username/:username", (req, res) => __awaiter(void 0, voi
 }));
 // create user
 manageUserRouter.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _l, _m;
+    var _l;
     if (!((_l = req.user) === null || _l === void 0 ? void 0 : _l.profile)) {
         return res.status(500).json({ message: "No Google ID" });
     }
@@ -166,9 +166,6 @@ manageUserRouter.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, f
         created_at: new Date(),
         google_id: String(req.user.profile.id),
         wants_to: req.body.wantsTo,
-        google_photo_link: ((_m = req.user) === null || _m === void 0 ? void 0 : _m.profile)
-            ? req.user.profile.photos[0].value
-            : "undefined",
     };
     (0, UserManagement_1.createUser)(newUser, (err, insertID) => {
         if (err) {
@@ -179,12 +176,12 @@ manageUserRouter.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, f
 }));
 // update profile photo to reflect new google photo
 manageUserRouter.patch("/google-photo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _o, _p;
+    var _m, _o;
     // check if user is logged in/google id exists
-    if (!((_o = req.user) === null || _o === void 0 ? void 0 : _o.id)) {
+    if (!((_m = req.user) === null || _m === void 0 ? void 0 : _m.id)) {
         return res.status(403).json({ message: "User's Google ID not found" });
     }
-    const userGoogleID = String((_p = req.user) === null || _p === void 0 ? void 0 : _p.id);
+    const userGoogleID = String((_o = req.user) === null || _o === void 0 ? void 0 : _o.id);
     const googlePhotoLink = String(req.body.googlePhotoLink);
     (0, UserManagement_1.updateGooglePhoto)(userGoogleID, googlePhotoLink, (err, insertID) => {
         if (err) {
@@ -195,12 +192,12 @@ manageUserRouter.patch("/google-photo", (req, res) => __awaiter(void 0, void 0, 
 }));
 // update wants_to portion of user
 manageUserRouter.patch("/wants-to", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _q, _r;
+    var _p, _q;
     // check if user is logged in/google id exists
-    if (!((_q = req.user) === null || _q === void 0 ? void 0 : _q.id)) {
+    if (!((_p = req.user) === null || _p === void 0 ? void 0 : _p.id)) {
         return res.status(403).json({ message: "User's Google ID not found" });
     }
-    const userGoogleID = (_r = req.user) === null || _r === void 0 ? void 0 : _r.id;
+    const userGoogleID = (_q = req.user) === null || _q === void 0 ? void 0 : _q.id;
     const wantsToText = req.body.newWantsToText;
     console.log(userGoogleID);
     console.log(wantsToText);

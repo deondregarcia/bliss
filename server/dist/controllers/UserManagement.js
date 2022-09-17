@@ -3,14 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateWantsTo = exports.updateGooglePhoto = exports.checkIfFriendWithUserID = exports.checkIfFriend = exports.getUserID = exports.getIncomingFriendRequests = exports.getOutgoingFriendRequests = exports.denyRequest = exports.acceptRequest = exports.sendFriendRequest = exports.checkUsername = exports.createUser = void 0;
 const db_1 = require("../db");
 const createUser = (newUser, callback) => {
-    const queryString = "INSERT INTO users (username, first_name, last_name, created_at, google_id, google_photo_link, wants_to) VALUES (?,?,?,?,?,?,?)";
+    const queryString = "INSERT INTO users (username, first_name, last_name, created_at, google_id, wants_to) VALUES (?,?,?,?,?,?)";
     db_1.db.query(queryString, [
         newUser.username,
         newUser.first_name,
         newUser.last_name,
         newUser.created_at,
         newUser.google_id,
-        newUser.google_photo_link,
         newUser.wants_to,
     ], (err, result) => {
         if (err) {
