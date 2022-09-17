@@ -13,6 +13,7 @@ import {
   getPublicBucketLists,
   getSharedListUsers,
   getAllContributors,
+  getRecentFriendActivities,
 } from "../controllers/ViewContent";
 import {
   BucketList,
@@ -263,6 +264,28 @@ viewContentRouter.get(
 
       res.status(200).json({ userList: userList });
     });
+  }
+);
+
+viewContentRouter.get(
+  "/recent-friend-activities",
+  async (req: Request, res: Response) => {
+    // check if user is logged in/google id exists
+    if (!req.user?.id) {
+      return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const userGoogleID = String(req.user?.id);
+
+    getRecentFriendActivities(
+      userGoogleID,
+      (err: Error, activities: BucketListContent[]) => {
+        if (err) {
+          return res.status(500).json({ message: err.message });
+        }
+
+        res.status(200).json({ data: activities });
+      }
+    );
   }
 );
 

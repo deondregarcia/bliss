@@ -1,0 +1,40 @@
+.recent-friend-activities-container {
+    height: 60%;
+    width: 90%;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    animation: 5000ms linear infinite carousel-transition;
+    /* background-color: red; */
+}
+
+.recent-friend-activities-container > p {
+    font-family: "Sarabun";
+    font-size: 18px;
+}
+
+.recent-friend-activity {
+    margin-top: 0px;
+}
+
+@keyframes carousel-transition {
+    0% {
+        opacity: 0;
+        left: 100%;
+    }
+    10% {
+        opacity: 1;
+        left: 0;
+    }
+    90% {
+        opacity: 1;
+        left: 0;
+    }
+    100% {
+        opacity: 0;
+        left: -100%;
+    }
+}

@@ -57,7 +57,7 @@ manageUserRouter.delete("/friend-request", (req, res) => __awaiter(void 0, void 
         return res.status(403).json({ message: "User's Google ID not found" });
     }
     const userGoogleID = String((_f = req.user) === null || _f === void 0 ? void 0 : _f.id);
-    const friendGoogleID = req.params.google_id;
+    const friendGoogleID = String(req.query.google_id);
     (0, UserManagement_1.denyRequest)(userGoogleID, friendGoogleID, (err, deletionID) => {
         if (err) {
             return res.status(500).json({ message: err.message });
@@ -155,7 +155,7 @@ manageUserRouter.post("/username/:username", (req, res) => __awaiter(void 0, voi
 }));
 // create user
 manageUserRouter.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _l;
+    var _l, _m;
     if (!((_l = req.user) === null || _l === void 0 ? void 0 : _l.profile)) {
         return res.status(500).json({ message: "No Google ID" });
     }
@@ -166,7 +166,9 @@ manageUserRouter.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, f
         created_at: new Date(),
         google_id: String(req.user.profile.id),
         wants_to: req.body.wantsTo,
-        google_photo_link: String("undefined"),
+        google_photo_link: ((_m = req.user) === null || _m === void 0 ? void 0 : _m.profile)
+            ? req.user.profile.photos[0].value
+            : "undefined",
     };
     (0, UserManagement_1.createUser)(newUser, (err, insertID) => {
         if (err) {
@@ -177,12 +179,12 @@ manageUserRouter.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, f
 }));
 // update profile photo to reflect new google photo
 manageUserRouter.patch("/google-photo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _m, _o;
+    var _o, _p;
     // check if user is logged in/google id exists
-    if (!((_m = req.user) === null || _m === void 0 ? void 0 : _m.id)) {
+    if (!((_o = req.user) === null || _o === void 0 ? void 0 : _o.id)) {
         return res.status(403).json({ message: "User's Google ID not found" });
     }
-    const userGoogleID = String((_o = req.user) === null || _o === void 0 ? void 0 : _o.id);
+    const userGoogleID = String((_p = req.user) === null || _p === void 0 ? void 0 : _p.id);
     const googlePhotoLink = String(req.body.googlePhotoLink);
     (0, UserManagement_1.updateGooglePhoto)(userGoogleID, googlePhotoLink, (err, insertID) => {
         if (err) {
@@ -193,12 +195,12 @@ manageUserRouter.patch("/google-photo", (req, res) => __awaiter(void 0, void 0, 
 }));
 // update wants_to portion of user
 manageUserRouter.patch("/wants-to", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _p, _q;
+    var _q, _r;
     // check if user is logged in/google id exists
-    if (!((_p = req.user) === null || _p === void 0 ? void 0 : _p.id)) {
+    if (!((_q = req.user) === null || _q === void 0 ? void 0 : _q.id)) {
         return res.status(403).json({ message: "User's Google ID not found" });
     }
-    const userGoogleID = (_q = req.user) === null || _q === void 0 ? void 0 : _q.id;
+    const userGoogleID = (_r = req.user) === null || _r === void 0 ? void 0 : _r.id;
     const wantsToText = req.body.newWantsToText;
     console.log(userGoogleID);
     console.log(wantsToText);

@@ -14,6 +14,7 @@ import {
   FullUserListType,
   FriendRequestUserType,
   SharedListUserType,
+  BucketListContentType,
 } from "../../types/content";
 
 // import components
@@ -34,6 +35,7 @@ import WantsToEdit from "../../components/ProfileComponents/WantsToEdit/WantsToE
 // import react-icons
 import { MdEdit } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
+import RecentFriendActivities from "../../components/ProfileComponents/RecentFriendActivities/RecentFriendActivities";
 
 const Profile = () => {
   const [userID, setUserID] = useState<number>(0);
@@ -49,6 +51,11 @@ const Profile = () => {
   const [fullUserList, setFullUserList] = useState<
     FullUserListType[] | undefined
   >(undefined);
+
+  // array for recent friend activities
+  const [recentFriendActivities, setRecentFriendActivities] = useState<
+    BucketListContentType[]
+  >([]);
 
   // user objects of incoming and outgoing friend requests
   const [outgoingFriendRequests, setOutgoingFriendRequests] = useState<
@@ -222,6 +229,14 @@ const Profile = () => {
       });
   };
 
+  // get recently added activities from friends
+  const getRecentFriendActivities = () => {
+    Axios.get("/view/recent-friend-activities").then((res) => {
+      console.log(res.data.data);
+      setRecentFriendActivities(res.data.data);
+    });
+  };
+
   // combine funcs to hopefully improve performance
   const runInitialFunctions = () => {
     getBucketListData();
@@ -231,6 +246,7 @@ const Profile = () => {
     getFullUserList();
     getOutgoingFriendRequests();
     getIncomingFriendRequests();
+    getRecentFriendActivities();
   };
 
   useEffect(() => {
@@ -360,8 +376,14 @@ const Profile = () => {
           </div>
         </div>
         <div className="right-column-container friend-feed">
-          <h2 className="side-container-header">Recent Friend Activities</h2>
+          <h2 className="side-container-header">Friend Activity</h2>
           <div className="side-container-header-separator" />
+          {recentFriendActivities.length > 0 && friends.length > 0 && (
+            <RecentFriendActivities
+              recentFriendActivities={recentFriendActivities}
+              friends={friends}
+            />
+          )}
         </div>
         <div className="content-container shared">
           <ContentContainerHeader
