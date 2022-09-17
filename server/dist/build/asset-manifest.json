@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.9c45ea82.css",
-    "main.js": "/static/js/main.f5414dfb.js",
+    "main.css": "/static/css/main.12e7a1fa.css",
+    "main.js": "/static/js/main.b46e003d.js",
     "static/media/Default.jpg": "/static/media/Default.3aae275a7f9855ff29ed.jpg",
     "static/media/Sarabun-Light.ttf": "/static/media/Sarabun-Light.6129d74579149bbddbb7.ttf",
+    "static/media/DefaultProfile.jpg": "/static/media/DefaultProfile.c48d7d80bbefaa2b9d65.jpg",
     "index.html": "/index.html",
-    "main.9c45ea82.css.map": "/static/css/main.9c45ea82.css.map",
-    "main.f5414dfb.js.map": "/static/js/main.f5414dfb.js.map"
+    "main.12e7a1fa.css.map": "/static/css/main.12e7a1fa.css.map",
+    "main.b46e003d.js.map": "/static/js/main.b46e003d.js.map"
   },
   "entrypoints": [
-    "static/css/main.9c45ea82.css",
-    "static/js/main.f5414dfb.js"
+    "static/css/main.12e7a1fa.css",
+    "static/js/main.b46e003d.js"
   ]
 }
