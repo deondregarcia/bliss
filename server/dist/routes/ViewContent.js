@@ -172,3 +172,17 @@ viewContentRouter.get("/full-user-list/:id", (req, res) => __awaiter(void 0, voi
         res.status(200).json({ userList: userList });
     });
 }));
+viewContentRouter.get("/recent-friend-activities", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _g, _h;
+    // check if user is logged in/google id exists
+    if (!((_g = req.user) === null || _g === void 0 ? void 0 : _g.id)) {
+        return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const userGoogleID = String((_h = req.user) === null || _h === void 0 ? void 0 : _h.id);
+    (0, ViewContent_1.getRecentFriendActivities)(userGoogleID, (err, activities) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json({ data: activities });
+    });
+}));

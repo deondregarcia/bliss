@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserList = exports.getListOfFriends = exports.getUserInfo = exports.getFriendsLists = exports.getAllContributors = exports.getSharedListUsers = exports.getSharedLists = exports.checkIfShared = exports.getPrivacyTypeAndOwner = exports.getActivities = exports.getBucketListInfo = exports.getPublicBucketLists = exports.getBucketLists = void 0;
+exports.getRecentFriendActivities = exports.getUserList = exports.getListOfFriends = exports.getUserInfo = exports.getFriendsLists = exports.getAllContributors = exports.getSharedListUsers = exports.getSharedLists = exports.checkIfShared = exports.getPrivacyTypeAndOwner = exports.getActivities = exports.getBucketListInfo = exports.getPublicBucketLists = exports.getBucketLists = void 0;
 const db_1 = require("../db");
 // view list of all bucket lists user is involved in
 const getBucketLists = (googleId, callback) => {
@@ -287,3 +287,33 @@ const getUserList = (userGoogleID, callback) => {
     });
 };
 exports.getUserList = getUserList;
+// get user's friends' recent activities
+const getRecentFriendActivities = (userGoogleID, callback) => {
+    // get list of user's friends first
+    const getUserID = "(SELECT id FROM users WHERE google_id=?)";
+    const getFriendsQueryString = `(SELECT user_id FROM friends WHERE friend_id=${getUserID} UNION SELECT friend_id FROM friends WHERE user_id=${getUserID})`;
+    const getPermittedTrackerIDs = `(SELECT id FROM bucket_list_tracker WHERE privacy_type IN ("public_random", "public_friends") OR id IN (SELECT bucket_list_id FROM shared_list_users WHERE contributor_id=${getUserID}) OR owner_id=${getUserID})`;
+    const mainQueryString = `SELECT * FROM bucket_list_content WHERE user_id IN ${getFriendsQueryString} AND tracker_id IN ${getPermittedTrackerIDs} ORDER BY date_added DESC, id DESC LIMIT 10`;
+    db_1.db.query(mainQueryString, [userGoogleID, userGoogleID, userGoogleID, userGoogleID], (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const rows = result;
+        const activities = [];
+        rows.forEach((row) => {
+            const activity = {
+                id: row.id,
+                tracker_id: row.tracker_id,
+                activity: row.activity,
+                description: row.description,
+                is_completed: row.boolean,
+                user_id: row.user_id,
+                date_added: row.date_added,
+                date_completed: row.date_completed,
+            };
+            activities.push(activity);
+        });
+        callback(null, activities);
+    });
+};
+exports.getRecentFriendActivities = getRecentFriendActivities;

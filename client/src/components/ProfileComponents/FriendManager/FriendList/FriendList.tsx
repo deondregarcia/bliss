@@ -27,10 +27,7 @@ const FriendList = ({
           return (
             // use <a> tag because the navigate doesn't work with CheckUserOrFriend Route
             <a href={`/profile/${friend?.google_id}`} key={index}>
-              <div
-                // onClick={() => navigate(`/profile/${friend?.google_id}`)}
-                className="friend-list-profile-wrapper"
-              >
+              <div className="friend-list-profile-wrapper">
                 <img
                   src={
                     friend.google_photo_link &&

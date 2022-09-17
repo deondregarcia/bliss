@@ -28,6 +28,9 @@ const RecentFriendActivities = ({
   };
 
   useEffect(() => {
+    if (recentFriendActivities.length === 1) {
+      return;
+    }
     const interval = setInterval(() => {
       cycleIndex();
     }, 5000);
