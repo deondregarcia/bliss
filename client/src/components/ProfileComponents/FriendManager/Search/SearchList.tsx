@@ -6,6 +6,7 @@ import {
 } from "../../../../types/content";
 import Axios from "axios";
 import "./SearchList.css";
+import { imagesIndex } from "../../../../assets/images/imagesIndex";
 
 const SearchList = ({
   searchInput,
@@ -69,7 +70,13 @@ const SearchList = ({
               return (
                 <div key={index} className="search-list-user-card">
                   <img
-                    src={user?.google_photo_link}
+                    src={
+                      user?.google_photo_link &&
+                      user?.google_photo_link !== "undefined"
+                        ? user?.google_photo_link
+                        : imagesIndex[1]
+                    }
+                    referrerPolicy="no-referrer"
                     className="search-list-user-image"
                     alt="profile"
                   />
@@ -105,6 +112,11 @@ const SearchList = ({
                         <h3>Request</h3>
                       </div>
                     )}
+                  </div>
+                  <div className="search-list-link">
+                    <a href={`/profile/${user?.google_id}`}>
+                      <h4 className="search-list-link-text">View profile</h4>
+                    </a>
                   </div>
                 </div>
               );

@@ -14,6 +14,7 @@ import { manageUserRouter } from "./routes/UserManagement";
 
 import passport from "passport";
 import session from "express-session";
+import path from "path";
 
 // import packages for MySQl session store
 const mysql = require("mysql2/promise");
@@ -74,9 +75,8 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/auth/failure" }),
   (req: Request, res: Response) => {
-    // res.redirect(`http://localhost:3001/${req?.user?.id}`);
-    // in the future, redirect to profile by /profile/:id
     res.redirect(`http://localhost:3001/my-profile/${req?.user?.id}`);
+    // res.redirect(`https://blissely.herokuapp.com/my-profile/${req?.user?.id}`);
   }
 );
 
@@ -88,16 +88,8 @@ app.get(
   }
 );
 
-app.get("/", (req: Request, res: Response) => {
-  res.send('<a href="/auth/google">Authenticate with Google</a>');
-});
-
 app.get("/auth/failure", (req: Request, res: Response) => {
   res.send("something went wrong...");
-});
-
-app.get("/protected", isLoggedIn, (req: Request, res: Response) => {
-  res.send(req.user);
 });
 
 // for testing client-server interactions
@@ -146,6 +138,14 @@ app.get("/logout", (req: Request, res: Response, err: any) => {
     res.status(200).json({ message: "Successfuly cleared session" });
   });
 });
+
+// serve react frontend
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "build")));
+  app.get("/*", (req, res) => {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+  });
+}
 
 app.listen(process.env.PORT, () => {
   console.log(`Node server started running on Port ${process.env.PORT}`);

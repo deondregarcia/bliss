@@ -357,3 +357,43 @@ export const getUserList = (userGoogleID: string, callback: Function) => {
     callback(null, userList);
   });
 };
+
+// get user's friends' recent activities
+export const getRecentFriendActivities = (
+  userGoogleID: string,
+  callback: Function
+) => {
+  // get list of user's friends first
+  const getUserID = "(SELECT id FROM users WHERE google_id=?)";
+  const getFriendsQueryString = `(SELECT user_id FROM friends WHERE friend_id=${getUserID} UNION SELECT friend_id FROM friends WHERE user_id=${getUserID})`;
+  const getPermittedTrackerIDs = `(SELECT id FROM bucket_list_tracker WHERE privacy_type IN ("public_random", "public_friends") OR id IN (SELECT bucket_list_id FROM shared_list_users WHERE contributor_id=${getUserID}) OR owner_id=${getUserID})`;
+  const mainQueryString = `SELECT * FROM bucket_list_content WHERE user_id IN ${getFriendsQueryString} AND tracker_id IN ${getPermittedTrackerIDs} ORDER BY date_added DESC, id DESC LIMIT 10`;
+
+  db.query(
+    mainQueryString,
+    [userGoogleID, userGoogleID, userGoogleID, userGoogleID],
+    (err, result) => {
+      if (err) {
+        callback(err);
+      }
+
+      const rows = <RowDataPacket[]>result;
+      const activities: BucketListContent[] = [];
+
+      rows.forEach((row) => {
+        const activity: BucketListContent = {
+          id: row.id,
+          tracker_id: row.tracker_id,
+          activity: row.activity,
+          description: row.description,
+          is_completed: row.boolean,
+          user_id: row.user_id,
+          date_added: row.date_added,
+          date_completed: row.date_completed,
+        };
+        activities.push(activity);
+      });
+      callback(null, activities);
+    }
+  );
+};

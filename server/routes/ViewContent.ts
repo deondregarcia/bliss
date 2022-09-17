@@ -13,6 +13,7 @@ import {
   getPublicBucketLists,
   getSharedListUsers,
   getAllContributors,
+  getRecentFriendActivities,
 } from "../controllers/ViewContent";
 import {
   BucketList,
@@ -157,7 +158,12 @@ viewContentRouter.get(
 // check if user, who is visiting friend profile, is in any shared_list_users rows with the friend and return those bucket_list_id's
 // (uses Google ID)
 viewContentRouter.get("/shared-lists/:id", (req: Request, res: Response) => {
-  const userGoogleID = req.user?.profile.id;
+  // check if user is logged in/google id exists
+  if (!req.user?.profile.id) {
+    return res.status(403).json({ message: "User's Google ID not found" });
+  }
+
+  const userGoogleID = req.user.profile.id;
   const friendGoogleID = req.params.id;
 
   getSharedLists(
@@ -258,6 +264,28 @@ viewContentRouter.get(
 
       res.status(200).json({ userList: userList });
     });
+  }
+);
+
+viewContentRouter.get(
+  "/recent-friend-activities",
+  async (req: Request, res: Response) => {
+    // check if user is logged in/google id exists
+    if (!req.user?.id) {
+      return res.status(403).json({ message: "User's Google ID not found" });
+    }
+    const userGoogleID = String(req.user?.id);
+
+    getRecentFriendActivities(
+      userGoogleID,
+      (err: Error, activities: BucketListContent[]) => {
+        if (err) {
+          return res.status(500).json({ message: err.message });
+        }
+
+        res.status(200).json({ data: activities });
+      }
+    );
   }
 );
 

@@ -90,7 +90,7 @@
     text-align: center;
   }
 
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 1200px) {
     .bucket-list-view-container {
       height: 600px;
       width: 95%;

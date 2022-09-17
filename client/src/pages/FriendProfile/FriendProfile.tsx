@@ -6,6 +6,7 @@ import EmptyArrayMessage from "../../components/EmptyArrayMessage/EmptyArrayMess
 import FriendProfileContentContainerHeader from "../../components/FriendProfileComponents/FriendProfileContentContainerHeader/FriendProfileContentContainerHeader";
 import "./FriendProfile.css";
 import FriendBucketList from "../../components/FriendProfileComponents/FriendBucketList/FriendBucketList";
+import { imagesIndex } from "../../assets/images/imagesIndex";
 
 const FriendProfile = () => {
   // user object of the friend
@@ -36,14 +37,12 @@ const FriendProfile = () => {
     // check if user is in any of friend's shared lists and return the list ID's
     Axios.get(`/view/shared-lists/${id}`)
       .then((res) => {
-        console.log(res);
         // get bucket lists
         Axios.post("/view/friend-lists", {
           sharedListArray: res.data.bucketListIDs,
           friendGoogleID: id,
         })
           .then((responseTwo) => {
-            console.log(responseTwo.data.data);
             setPublicBucketListArray(
               responseTwo.data.data.filter((bucketList: BucketListType) => {
                 return (
@@ -54,7 +53,6 @@ const FriendProfile = () => {
             );
             setSharedBucketListArray(
               responseTwo.data.data.filter((bucketList: BucketListType) => {
-                console.log(bucketList);
                 return bucketList.privacy_type === "shared";
               })
             );
@@ -79,7 +77,12 @@ const FriendProfile = () => {
       <div className="friend-profile-profile-info">
         <h2>{userObject?.username}</h2>
         <img
-          src={userObject?.google_photo_link}
+          src={
+            userObject?.google_photo_link &&
+            userObject?.google_photo_link !== "undefined"
+              ? userObject?.google_photo_link
+              : imagesIndex[1]
+          }
           referrerPolicy="no-referrer" // referrer policy that blocked loading of img sometimes - look into it
           alt="google profile pic"
           className="friend-profile-profile-pic"

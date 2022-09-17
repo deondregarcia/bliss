@@ -24,6 +24,7 @@
     height: 150px;
     border-radius: 20px;
     margin-top: 8px;
+    object-fit: contain;
 }
 
 .friend-profile-profile-info-name-container {
@@ -133,7 +134,50 @@
     border: var(--border-style);
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 1500px) and (min-width: 1100px) {
+    .friend-profile-container {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        width: 90vw;
+    }
+}
+
+@media screen and (max-width: 1100px) and (min-width: 600px) {
+    .friend-profile-container {
+        /* grid-template-columns: repeat(3, minmax(130px, 1fr)); */
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 300px);
+        grid-gap: 25px;
+        margin-bottom: 20px;
+    }
+    .friend-profile-content-container {
+        grid-column: 1 / 4;
+        grid-row: span 1;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .public {
+        grid-row-start: 1;
+    }
+    .shared {
+        grid-row-start: 2;
+    }
+    .friend-profile-profile-info {
+        grid-column: 1 / 4;
+        grid-row-start: 3;
+        margin-left: 50px;
+        margin-right: 50px;
+        overflow-y: scroll;
+        padding-bottom: 50px;
+    }
+    .profile-info::-webkit-scrollbar {
+        display: none;
+    }
+    .content-container-bucket-list-wrapper {
+        padding-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 600px) {
     .friend-profile-container {
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, 300px);
@@ -159,6 +203,7 @@
         margin-left: 50px;
         margin-right: 50px;
         overflow-y: scroll;
+        padding-bottom: 50px;
     }
     .friend-profile-right-column-container {
         display: none;

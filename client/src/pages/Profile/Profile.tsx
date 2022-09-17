@@ -1,7 +1,6 @@
-import React, { useState, useEffect, ReactNode, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import "./Profile.css";
-import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
 import { GoogleUserObjectType } from "../../types/authTypes";
 
@@ -14,6 +13,7 @@ import {
   FullUserListType,
   FriendRequestUserType,
   SharedListUserType,
+  BucketListContentType,
 } from "../../types/content";
 
 // import components
@@ -34,6 +34,8 @@ import WantsToEdit from "../../components/ProfileComponents/WantsToEdit/WantsToE
 // import react-icons
 import { MdEdit } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
+import RecentFriendActivities from "../../components/ProfileComponents/RecentFriendActivities/RecentFriendActivities";
+import { imagesIndex } from "../../assets/images/imagesIndex";
 
 const Profile = () => {
   const [userID, setUserID] = useState<number>(0);
@@ -49,6 +51,11 @@ const Profile = () => {
   const [fullUserList, setFullUserList] = useState<
     FullUserListType[] | undefined
   >(undefined);
+
+  // array for recent friend activities
+  const [recentFriendActivities, setRecentFriendActivities] = useState<
+    BucketListContentType[]
+  >([]);
 
   // user objects of incoming and outgoing friend requests
   const [outgoingFriendRequests, setOutgoingFriendRequests] = useState<
@@ -157,19 +164,16 @@ const Profile = () => {
             setGoogleUserObject(responseTwo.data.google_user);
             if (
               responseTwo.data.google_user.photos[0].value ===
-              res.data.userInfo[0].google_photo_link
+                res.data.userInfo[0].google_photo_link ||
+              responseTwo.data.google_user.photos[0].value === undefined
             ) {
               return;
             } else {
               Axios.patch("/user/google-photo", {
-                googlePhotoLink: googleUserObject?.photos[0].value,
-              })
-                .then((responseThree) => {
-                  console.log(responseThree);
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
+                googlePhotoLink: responseTwo.data.google_user.photos[0].value,
+              }).catch((err) => {
+                console.log(err);
+              });
             }
           })
           .catch((err) => {
@@ -225,6 +229,14 @@ const Profile = () => {
       });
   };
 
+  // get recently added activities from friends
+  const getRecentFriendActivities = () => {
+    Axios.get("/view/recent-friend-activities").then((res) => {
+      console.log(res.data.data);
+      setRecentFriendActivities(res.data.data);
+    });
+  };
+
   // combine funcs to hopefully improve performance
   const runInitialFunctions = () => {
     getBucketListData();
@@ -234,6 +246,7 @@ const Profile = () => {
     getFullUserList();
     getOutgoingFriendRequests();
     getIncomingFriendRequests();
+    getRecentFriendActivities();
   };
 
   useEffect(() => {
@@ -252,8 +265,12 @@ const Profile = () => {
         <div className="profile-info">
           <h2>{userObject?.username}</h2>
           <img
-            // src={userObject?.google_photo_link}
-            src={googleUserObject?.photos[0].value}
+            src={
+              googleUserObject?.photos[0].value &&
+              googleUserObject?.photos[0].value !== undefined
+                ? googleUserObject?.photos[0].value
+                : imagesIndex[1]
+            }
             referrerPolicy="no-referrer" // referrer policy that blocked loading of img sometimes - look into it
             alt="google profile picture"
             className="profile-pic"
@@ -332,6 +349,8 @@ const Profile = () => {
               arraySpecificObject={publicEditObject}
               friends={friends}
               contributorUserObjectsArray={contributorUserObjectsArray}
+              setListArray={setPublicBucketListArray}
+              listArray={publicBucketListArray}
             />
           )}
           <div className="content-container-bucket-list-wrapper">
@@ -361,8 +380,14 @@ const Profile = () => {
           </div>
         </div>
         <div className="right-column-container friend-feed">
-          <h2 className="side-container-header">Recent Friend Activities</h2>
+          <h2 className="side-container-header">Friend Activity</h2>
           <div className="side-container-header-separator" />
+          {recentFriendActivities.length > 0 && friends.length > 0 && (
+            <RecentFriendActivities
+              recentFriendActivities={recentFriendActivities}
+              friends={friends}
+            />
+          )}
         </div>
         <div className="content-container shared">
           <ContentContainerHeader
@@ -390,6 +415,8 @@ const Profile = () => {
               arraySpecificObject={sharedEditObject}
               friends={friends}
               contributorUserObjectsArray={contributorUserObjectsArray}
+              setListArray={setSharedBucketListArray}
+              listArray={sharedBucketListArray}
             />
           )}
           <div className="content-container-bucket-list-wrapper">
@@ -505,6 +532,8 @@ const Profile = () => {
               arraySpecificObject={privateEditObject}
               friends={friends}
               contributorUserObjectsArray={contributorUserObjectsArray}
+              setListArray={setPrivateBucketListArray}
+              listArray={privateBucketListArray}
             />
           )}
           <div className="content-container-bucket-list-wrapper">

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserList = exports.getListOfFriends = exports.getUserInfo = exports.getFriendsLists = exports.getAllContributors = exports.getSharedListUsers = exports.getSharedLists = exports.checkIfShared = exports.getPrivacyTypeAndOwner = exports.getActivities = exports.getBucketListInfo = exports.getPublicBucketLists = exports.getBucketLists = void 0;
+exports.getRecentFriendActivities = exports.getUserList = exports.getListOfFriends = exports.getUserInfo = exports.getFriendsLists = exports.getAllContributors = exports.getSharedListUsers = exports.getSharedLists = exports.checkIfShared = exports.getPrivacyTypeAndOwner = exports.getActivities = exports.getBucketListInfo = exports.getPublicBucketLists = exports.getBucketLists = void 0;
 const db_1 = require("../db");
 // view list of all bucket lists user is involved in
 const getBucketLists = (googleId, callback) => {
@@ -8,7 +8,7 @@ const getBucketLists = (googleId, callback) => {
     // pull from bucket_list_tracker table
     const firstQueryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=(${getUserQueryString}) OR `;
     // query shared_list_users table
-    const secondQueryString = `id IN (SELECT bucket_list_id FROM bliss_db.shared_list_users WHERE contributor_id=(${getUserQueryString}))`;
+    const secondQueryString = `id IN (SELECT bucket_list_id FROM shared_list_users WHERE contributor_id=(${getUserQueryString}))`;
     const mainQueryString = firstQueryString + secondQueryString;
     db_1.db.query(mainQueryString, [googleId, googleId], (err, result) => {
         if (err) {
@@ -130,7 +130,6 @@ const checkIfShared = (userID, bucketListID, callback) => {
                 id: row.id,
                 bucket_list_id: row.bucket_list_id,
                 contributor_id: row.contributor_id,
-                owner_id: row.owner_id,
             };
             sharedListUsers.push(sharedListUser);
         });
@@ -144,8 +143,8 @@ const getSharedLists = (userGoogleID, friendGoogleID, callback) => {
     const getUserID = "(SELECT id FROM users WHERE google_id=?)";
     // get friend ID from Google ID
     const getFriendID = "(SELECT id FROM users WHERE google_id=?)";
-    // select all (contributor_id, owner_id) or (owner_id, contributor_id) pairs for user and friend
-    const queryString = `SELECT bucket_list_id FROM shared_list_users WHERE (contributor_id=${getUserID} AND owner_id=${getFriendID}) OR (contributor_id=${getFriendID} AND owner_id=${getUserID})`;
+    // select all bucket_list_id's where either friend or user is the contributor_id and the other is the owner of the bucket list
+    const queryString = `SELECT bucket_list_id FROM shared_list_users WHERE (contributor_id=${getUserID} AND bucket_list_id IN (SELECT id FROM bucket_list_tracker WHERE owner_id=${getFriendID})) OR (contributor_id=${getFriendID} AND bucket_list_id IN (SELECT id FROM bucket_list_tracker WHERE owner_id=${getUserID}))`;
     db_1.db.query(queryString, [userGoogleID, friendGoogleID, friendGoogleID, userGoogleID], (err, result) => {
         if (err) {
             callback(err);
@@ -180,7 +179,8 @@ exports.getSharedListUsers = getSharedListUsers;
 // get all contributor's for all of user's owned, shared bucket lists
 const getAllContributors = (userGoogleID, callback) => {
     const getUserID = "(SELECT id FROM users WHERE google_id=?)";
-    const queryString = `SELECT bucket_list_id, contributor_id FROM shared_list_users WHERE owner_id=${getUserID}`;
+    const getRelevantBucketListIDs = `(SELECT id FROM bucket_list_tracker WHERE owner_id=${getUserID})`;
+    const queryString = `SELECT bucket_list_id, contributor_id FROM shared_list_users WHERE bucket_list_id IN ${getRelevantBucketListIDs}`;
     db_1.db.query(queryString, userGoogleID, (err, result) => {
         if (err) {
             callback(err);
@@ -202,7 +202,7 @@ exports.getAllContributors = getAllContributors;
 const getFriendsLists = (sharedListArray, friendGoogleID, callback) => {
     // get friend ID from Google ID
     const getFriendID = "(SELECT id FROM users WHERE google_id=?)";
-    const queryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=${getFriendID} AND (privacy_type="public_friends" OR privacy_type="public_random" OR id IN (?))`;
+    const queryString = `SELECT * FROM bucket_list_tracker WHERE owner_id=${getFriendID} AND (privacy_type="public_friends" OR privacy_type="public_random") OR id IN (?)`;
     db_1.db.query(queryString, [friendGoogleID, sharedListArray], (err, result) => {
         if (err) {
             callback(err);
@@ -240,7 +240,7 @@ exports.getUserInfo = getUserInfo;
 // get list of friends from google id
 const getListOfFriends = (userGoogleID, callback) => {
     const getUserID = "(SELECT id FROM users WHERE google_id=?)";
-    const queryString = `SELECT username, first_name, last_name, google_photo_link, google_id, id, wants_to FROM bliss_db.users WHERE id IN (SELECT user_id FROM bliss_db.friends WHERE friend_id=${getUserID} UNION SELECT friend_id FROM bliss_db.friends WHERE user_id=${getUserID})`;
+    const queryString = `SELECT username, first_name, last_name, google_photo_link, google_id, id, wants_to FROM users WHERE id IN (SELECT user_id FROM friends WHERE friend_id=${getUserID} UNION SELECT friend_id FROM friends WHERE user_id=${getUserID})`;
     db_1.db.query(queryString, [userGoogleID, userGoogleID], (err, result) => {
         if (err) {
             callback(err);
@@ -287,3 +287,33 @@ const getUserList = (userGoogleID, callback) => {
     });
 };
 exports.getUserList = getUserList;
+// get user's friends' recent activities
+const getRecentFriendActivities = (userGoogleID, callback) => {
+    // get list of user's friends first
+    const getUserID = "(SELECT id FROM users WHERE google_id=?)";
+    const getFriendsQueryString = `(SELECT user_id FROM friends WHERE friend_id=${getUserID} UNION SELECT friend_id FROM friends WHERE user_id=${getUserID})`;
+    const getPermittedTrackerIDs = `(SELECT id FROM bucket_list_tracker WHERE privacy_type IN ("public_random", "public_friends") OR id IN (SELECT bucket_list_id FROM shared_list_users WHERE contributor_id=${getUserID}) OR owner_id=${getUserID})`;
+    const mainQueryString = `SELECT * FROM bucket_list_content WHERE user_id IN ${getFriendsQueryString} AND tracker_id IN ${getPermittedTrackerIDs} ORDER BY date_added DESC, id DESC LIMIT 10`;
+    db_1.db.query(mainQueryString, [userGoogleID, userGoogleID, userGoogleID, userGoogleID], (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const rows = result;
+        const activities = [];
+        rows.forEach((row) => {
+            const activity = {
+                id: row.id,
+                tracker_id: row.tracker_id,
+                activity: row.activity,
+                description: row.description,
+                is_completed: row.boolean,
+                user_id: row.user_id,
+                date_added: row.date_added,
+                date_completed: row.date_completed,
+            };
+            activities.push(activity);
+        });
+        callback(null, activities);
+    });
+};
+exports.getRecentFriendActivities = getRecentFriendActivities;

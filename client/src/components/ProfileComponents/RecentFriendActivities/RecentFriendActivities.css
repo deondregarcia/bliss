@@ -1,0 +1,60 @@
+.recent-friend-activities-container {
+    height: 60%;
+    width: 90%;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.recent-friend-activities-container-animated {
+    height: 60%;
+    width: 90%;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    animation: 5000ms linear infinite carousel-transition;
+}
+
+.recent-friend-activity-subheader {
+    font-family: "Sarabun";
+    font-size: 18px;
+    text-align: center;
+}
+
+.recent-friend-activity-text {
+    font-family: "Sarabun";
+    font-size: 18px;
+    text-align: center;
+    margin-top: 0px;
+}
+
+.recent-friend-activity-counter {
+    font-family: "Sarabun";
+    font-size: 13px;
+    font-weight: light;
+}
+
+@keyframes carousel-transition {
+    0% {
+        opacity: 0;
+        left: 100%;
+    }
+    10% {
+        opacity: 1;
+        left: 0;
+    }
+    90% {
+        opacity: 1;
+        left: 0;
+    }
+    100% {
+        opacity: 0;
+        left: -100%;
+    }
+}

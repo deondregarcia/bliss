@@ -76,7 +76,7 @@ manageUserRouter.delete(
     }
 
     const userGoogleID = String(req.user?.id);
-    const friendGoogleID = req.params.google_id;
+    const friendGoogleID = String(req.query.google_id);
 
     denyRequest(
       userGoogleID,
@@ -227,7 +227,7 @@ manageUserRouter.post(
 
 // create user
 manageUserRouter.post("/user", async (req: Request, res: Response) => {
-  if (!req.user?.profile.id) {
+  if (!req.user?.profile) {
     return res.status(500).json({ message: "No Google ID" });
   }
 
@@ -236,9 +236,11 @@ manageUserRouter.post("/user", async (req: Request, res: Response) => {
     first_name: req.body.firstName,
     last_name: req.body.lastName,
     created_at: new Date(),
-    google_id: String(req.user?.profile.id),
+    google_id: String(req.user!.profile.id),
     wants_to: req.body.wantsTo,
-    google_photo_link: String(req.user?.profile.photos[0].value),
+    google_photo_link: req.user?.profile
+      ? req.user.profile.photos[0].value
+      : "undefined",
   };
 
   createUser(newUser, (err: Error, insertID: number) => {

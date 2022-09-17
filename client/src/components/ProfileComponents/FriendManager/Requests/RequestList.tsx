@@ -3,6 +3,7 @@ import { FriendRequestUserType } from "../../../../types/content";
 import Axios from "axios";
 import "./RequestList.css";
 import { ViewProfileButton } from "../../../Buttons/Buttons";
+import { imagesIndex } from "../../../../assets/images/imagesIndex";
 
 const RequestList = ({
   incomingFriendRequests,
@@ -77,7 +78,13 @@ const RequestList = ({
                 <ViewProfileButton googleID={user?.google_id} />
               </div>
               <img
-                src={user?.google_photo_link}
+                src={
+                  user?.google_photo_link &&
+                  user?.google_photo_link !== "undefined"
+                    ? user?.google_photo_link
+                    : imagesIndex[1]
+                }
+                referrerPolicy="no-referrer"
                 className="request-list-user-image"
                 alt="profile"
               />

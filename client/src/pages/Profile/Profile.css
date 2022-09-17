@@ -25,6 +25,7 @@
     height: 150px;
     border-radius: 20px;
     margin-top: 8px;
+    object-fit: contain;
 }
 
 .profile-info-name-container {
@@ -280,9 +281,8 @@
 
 @media screen and (max-width: 1100px) and (min-width: 600px) {
     .home-container {
-        /* grid-template-columns: repeat(3, minmax(130px, 1fr)); */
         grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(5, 300px);
+        grid-template-rows: repeat(6, 300px);
         grid-gap: 25px;
         margin-bottom: 20px;
     }
@@ -323,7 +323,8 @@
         display: none;
     }
     .friend-feed {
-        display: none;
+        grid-column: 1 / 4;
+        grid-row-start: 6;
     }
     .recipe-suggestions {
         display: none;

@@ -16,6 +16,8 @@ const EditBucketList = ({
   arraySpecificObject,
   friends,
   contributorUserObjectsArray,
+  setListArray,
+  listArray,
 }: {
   setCallback: React.Dispatch<React.SetStateAction<boolean>>;
   editState: boolean;
@@ -24,6 +26,8 @@ const EditBucketList = ({
   arraySpecificObject: BucketListType | null;
   friends: FriendListType[];
   contributorUserObjectsArray: FriendListType[];
+  setListArray: React.Dispatch<React.SetStateAction<BucketListType[]>>;
+  listArray: BucketListType[];
 }) => {
   const [newTitle, setNewTitle] = useState<string | undefined>(
     arraySpecificObject!.title
@@ -37,7 +41,6 @@ const EditBucketList = ({
   const [permissions, setPermissions] = useState<string | undefined>(
     arraySpecificObject!.permissions
   );
-  // const [selectedUsers, setSelectedUsers] = useState<FriendListType[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<FriendListType[]>(
     contributorUserObjectsArray
   );
@@ -75,8 +78,11 @@ const EditBucketList = ({
                   })
                     .then((responseThree) => {
                       if (responseThree.status === 200) {
-                        setTriggerRefresh(!triggerRefresh);
-                        setCallback(!editState);
+                        setListArray(
+                          listArray?.filter((list) => {
+                            return list.id !== arraySpecificObject?.id;
+                          })
+                        );
                       }
                     })
                     .catch((err) => {
@@ -98,9 +104,19 @@ const EditBucketList = ({
               params: {
                 id: arraySpecificObject?.id,
               },
-            }).catch((err) => {
-              console.log(err);
-            });
+            })
+              .then((responseFour) => {
+                if (responseFour.status === 200) {
+                  setListArray(
+                    listArray?.filter((list) => {
+                      return list.id !== arraySpecificObject?.id;
+                    })
+                  );
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           } else {
             console.log("something went wrong");
           }

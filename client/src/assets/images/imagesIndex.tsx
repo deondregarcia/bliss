@@ -1,3 +1,4 @@
 import Default from "./Default.jpg";
+import DefaultProfile from "./DefaultProfile.jpg";
 
-export const imagesIndex = [Default];
+export const imagesIndex = [Default, DefaultProfile];
