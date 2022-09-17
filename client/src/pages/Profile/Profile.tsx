@@ -1,7 +1,6 @@
-import React, { useState, useEffect, ReactNode, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import "./Profile.css";
-import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
 import { GoogleUserObjectType } from "../../types/authTypes";
 
@@ -36,6 +35,7 @@ import WantsToEdit from "../../components/ProfileComponents/WantsToEdit/WantsToE
 import { MdEdit } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import RecentFriendActivities from "../../components/ProfileComponents/RecentFriendActivities/RecentFriendActivities";
+import { imagesIndex } from "../../assets/images/imagesIndex";
 
 const Profile = () => {
   const [userID, setUserID] = useState<number>(0);
@@ -265,8 +265,12 @@ const Profile = () => {
         <div className="profile-info">
           <h2>{userObject?.username}</h2>
           <img
-            // src={userObject?.google_photo_link}
-            src={googleUserObject?.photos[0].value}
+            src={
+              googleUserObject?.photos[0].value &&
+              googleUserObject?.photos[0].value !== undefined
+                ? googleUserObject?.photos[0].value
+                : imagesIndex[1]
+            }
             referrerPolicy="no-referrer" // referrer policy that blocked loading of img sometimes - look into it
             alt="google profile picture"
             className="profile-pic"

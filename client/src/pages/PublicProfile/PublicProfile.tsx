@@ -12,6 +12,7 @@ import FriendBucketList from "../../components/FriendProfileComponents/FriendBuc
 import EmptyArrayMessage from "../../components/EmptyArrayMessage/EmptyArrayMessage";
 import FriendProfileContentContainerHeader from "../../components/FriendProfileComponents/FriendProfileContentContainerHeader/FriendProfileContentContainerHeader";
 import useAuth from "../../hooks/useAuth";
+import { imagesIndex } from "../../assets/images/imagesIndex";
 
 const PublicProfile = () => {
   const { auth } = useAuth();
@@ -183,7 +184,13 @@ const PublicProfile = () => {
       <div className="public-profile-profile-container">
         <h2 className="public-profile-username">{userObject?.username}</h2>
         <img
-          src={userObject?.google_photo_link}
+          src={
+            userObject?.google_photo_link &&
+            userObject?.google_photo_link !== "undefined"
+              ? userObject?.google_photo_link
+              : imagesIndex[1]
+          }
+          referrerPolicy="no-referrer"
           alt="profile"
           className="public-profile-image"
         />

@@ -24,6 +24,7 @@
     height: 150px;
     border-radius: 20px;
     margin-top: 8px;
+    object-fit: contain;
 }
 
 .public-profile-name-container {

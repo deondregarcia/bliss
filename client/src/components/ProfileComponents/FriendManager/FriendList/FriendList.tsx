@@ -36,7 +36,7 @@ const FriendList = ({
                     friend.google_photo_link &&
                     friend.google_photo_link !== "undefined"
                       ? friend.google_photo_link
-                      : imagesIndex[0]
+                      : imagesIndex[1]
                   }
                   referrerPolicy="no-referrer"
                   alt="default profile picture"
