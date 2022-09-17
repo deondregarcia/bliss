@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.884ad3c5.css",
+    "main.js": "/static/js/main.42595e15.js",
+    "static/media/Default.jpg": "/static/media/Default.3aae275a7f9855ff29ed.jpg",
+    "static/media/Sarabun-Light.ttf": "/static/media/Sarabun-Light.6129d74579149bbddbb7.ttf",
+    "static/media/DefaultProfile.jpg": "/static/media/DefaultProfile.c48d7d80bbefaa2b9d65.jpg",
+    "index.html": "/index.html",
+    "main.884ad3c5.css.map": "/static/css/main.884ad3c5.css.map",
+    "main.42595e15.js.map": "/static/js/main.42595e15.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.884ad3c5.css",
+    "static/js/main.42595e15.js"
+  ]
+}
