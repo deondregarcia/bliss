@@ -238,9 +238,6 @@ manageUserRouter.post("/user", async (req: Request, res: Response) => {
     created_at: new Date(),
     google_id: String(req.user!.profile.id),
     wants_to: req.body.wantsTo,
-    google_photo_link: req.user?.profile
-      ? req.user?.profile.photos[0].value
-      : "undefined",
   };
 
   createUser(newUser, (err: Error, insertID: number) => {
