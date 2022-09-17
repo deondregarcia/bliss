@@ -28,9 +28,6 @@ const RecentFriendActivities = ({
   };
 
   useEffect(() => {
-    if (recentFriendActivities.length === 1) {
-      return;
-    }
     const interval = setInterval(() => {
       cycleIndex();
     }, 5000);
@@ -41,14 +38,27 @@ const RecentFriendActivities = ({
   }, []);
 
   return (
-    <div className="recent-friend-activities-container">
+    <div
+      className={
+        recentFriendActivities.length > 1
+          ? "recent-friend-activities-container-animated"
+          : "recent-friend-activities-container"
+      }
+    >
       {friends.map((friend, index) => {
         if (friend.user_id === recentFriendActivities[activityIndex].user_id) {
-          return <p key={index}>{friend.first_name} recently added:</p>;
+          return (
+            <p key={index} className="recent-friend-activity-subheader">
+              {friend.first_name} recently added:
+            </p>
+          );
         }
       })}
-      <p className="recent-friend-activity">
+      <p className="recent-friend-activity-text">
         {recentFriendActivities[activityIndex].activity}
+      </p>
+      <p className="recent-friend-activity-counter">
+        ({activityIndex + 1} / {recentFriendActivities.length})
       </p>
     </div>
   );
