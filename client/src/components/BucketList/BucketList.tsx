@@ -66,7 +66,7 @@ const BucketList = ({
   // copy to clipboard and alert confirmation
   const handleCopy = () => {
     navigator.clipboard.writeText(
-      `localhost:3001/bucket-list/${bucketList.id}`
+      `https://blissely.herokuapp.com/bucket-list/${bucketList.id}`
     );
     alert("Copied bucket list link to clipboard!");
   };
