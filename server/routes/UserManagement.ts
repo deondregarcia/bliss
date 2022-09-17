@@ -210,10 +210,12 @@ manageUserRouter.get(
 );
 
 // get username to check if it exists
-manageUserRouter.post(
+manageUserRouter.get(
   "/username/:username",
   async (req: Request, res: Response) => {
     const username = String(req.params.username);
+
+    console.log("func ran");
 
     checkUsername(username, (err: Error, usernameExists: string) => {
       if (err) {
