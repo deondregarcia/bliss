@@ -42,7 +42,7 @@ export interface UserType {
   first_name: string;
   last_name: string;
   created_at?: Date;
-  google_photo_link: string;
+  google_photo_link?: string;
   google_id: string;
   wants_to?: string;
 }

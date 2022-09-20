@@ -30,11 +30,11 @@ import FriendList from "../../components/ProfileComponents/FriendManager/FriendL
 import Search from "../../components/ProfileComponents/FriendManager/Search/Search";
 import RequestList from "../../components/ProfileComponents/FriendManager/Requests/RequestList";
 import WantsToEdit from "../../components/ProfileComponents/WantsToEdit/WantsToEdit";
+import RecentFriendActivities from "../../components/ProfileComponents/RecentFriendActivities/RecentFriendActivities";
 
 // import react-icons
 import { MdEdit } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
-import RecentFriendActivities from "../../components/ProfileComponents/RecentFriendActivities/RecentFriendActivities";
 import { imagesIndex } from "../../assets/images/imagesIndex";
 
 const Profile = () => {
@@ -232,7 +232,6 @@ const Profile = () => {
   // get recently added activities from friends
   const getRecentFriendActivities = () => {
     Axios.get("/view/recent-friend-activities").then((res) => {
-      console.log(res.data.data);
       setRecentFriendActivities(res.data.data);
     });
   };

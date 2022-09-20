@@ -210,10 +210,12 @@ manageUserRouter.get(
 );
 
 // get username to check if it exists
-manageUserRouter.post(
+manageUserRouter.get(
   "/username/:username",
   async (req: Request, res: Response) => {
     const username = String(req.params.username);
+
+    console.log("func ran");
 
     checkUsername(username, (err: Error, usernameExists: string) => {
       if (err) {
@@ -238,9 +240,6 @@ manageUserRouter.post("/user", async (req: Request, res: Response) => {
     created_at: new Date(),
     google_id: String(req.user!.profile.id),
     wants_to: req.body.wantsTo,
-    google_photo_link: req.user?.profile
-      ? req.user.profile.photos[0].value
-      : "undefined",
   };
 
   createUser(newUser, (err: Error, insertID: number) => {

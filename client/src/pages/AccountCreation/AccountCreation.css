@@ -6,6 +6,8 @@
     border: var(--border-style);
     border-radius: var(--border-radius);
     background-color: var(--content-bg-color);
+    padding-bottom: 40px;
+    margin-bottom: 40px;
 }
 
 .account-creation-header-container {
@@ -112,5 +114,9 @@
 @media screen and (max-width: 900px) {
     .account-creation-container {
         width: 90%;
+        min-width: 0;
+    }
+    .account-creation-header-container {
+        text-align: center;
     }
 }

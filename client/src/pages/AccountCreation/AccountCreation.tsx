@@ -19,12 +19,9 @@ const AccountCreation = () => {
 
     await Axios.get(`/user/username/${username}`)
       .then((res) => {
-        console.log("username check ran");
         if (res.data.username[0]) {
-          console.log("username true");
           alert("Username is already taken");
         } else {
-          console.log("username false");
           // check if any values are empty
           if (!firstName || !lastName || !username) {
             alert("Please fill out all fields with an asterisk.");
@@ -35,18 +32,26 @@ const AccountCreation = () => {
             lastName: lastName,
             username: username,
             wantsTo: wantsTo,
-          }).catch((err) => {
-            console.log(err);
-          });
+          })
+            .then((responseTwo) => {
+              if (responseTwo.status === 200) {
+                navigate(
+                  `/my-profile/${
+                    JSON.parse(auth.session_info.data).passport.user.id
+                  }`
+                );
+              } else {
+                console.log("something went wrong");
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }
       })
       .catch((err) => {
         console.log(err);
       });
-
-    navigate(
-      `/my-profile/${JSON.parse(auth.session_info.data).passport.user.id}`
-    );
   };
 
   useEffect(() => {
