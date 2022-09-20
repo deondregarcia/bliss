@@ -57,3 +57,12 @@ export const ViewProfileButton = ({ googleID }: { googleID: string }) => {
     </div>
   );
 };
+
+// button which does nothing but turn red for sample account page
+export const SampleViewProfileButton = () => {
+  return (
+    <div className="sample-account-view-profile-button">
+      <h3 className="sample-account-view-profile-button-text">View Profile</h3>
+    </div>
+  );
+};

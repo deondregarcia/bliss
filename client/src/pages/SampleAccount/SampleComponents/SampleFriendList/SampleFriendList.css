@@ -1,0 +1,77 @@
+.sample-account-friend-list-wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    transition: left 300ms ease;
+}
+
+.sample-account-friend-list-deselected {
+    left: -100%;
+}
+
+.sample-account-friend-list-container {
+    height: 100%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.sample-account-friend-list-container::-webkit-scrollbar {
+    display: none;
+}
+
+.sample-account-friend-list-profile-wrapper {
+    border-bottom: 2px solid var(--border-style-color);
+    position: relative;
+    display: flex;
+    color: var(--text-color);
+    padding: 10px 0 10px 0;
+}
+
+.sample-account-friend-list-profile-wrapper:hover {
+    background-color: var(--sample-red);
+    cursor: pointer;
+}
+
+.sample-account-friend-list-profile-wrapper:hover .sample-account-friend-name {
+    font-size: 1.1em;
+    transition: font-size 50ms ease-in;
+}
+
+.sample-account-friend-image {
+    height: 75px;
+    width: 75px;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+.sample-account-friend-name {
+    font-family: "Sarabun";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.sample-account-friend-list-content-header {
+    font-family: "Sarabun";
+    position: absolute;
+    top: 8px;
+    left: 80px;
+}
+
+.sample-account-friend-list-content-body-container {
+    position: relative;
+}
+
+.sample-account-friend-list-content-body {
+    position: absolute;
+    font-family: var(--text-font);
+    top: 18px;
+    left: 5px;
+    width: 190px;
+}

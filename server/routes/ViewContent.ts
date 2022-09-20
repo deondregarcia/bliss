@@ -240,7 +240,7 @@ viewContentRouter.get(
       return res.status(403).json({ message: "User's Google ID not found" });
     }
 
-    const userGoogleID = Number(req.user?.id);
+    const userGoogleID = String(req.user?.id);
 
     getListOfFriends(userGoogleID, (err: Error, friends: FriendListType[]) => {
       if (err) {

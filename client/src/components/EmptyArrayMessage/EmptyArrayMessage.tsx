@@ -8,7 +8,7 @@ const EmptyArrayMessage = ({ accountType }: { accountType: string }) => {
     <div className="empty-array-message-container">
       <h1 className="empty-array-message-text">
         {accountType === "owner"
-          ? "Create or move a new bucket list here!"
+          ? "Create a new bucket list to get started!"
           : "Nothing created yet."}
       </h1>
     </div>

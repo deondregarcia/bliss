@@ -144,8 +144,9 @@ manageUserRouter.get("/incoming-friend-requests", (req, res) => __awaiter(void 0
     });
 }));
 // get username to check if it exists
-manageUserRouter.post("/username/:username", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+manageUserRouter.get("/username/:username", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const username = String(req.params.username);
+    console.log("func ran");
     (0, UserManagement_1.checkUsername)(username, (err, usernameExists) => {
         if (err) {
             return res.status(500).json({ message: err.message });

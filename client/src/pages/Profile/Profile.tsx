@@ -378,7 +378,7 @@ const Profile = () => {
             )}
           </div>
         </div>
-        <div className="right-column-container friend-feed">
+        <div className="right-column-container">
           <h2 className="side-container-header">Friend Activity</h2>
           <div className="side-container-header-separator" />
           {recentFriendActivities.length > 0 && friends.length > 0 && (

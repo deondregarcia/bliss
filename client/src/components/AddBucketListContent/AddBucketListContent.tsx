@@ -31,13 +31,9 @@ const AddBucketListContent = ({
       description: newDescription,
       is_completed: 0,
       user_id: ownerID,
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }).catch((err) => {
+      console.log(err);
+    });
 
     setTriggerRefresh(!triggerRefresh);
     setAddMode(false);

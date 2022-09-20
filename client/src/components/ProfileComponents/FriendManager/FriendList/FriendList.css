@@ -7,8 +7,6 @@
     position: absolute;
     left: 0;
     transition: left 300ms ease;
-    /* background-color: var(--main-color); */
-    /* background-color: red; */
 }
 
 .friend-list-deselected {
@@ -21,7 +19,6 @@
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
-    /* background-color: blue; */
 }
 
 .friend-list-container::-webkit-scrollbar {
@@ -53,12 +50,10 @@
 }
 
 .friend-name {
-    /* font-family: Arial; */
     font-family: "Sarabun";
     position: absolute;
     bottom: 0;
     right: 0;
-    /* margin-left: 10px; */
 }
 
 .friend-list-content-header {

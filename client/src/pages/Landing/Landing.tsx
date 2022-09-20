@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, Link } from "react-router-dom";
 import Axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import { LandingLoginButton } from "../../components/Buttons/Buttons";
@@ -22,6 +22,14 @@ const Landing = () => {
             <LandingLoginButton googleLink="https://blissely.herokuapp.com/auth/google" />
             {/* <LandingLoginButton googleLink="http://localhost:3000/auth/google" /> */}
           </div>
+          <h3 className="landing-page-hero-text-recruiter">
+            Are you a{" "}
+            <span className="landing-page-hero-text-recruiter-special">
+              recruiter
+            </span>
+            ? Check out this sample account{" "}
+            <Link to="sample-account">here</Link> instead.
+          </h3>
         </div>
 
         {/* hero graphic */}
@@ -33,9 +41,9 @@ const Landing = () => {
             </a>{" "}
             on Freepik
           </div>
-        </div>
-        <div className="value-proposition-text">
-          <h3>Start creating shared bucket lists with Blissely!</h3>
+          <div className="value-proposition-text">
+            <h3>Start creating shared bucket lists with Blissely!</h3>
+          </div>
         </div>
       </div>
       <div className="what-is-it-container">

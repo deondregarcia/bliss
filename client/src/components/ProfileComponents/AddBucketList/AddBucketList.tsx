@@ -163,11 +163,11 @@ const AddBucketList = ({
             </div>
           )}
           {privacyType === "shared" && (
-            <div className="edit-bucket-list-shared-container">
-              <h2 className="edit-bucket-list-shared-header">
+            <div className="add-bucket-list-shared-container">
+              <h2 className="add-bucket-list-shared-header">
                 Who do you want to share this with?
               </h2>
-              <div className="edit-bucket-list-shared-selected-container">
+              <div className="add-bucket-list-shared-selected-container">
                 <SelectSharedDropdown
                   friends={friends}
                   selectedUsers={selectedUsers}

@@ -1,0 +1,37 @@
+.sample-account-wants-to-edit-container {
+    margin-top: 5px;
+}
+
+.sample-account-wants-to-edit-container-input {
+    height: 100px;
+    width: 100%;
+    resize: none;
+    border: 2px solid var(--main-color);
+    padding: 5px;
+    border-radius: 5px;
+    font-family: Arial;
+    font-size: 14px;
+}
+
+.sample-account-wants-to-edit-container-input:focus {
+    outline: none;
+}
+
+.sample-account-wants-to-edit-container-save {
+    height: 28px;
+    width: 60px;
+    margin: auto;
+    border-radius: 5px;
+    font-family: Arial;
+    font-size: 18px;
+    color: var(--content-bg-color);
+    background-color: var(--main-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sample-account-wants-to-edit-container-save:hover {
+    transform: scale(1.08);
+    cursor: pointer;
+}

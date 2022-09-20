@@ -1,0 +1,147 @@
+.sample-account-add-bucket-list-wrapper {
+    height: 100%;
+    width: 100%;
+    background-color: var(--faded-bg-color);
+    border-radius: var(--border-radius);
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    right: 0;
+}
+
+.sample-account-add-bucket-list-container {
+    position: absolute;
+    border-radius: var(--border-radius);
+    background-color: var(--content-bg-color);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    left: 0; 
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 80%;
+    width: 90%;
+}
+
+.sample-account-add-bucket-list-container::-webkit-scrollbar {
+    display: none;
+}
+
+.sample-account-add-bucket-list-exit-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+.sample-account-add-bucket-list-exit-button:hover {
+    cursor: pointer;
+}
+
+.sample-account-add-bucket-list-body {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.sample-account-add-bucket-list-header {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.sample-account-add-bucket-list-body > label {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Sarabun";
+}
+
+.sample-account-add-bucket-list-title-input {
+    width: 80%;
+    margin-bottom: 30px;
+    border: 2px solid transparent;
+    border-bottom: 2px solid var(--main-color);
+    padding-left: 5px;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    font-family: Arial;
+}
+
+.sample-account-add-bucket-list-title-input:focus {
+    outline: none;
+}
+
+.sample-account-add-bucket-list-description-input {
+    width: 80%;
+    border: 2px solid transparent;
+    border-bottom: 2px solid var(--main-color);
+    padding-left: 5px;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    font-family: Arial;
+}
+
+.sample-account-add-bucket-list-description-input:focus {
+    outline: none;
+}
+
+.sample-account-add-bucket-list-save-button {
+    height: 30px;
+    width: 100px;
+    margin: 30px auto;
+    border: 2px solid var(--main-color);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sample-account-add-bucket-list-save-button:hover {
+    background-color: var(--main-color);
+    cursor: pointer;
+}
+
+.sample-account-add-bucket-list-save-button:hover h2 {
+    color: white;
+}
+
+.sample-account-add-bucket-list-save-button > h2 {
+    color: var(--main-color);
+}
+
+.sample-account-add-bucket-list-public-radio-buttons-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.sample-account-add-bucket-list-public-radio-buttons-container > h2 {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Sarabun";
+}
+
+.sample-account-add-bucket-list-public-radio-buttons-wrapper {
+    margin-top: 10px;
+}
+
+.sample-account-add-bucket-list-public-radio-buttons-wrapper > label {
+    margin-left: 10px;
+}
+
+.sample-account-add-bucket-list-public-radio-buttons-wrapper > input {
+    accent-color: var(--main-color);
+}
+
+.sample-account-add-bucket-list-shared-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.sample-account-add-bucket-list-shared-header {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Sarabun";
+}

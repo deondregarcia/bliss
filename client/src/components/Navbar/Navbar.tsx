@@ -10,13 +10,9 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const logout = async () => {
-    await Axios.get("/logout")
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    await Axios.get("/logout").catch((err) => {
+      console.log(err);
+    });
 
     setAuth({});
 

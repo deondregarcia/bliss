@@ -15,11 +15,10 @@ const RecipeInput = ({
   const getRecipes = () => {
     Axios.get("/recipes", {
       params: {
-        query: recipeSearch,
+        recipe: recipeSearch,
       },
     })
       .then((res) => {
-        console.log(res.data.data);
         setRecipeArray(res.data.data);
       })
       .catch((err) => {
