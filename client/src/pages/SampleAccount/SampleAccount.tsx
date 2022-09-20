@@ -38,7 +38,7 @@ import { MdEdit } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { imagesIndex } from "../../assets/images/imagesIndex";
 
-const Profile = () => {
+const SampleAccount = () => {
   const [googleUserObject, setGoogleUserObject] = useState<
     GoogleUserObjectType | any
   >();
@@ -574,4 +574,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default SampleAccount;
