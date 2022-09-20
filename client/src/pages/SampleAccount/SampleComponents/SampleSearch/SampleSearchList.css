@@ -1,0 +1,124 @@
+.sample-account-search-list-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+}
+
+.sample-account-search-list-container {
+    height: 100%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.sample-account-search-list-container::-webkit-scrollbar {
+    display: none;
+}
+
+.sample-account-search-list-user-card {
+    border-bottom: 2px solid var(--border-style-color);
+    position: relative;
+    display: flex;
+    color: var(--text-color);
+    padding: 10px 0 10px 0;
+}
+
+.sample-account-search-list-user-image {
+    height: 75px;
+    width: 75px;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+.sample-account-search-list-user-info {
+    position: absolute;
+    display: flex;
+    align-items: flex-end;
+    top: 8px;
+    left: 80px;
+    white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+}
+
+.sample-account-search-list-user-username {
+    font-family: "Sarabun";
+}
+
+.sample-account-search-list-user-name {
+    font-family: "Sarabun";
+    font-size: 15px;
+    color: rgb(145, 145, 145);
+}
+
+.sample-account-search-list-user-body {
+    position: relative;
+    width: 190px;
+    display: flex;
+    justify-content: center;
+    top: 30px;
+}
+
+.sample-account-search-list-user-text {
+    font-family: "Sarabun";
+    font-size: 20px;
+    color: var(--main-color);
+    position: relative;
+    top: 5px;
+}
+
+.sample-account-search-list-user-text-small {
+    font-family: Arial;
+    font-size: 15px;
+    position: absolute;
+    bottom: 30px;
+    left: 10px;
+}
+
+.sample-account-search-list-request-button {
+    height: 35px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--main-color);
+    border-radius: 8px;
+    z-index: 5;
+}
+
+.sample-account-search-list-request-button > h3 {
+    font-family: "Sarabun";
+    font-size: 18px;
+    color: var(--main-color);
+}
+
+.sample-account-search-list-request-button:hover {
+    background-color: var(--sample-red);
+    cursor: pointer;
+}
+
+.sample-account-search-list-request-button:hover h3 {
+    color: var(--content-bg-color);
+}
+
+.sample-account-search-list-link {
+    position: absolute;
+    bottom: 0;
+    right: 5px;
+}
+
+.sample-account-search-list-link > a {
+    font-family: "Sarabun";
+    font-size: 16px;
+    color: var(--sample-red);
+}
+
+.sample-account-search-list-link:hover {
+    transform: scale(1.05);
+    color: var(--sample-red);
+    cursor: pointer;
+}

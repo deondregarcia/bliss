@@ -13,6 +13,7 @@
   --faded-bg-color: rgba(0, 0, 0, 0.795);
   --delete-red: rgb(255, 36, 36);
   --page-height: calc(100vh - 100px);
+  --sample-red: rgb(255, 36, 36);
 }
 
 * {

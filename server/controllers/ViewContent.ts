@@ -303,7 +303,7 @@ export const getUserInfo = (googleID: string, callback: Function) => {
 };
 
 // get list of friends from google id
-export const getListOfFriends = (userGoogleID: number, callback: Function) => {
+export const getListOfFriends = (userGoogleID: string, callback: Function) => {
   const getUserID = "(SELECT id FROM users WHERE google_id=?)";
   const queryString = `SELECT username, first_name, last_name, google_photo_link, google_id, id, wants_to FROM users WHERE id IN (SELECT user_id FROM friends WHERE friend_id=${getUserID} UNION SELECT friend_id FROM friends WHERE user_id=${getUserID})`;
 

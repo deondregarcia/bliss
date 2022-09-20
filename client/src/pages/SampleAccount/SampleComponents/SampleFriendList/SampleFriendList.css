@@ -1,4 +1,4 @@
-.friend-list-wrapper {
+.sample-account-friend-list-wrapper {
     height: 100%;
     width: 100%;
     display: flex;
@@ -9,11 +9,11 @@
     transition: left 300ms ease;
 }
 
-.friend-list-deselected {
+.sample-account-friend-list-deselected {
     left: -100%;
 }
 
-.friend-list-container {
+.sample-account-friend-list-container {
     height: 100%;
     width: 90%;
     display: flex;
@@ -21,11 +21,11 @@
     overflow-y: scroll;
 }
 
-.friend-list-container::-webkit-scrollbar {
+.sample-account-friend-list-container::-webkit-scrollbar {
     display: none;
 }
 
-.friend-list-profile-wrapper {
+.sample-account-friend-list-profile-wrapper {
     border-bottom: 2px solid var(--border-style-color);
     position: relative;
     display: flex;
@@ -33,41 +33,42 @@
     padding: 10px 0 10px 0;
 }
 
-.friend-list-profile-wrapper:hover {
+.sample-account-friend-list-profile-wrapper:hover {
+    background-color: var(--sample-red);
     cursor: pointer;
 }
 
-.friend-list-profile-wrapper:hover .friend-name {
+.sample-account-friend-list-profile-wrapper:hover .sample-account-friend-name {
     font-size: 1.1em;
     transition: font-size 50ms ease-in;
 }
 
-.friend-image {
+.sample-account-friend-image {
     height: 75px;
     width: 75px;
     border-radius: 8px;
     object-fit: contain;
 }
 
-.friend-name {
+.sample-account-friend-name {
     font-family: "Sarabun";
     position: absolute;
     bottom: 0;
     right: 0;
 }
 
-.friend-list-content-header {
+.sample-account-friend-list-content-header {
     font-family: "Sarabun";
     position: absolute;
     top: 8px;
     left: 80px;
 }
 
-.friend-list-content-body-container {
+.sample-account-friend-list-content-body-container {
     position: relative;
 }
 
-.friend-list-content-body {
+.sample-account-friend-list-content-body {
     position: absolute;
     font-family: var(--text-font);
     top: 18px;

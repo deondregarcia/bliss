@@ -19,6 +19,7 @@ import SetAuth from "./auth/SetAuth";
 import CheckIfNewUser from "./auth/CheckIfNewUser";
 import AccountCreation from "./pages/AccountCreation/AccountCreation";
 import PublicProfile from "./pages/PublicProfile/PublicProfile";
+import SampleAccount from "./pages/SampleAccount/SampleAccount";
 
 const STATUS: StatusType = {
   owner: "owner",
@@ -35,6 +36,8 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route path="unauthorized" element={<Unauthorized />} />
             <Route path="public/:id" element={<PublicProfile />} />
+            {/* sample account for recruiters to get a quick look at the profile page */}
+            <Route path="sample-account" element={<SampleAccount />} />
             {/* bucket-list page verifies within component to allow for public access option */}
             <Route path="bucket-list">
               <Route path=":id" element={<BucketListView />} />

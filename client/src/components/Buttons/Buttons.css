@@ -79,7 +79,7 @@ a {
     color: #FFF;
 }
 
-.view-profile-button {
+.sample-account-view-profile-button {
     /* background-color: red; */
     padding: 0 5px;
     display: flex;
@@ -87,14 +87,24 @@ a {
     align-items: center;
 }
 
-.view-profile-button-text {
+.sample-account-view-profile-button-text {
     font-family: Arial;
     font-size: 16px;
     border-bottom: 1px solid transparent;
 }
 
-.view-profile-button-text:hover {
-    border-bottom: 1px solid var(--main-color);
+.sample-account-view-profile-button-text:hover {
+    border-bottom: 1px solid var(--sample-red);
+    color: var(--sample-red);
+}
+
+@media screen and (max-width: 1100px) and (min-width: 500px) {
+    .landing-login-button {
+        margin: auto;
+        height: 60px;
+        width: 300px;
+        font-size: 22px;
+    }
 }
 
 @media screen and (max-width: 500px) {

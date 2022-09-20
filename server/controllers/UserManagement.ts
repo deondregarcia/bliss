@@ -297,14 +297,10 @@ export const updateWantsTo = (
 ) => {
   const queryString = "UPDATE users SET wants_to=? WHERE google_id=?";
 
-  console.log(db.format(queryString, [userGoogleID, wantsToText]));
-
   db.query(queryString, [wantsToText, userGoogleID], (err, result) => {
     if (err) {
       callback(err);
     }
-
-    console.log(result);
 
     const insertID = (<OkPacket>result).insertId;
     callback(null, insertID);

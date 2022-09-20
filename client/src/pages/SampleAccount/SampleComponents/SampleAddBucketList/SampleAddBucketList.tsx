@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import "./AddBucketList.css";
-import { FriendListType, UserType } from "../../../types/content";
-import SelectSharedDropdown from "../Dropdown/SelectSharedDropdown";
+import "./SampleAddBucketList.css";
+import { FriendListType, UserType } from "../../../../types/content";
+import SelectSharedDropdown from "../../../../components/ProfileComponents/Dropdown/SelectSharedDropdown";
 
-const AddBucketList = ({
+const SampleAddBucketList = ({
   setCallback,
   addState,
   privacyType,
@@ -23,7 +23,7 @@ const AddBucketList = ({
 }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [publicType, setPublicType] = useState("public_friends");
+  const [publicType, setPublicType] = useState("public_random");
   const [selectedUsers, setSelectedUsers] = useState<FriendListType[]>([]);
 
   // function to add users to shared_list_users based on their ID
@@ -45,7 +45,7 @@ const AddBucketList = ({
   const addBucketList = () => {
     // if privacyType === "public", set whether its public_friends or public_random
     if (privacyType === "public") {
-      Axios.post("/content/bucket-list", {
+      Axios.post("/sample/bucket-list", {
         privacy_type: publicType,
         title: title,
         description: description,
@@ -60,7 +60,7 @@ const AddBucketList = ({
         });
     } else if (privacyType === "shared") {
       // create new bucket list and then add respective shared users
-      Axios.post("/content/bucket-list", {
+      Axios.post("/sample/bucket-list", {
         privacy_type: "shared",
         title: title,
         description: description,
@@ -86,7 +86,7 @@ const AddBucketList = ({
           console.log(err);
         });
     } else {
-      Axios.post("/content/bucket-list", {
+      Axios.post("/sample/bucket-list", {
         privacy_type: "private",
         title: title,
         description: description,
@@ -103,21 +103,21 @@ const AddBucketList = ({
   };
 
   return (
-    <div className="add-bucket-list-wrapper">
-      <div className="add-bucket-list-container">
+    <div className="sample-account-add-bucket-list-wrapper">
+      <div className="sample-account-add-bucket-list-container">
         <div
           onClick={() => setCallback(false)}
-          className="add-bucket-list-exit-button"
+          className="sample-account-add-bucket-list-exit-button"
         >
           <h1>X</h1>
         </div>
-        <div className="add-bucket-list-header">
+        <div className="sample-account-add-bucket-list-header">
           <h2>Add Activity</h2>
         </div>
-        <div className="add-bucket-list-body">
+        <div className="sample-account-add-bucket-list-body">
           <label htmlFor="title-input">Title</label>
           <input
-            className="add-bucket-list-title-input"
+            className="sample-account-add-bucket-list-title-input"
             type="text"
             id="title-input"
             placeholder="Enter title"
@@ -126,7 +126,7 @@ const AddBucketList = ({
           />
           <label htmlFor="description-input">Description</label>
           <input
-            className="add-bucket-list-description-input"
+            className="sample-account-add-bucket-list-description-input"
             type="text"
             id="description-input"
             placeholder="Enter description"
@@ -134,9 +134,9 @@ const AddBucketList = ({
             onChange={(e) => setDescription(e.target.value)}
           />
           {privacyType === "public" && (
-            <div className="add-bucket-list-public-radio-buttons-container">
+            <div className="sample-account-add-bucket-list-public-radio-buttons-container">
               <h2>Select Privacy Type</h2>
-              <div className="add-bucket-list-public-radio-buttons-wrapper">
+              <div className="sample-account-add-bucket-list-public-radio-buttons-wrapper">
                 <input
                   type="radio"
                   id="public-friends"
@@ -148,7 +148,7 @@ const AddBucketList = ({
                   Only friends can see this bucket list.
                 </label>
               </div>
-              <div className="add-bucket-list-public-radio-buttons-wrapper">
+              <div className="sample-account-add-bucket-list-public-radio-buttons-wrapper">
                 <input
                   type="radio"
                   id="public-random"
@@ -163,11 +163,11 @@ const AddBucketList = ({
             </div>
           )}
           {privacyType === "shared" && (
-            <div className="add-bucket-list-shared-container">
-              <h2 className="add-bucket-list-shared-header">
+            <div className="sample-account-add-bucket-list-shared-container">
+              <h2 className="sample-account-add-bucket-list-shared-header">
                 Who do you want to share this with?
               </h2>
-              <div className="add-bucket-list-shared-selected-container">
+              <div className="sample-account-add-bucket-list-shared-selected-container">
                 <SelectSharedDropdown
                   friends={friends}
                   selectedUsers={selectedUsers}
@@ -177,7 +177,10 @@ const AddBucketList = ({
             </div>
           )}
         </div>
-        <div onClick={addBucketList} className="add-bucket-list-save-button">
+        <div
+          onClick={addBucketList}
+          className="sample-account-add-bucket-list-save-button"
+        >
           <h2>Save</h2>
         </div>
       </div>
@@ -185,4 +188,4 @@ const AddBucketList = ({
   );
 };
 
-export default AddBucketList;
+export default SampleAddBucketList;

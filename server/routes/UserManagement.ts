@@ -282,9 +282,6 @@ manageUserRouter.patch("/wants-to", async (req: Request, res: Response) => {
   const userGoogleID = req.user?.id;
   const wantsToText = req.body.newWantsToText;
 
-  console.log(userGoogleID);
-  console.log(wantsToText);
-
   updateWantsTo(userGoogleID, wantsToText, (err: Error, insertID: number) => {
     if (err) {
       return res.status(500).json({ message: err.message });

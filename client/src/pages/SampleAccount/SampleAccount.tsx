@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import "./Profile.css";
+import "./SampleAccount.css";
 import { useParams } from "react-router-dom";
 import { GoogleUserObjectType } from "../../types/authTypes";
 
@@ -18,18 +18,19 @@ import {
 
 // import components
 import BucketList from "../../components/BucketList/BucketList";
+import DisabledBucketList from "./SampleComponents/DisabledBucketList/DisabledBucketList";
 import EmptyArrayMessage from "../../components/EmptyArrayMessage/EmptyArrayMessage";
 import ContentContainerHeader from "../../components/ContentContainerHeader/ContentContainerHeader";
 import RecipeDisplay from "../../components/ProfileComponents/RecipeDisplay/RecipeDisplay";
 import RecipeInput from "../../components/ProfileComponents/RecipeInput/RecipeInput";
 import { RecipeInputDefault } from "../../components/ProfileComponents/RecipeInput/RecipeInputDefault";
 import useAuth from "../../hooks/useAuth";
-import AddBucketList from "../../components/ProfileComponents/AddBucketList/AddBucketList";
+import SampleAddBucketList from "./SampleComponents/SampleAddBucketList/SampleAddBucketList";
 import EditBucketList from "../../components/ProfileComponents/EditBucketList/EditBucketList";
-import FriendList from "../../components/ProfileComponents/FriendManager/FriendList/FriendList";
-import Search from "../../components/ProfileComponents/FriendManager/Search/Search";
-import RequestList from "../../components/ProfileComponents/FriendManager/Requests/RequestList";
-import WantsToEdit from "../../components/ProfileComponents/WantsToEdit/WantsToEdit";
+import SampleFriendList from "./SampleComponents/SampleFriendList/SampleFriendList";
+import SampleSearch from "./SampleComponents/SampleSearch/SampleSearch";
+import SampleRequestList from "./SampleComponents/SampleRequestList/SampleRequestList";
+import SampleWantsToEdit from "./SampleComponents/SampleWantsToEdit/SampleWantsToEdit";
 import RecentFriendActivities from "../../components/ProfileComponents/RecentFriendActivities/RecentFriendActivities";
 
 // import react-icons
@@ -38,8 +39,6 @@ import { IoClose } from "react-icons/io5";
 import { imagesIndex } from "../../assets/images/imagesIndex";
 
 const Profile = () => {
-  const [userID, setUserID] = useState<number>(0);
-  const { auth } = useAuth();
   const [googleUserObject, setGoogleUserObject] = useState<
     GoogleUserObjectType | any
   >();
@@ -67,7 +66,7 @@ const Profile = () => {
 
   const [recipeArray, setRecipeArray] =
     useState<RecipeContentType[]>(RecipeInputDefault);
-  const { id } = useParams();
+  //   const { id } = useParams();
 
   // set state to display AddBucketList component
   const [publicAdd, setPublicAdd] = useState(false);
@@ -115,9 +114,7 @@ const Profile = () => {
   // grab bucket_list_tracker data
   const getBucketListData = () => {
     // google_id
-    Axios.get(
-      `/view/lists/${JSON.parse(auth.session_info.data).passport.user.id}`
-    )
+    Axios.get(`/view/lists/108259638600875384112`)
       .then((response) => {
         setPublicBucketListArray(
           response.data.data.filter((bucketList: BucketListType) => {
@@ -145,7 +142,7 @@ const Profile = () => {
 
   // get list of shared_list_users user objects where owner_id=(user's ID)
   const getAllContributors = () => {
-    Axios.get("/view/all-contributors")
+    Axios.get("/sample/all-contributors")
       .then((res) => {
         setContributorObjects(res.data.contributorObjects);
       })
@@ -154,27 +151,14 @@ const Profile = () => {
       });
   };
 
-  // get user info from db and google user info, and potentially update profile pic if respective photo links do not match
+  // get user info from db and google user info
   const getUserInfo = () => {
-    Axios.get(`/view/user-info/${id}`)
+    Axios.get(`/view/user-info/108259638600875384112`)
       .then((res) => {
         setUserObject(res.data.userInfo[0]);
-        Axios.get("/user/googleuser")
+        Axios.get("/sample/googleuser")
           .then((responseTwo) => {
             setGoogleUserObject(responseTwo.data.google_user);
-            if (
-              responseTwo.data.google_user.photos[0].value ===
-                res.data.userInfo[0].google_photo_link ||
-              responseTwo.data.google_user.photos[0].value === undefined
-            ) {
-              return;
-            } else {
-              Axios.patch("/user/google-photo", {
-                googlePhotoLink: responseTwo.data.google_user.photos[0].value,
-              }).catch((err) => {
-                console.log(err);
-              });
-            }
           })
           .catch((err) => {
             console.log(err);
@@ -187,7 +171,7 @@ const Profile = () => {
 
   // get list of friends
   const getFriendsList = () => {
-    Axios.get(`/view/list-of-friends`)
+    Axios.get(`/sample/list-of-friends`)
       .then((res) => {
         setFriends(res.data.friends);
       })
@@ -198,7 +182,7 @@ const Profile = () => {
 
   // get full list of users, excluding current user
   const getFullUserList = () => {
-    Axios.get(`/view/full-user-list/${id}`)
+    Axios.get(`/view/full-user-list/108259638600875384112`)
       .then((res) => {
         setFullUserList(res.data.userList);
       })
@@ -209,7 +193,7 @@ const Profile = () => {
 
   // get outgoing friend requests (user sent these)
   const getOutgoingFriendRequests = () => {
-    Axios.get(`/user/outgoing-friend-requests`)
+    Axios.get(`/sample/outgoing-friend-requests`)
       .then((res) => {
         setOutgoingFriendRequests(res.data.outgoingRequestUsers);
       })
@@ -220,7 +204,7 @@ const Profile = () => {
 
   // get incoming friend requests (user received these)
   const getIncomingFriendRequests = () => {
-    Axios.get(`/user/incoming-friend-requests`)
+    Axios.get(`/sample/incoming-friend-requests`)
       .then((res) => {
         setIncomingFriendRequests(res.data.incomingRequestUsers);
       })
@@ -231,7 +215,7 @@ const Profile = () => {
 
   // get recently added activities from friends
   const getRecentFriendActivities = () => {
-    Axios.get("/view/recent-friend-activities").then((res) => {
+    Axios.get("/sample/recent-friend-activities").then((res) => {
       setRecentFriendActivities(res.data.data);
     });
   };
@@ -260,8 +244,14 @@ const Profile = () => {
 
   return (
     <>
-      <div className="home-container">
-        <div className="profile-info">
+      <div className="sample-account-disabled-message">
+        <h3>
+          Since this is a sample account, some elements of the "Friends and
+          Search", Shared, and Private sections have been disabled.
+        </h3>
+      </div>
+      <div className="sample-account-home-container">
+        <div className="sample-account-profile-info">
           <h2>{userObject?.username}</h2>
           <img
             src={
@@ -272,34 +262,34 @@ const Profile = () => {
             }
             referrerPolicy="no-referrer" // referrer policy that blocked loading of img sometimes - look into it
             alt="google profile picture"
-            className="profile-pic"
+            className="sample-account-profile-pic"
           />
-          <div className="profile-info-name-container">
+          <div className="sample-account-profile-info-name-container">
             <h3>{userObject?.first_name}</h3>
             <h3>{userObject?.last_name}</h3>
           </div>
-          <div className="profile-wants-to-container">
-            <div className="profile-wants-to-header-wrapper">
-              <h3 className="profile-wants-to-container-header">
+          <div className="sample-account-profile-wants-to-container">
+            <div className="sample-account-profile-wants-to-header-wrapper">
+              <h3 className="sample-account-profile-wants-to-container-header">
                 I want to...
               </h3>
               {wantsToState ? (
                 <IoClose
                   onClick={() => setWantsToState(false)}
                   size={24}
-                  className="profile-wants-to-icon"
+                  className="sample-account-profile-wants-to-icon"
                 />
               ) : (
                 <MdEdit
                   onClick={() => setWantsToState(true)}
                   size={24}
-                  className="profile-wants-to-icon"
+                  className="sample-account-profile-wants-to-icon"
                 />
               )}
             </div>
-            <div className="profile-separator" />
+            <div className="sample-account-profile-separator" />
             {wantsToState ? (
-              <WantsToEdit
+              <SampleWantsToEdit
                 // wantsToText={userObject?.wants_to}
                 wantsToText={
                   didWantsToUpdate === "no"
@@ -310,26 +300,26 @@ const Profile = () => {
                 setDidWantsToUpdate={setDidWantsToUpdate}
               />
             ) : userObject?.wants_to ? (
-              <p className="profile-wants-to">
+              <p className="sample-account-profile-wants-to">
                 {didWantsToUpdate === "no"
                   ? userObject?.wants_to
                   : didWantsToUpdate}
               </p>
             ) : (
-              <p className="profile-wants-to-empty">
+              <p className="sample-account-profile-wants-to-empty">
                 You haven't added anything here yet!
               </p>
             )}
           </div>
         </div>
-        <div className="content-container public">
+        <div className="sample-account-content-container sample-account-public">
           <ContentContainerHeader
             setCallback={setPublicAdd}
             addState={publicAdd}
             category="Public"
           />
           {publicAdd && (
-            <AddBucketList
+            <SampleAddBucketList
               setCallback={setPublicAdd}
               addState={publicAdd}
               privacyType="public"
@@ -352,7 +342,7 @@ const Profile = () => {
               listArray={publicBucketListArray}
             />
           )}
-          <div className="content-container-bucket-list-wrapper">
+          <div className="sample-account-content-container-bucket-list-wrapper">
             {/* if publicBucketListArray is true, render, if null, display message */}
             {publicBucketListArray.length > 0 ? (
               publicBucketListArray.map((bucketList) => {
@@ -378,9 +368,11 @@ const Profile = () => {
             )}
           </div>
         </div>
-        <div className="right-column-container">
-          <h2 className="side-container-header">Friend Activity</h2>
-          <div className="side-container-header-separator" />
+        <div className="sample-account-right-column-container">
+          <h2 className="sample-account-side-container-header">
+            Friend Activity
+          </h2>
+          <div className="sample-account-side-container-header-separator" />
           {recentFriendActivities.length > 0 && friends.length > 0 && (
             <RecentFriendActivities
               recentFriendActivities={recentFriendActivities}
@@ -388,14 +380,14 @@ const Profile = () => {
             />
           )}
         </div>
-        <div className="content-container shared">
+        <div className="sample-account-content-container sample-account-shared">
           <ContentContainerHeader
             setCallback={setSharedAdd}
             addState={sharedAdd}
             category="Shared"
           />
           {sharedAdd && (
-            <AddBucketList
+            <SampleAddBucketList
               setCallback={setSharedAdd}
               addState={sharedAdd}
               privacyType="shared"
@@ -418,11 +410,11 @@ const Profile = () => {
               listArray={sharedBucketListArray}
             />
           )}
-          <div className="content-container-bucket-list-wrapper">
+          <div className="sample-account-content-container-bucket-list-wrapper">
             {sharedBucketListArray.length > 0 ? (
               sharedBucketListArray.map((bucketList) => {
                 return (
-                  <BucketList
+                  <DisabledBucketList
                     bucketList={bucketList}
                     setArrayObject={setSharedEditObject}
                     setEditMode={setSharedEdit}
@@ -443,14 +435,14 @@ const Profile = () => {
             )}
           </div>
         </div>
-        <div className="right-column-container friend-manager">
-          <div className="friend-manager-header-container">
+        <div className="sample-account-right-column-container sample-account-friend-manager">
+          <div className="sample-account-friend-manager-header-container">
             <div
               onClick={() => setFriendManager("friends")}
               className={
                 friendManager === "friends"
-                  ? "friend-manager-header-clicked my-friends"
-                  : "friend-manager-header my-friends"
+                  ? "sample-account-friend-manager-header-clicked my-friends"
+                  : "sample-account-friend-manager-header my-friends"
               }
             >
               <h2>Friends</h2>
@@ -459,17 +451,17 @@ const Profile = () => {
               onClick={() => setFriendManager("search")}
               className={
                 friendManager === "search"
-                  ? "friend-manager-header-clicked search"
-                  : "friend-manager-header search"
+                  ? "sample-account-friend-manager-header-clicked search"
+                  : "sample-account-friend-manager-header search"
               }
             >
               <h2>Search</h2>
             </div>
           </div>
-          <div className="side-container-header-separator" />
-          <div className="friend-manager-content-container">
-            <FriendList friendManager={friendManager} friends={friends} />
-            <Search
+          <div className="sample-account-side-container-header-separator" />
+          <div className="sample-account-friend-manager-content-container">
+            <SampleFriendList friendManager={friendManager} friends={friends} />
+            <SampleSearch
               friendManager={friendManager}
               fullUserList={fullUserList}
               friends={friends}
@@ -479,16 +471,16 @@ const Profile = () => {
             <div
               className={
                 requestTabSelected
-                  ? "friend-manager-request-tab request-tab-selected"
-                  : "friend-manager-request-tab"
+                  ? "sample-account-friend-manager-request-tab sample-account-request-tab-selected"
+                  : "sample-account-friend-manager-request-tab"
               }
             >
               <div
                 onClick={() => setRequestTabSelected(!requestTabSelected)}
-                className="friend-manager-request-tab-button"
+                className="sample-account-friend-manager-request-tab-button"
               >
                 <h3>Requests</h3>
-                <div className="friend-manager-request-count">
+                <div className="sample-account-friend-manager-request-count">
                   <h3>
                     {incomingFriendRequests.length > 0
                       ? incomingFriendRequests.length
@@ -496,8 +488,8 @@ const Profile = () => {
                   </h3>
                 </div>
               </div>
-              <div className="friend-manager-request-tab-bar">
-                <RequestList
+              <div className="sample-account-friend-manager-request-tab-bar">
+                <SampleRequestList
                   incomingFriendRequests={incomingFriendRequests}
                   requestTabSelected={requestTabSelected}
                 />
@@ -505,14 +497,14 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <div className="content-container private">
+        <div className="sample-account-content-container sample-account-private">
           <ContentContainerHeader
             setCallback={setPrivateAdd}
             addState={privateAdd}
             category="Private"
           />
           {privateAdd && (
-            <AddBucketList
+            <SampleAddBucketList
               setCallback={setPrivateAdd}
               addState={privateAdd}
               privacyType="private"
@@ -535,11 +527,11 @@ const Profile = () => {
               listArray={privateBucketListArray}
             />
           )}
-          <div className="content-container-bucket-list-wrapper">
+          <div className="sample-account-content-container-bucket-list-wrapper">
             {privateBucketListArray.length > 0 ? (
               privateBucketListArray.map((bucketList) => {
                 return (
-                  <BucketList
+                  <DisabledBucketList
                     bucketList={bucketList}
                     setArrayObject={setPrivateEditObject}
                     setEditMode={setPrivateEdit}
@@ -560,16 +552,18 @@ const Profile = () => {
             )}
           </div>
         </div>
-        <div className="right-column-container recipe-suggestions">
-          <h2 className="side-container-header">Recipe Suggestions</h2>
-          <div className="side-container-header-separator" />
+        <div className="sample-account-right-column-container sample-account-recipe-suggestions">
+          <h2 className="sample-account-side-container-header">
+            Recipe Suggestions
+          </h2>
+          <div className="sample-account-side-container-header-separator" />
           <RecipeInput setRecipeArray={setRecipeArray} />
-          <div className="recipe-api-content">
+          <div className="sample-account-recipe-api-content">
             {recipeArray?.map((recipe, index) => {
               return (
                 <div key={index}>
                   <RecipeDisplay recipe={recipe} />
-                  <div className="recipe-separator" />
+                  <div className="sample-account-recipe-separator" />
                 </div>
               );
             })}

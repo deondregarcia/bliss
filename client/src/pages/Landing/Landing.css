@@ -1,6 +1,7 @@
 .landing-page-container {
     height: 100vh;
     position: relative;
+    overflow-x: hidden;
 }
 
 .landing-page-header-container {
@@ -15,7 +16,6 @@
     position: absolute;
     top: 0;
     left: 18%;
-    /* background-color: purple; */
 }
 
 .landing-page-hero-text {
@@ -26,6 +26,15 @@
     left: 12%;
 }
 
+.landing-page-hero-text-recruiter {
+    margin-top: 10px;
+    font-size: 25px;
+}
+
+.landing-page-hero-text-recruiter-special {
+    color: red;
+}
+
 .landing-login-button-wrapper {
     margin-top: 5%;
 }
@@ -34,6 +43,7 @@
     position: absolute;
     top: 10%;
     left: 55%;
+    /* background-color: green; */
 }
 
 .landing-page-landing-graphic-link {
@@ -47,8 +57,9 @@
     font-size: 25px;
     font-family: "Sarabun";
     position: absolute;
-    bottom: 14%;
-    left: 53%;
+    width: 600px;
+    bottom: 0;
+    left: -10%;
 }
 
 .what-is-it-container {
@@ -79,14 +90,58 @@
     color: var(--text-color);
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 1700px) and (min-width: 1400px) {
+    .landing-page-hero-text {
+        left: 7%;
+        transform: scale(0.9);
+    }
+    .landing-page-landing-graphic-wrapper {
+        left: 55%;
+    }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1100px) {
+    .landing-page-hero-text {
+        left: 0;
+        transform: scale(0.7);
+    }
+    .landing-page-landing-graphic-wrapper {
+        left: 50%;
+    }
+    .landing-page-landing-graphic {
+        transform: scale(0.8);
+    }
+    .landing-page-landing-graphic-link {
+        font-size: 15px;
+        top: 72%;
+        left: 45%;
+    }
+    .value-proposition-text {
+        font-size: 20px;
+        width: 500px;
+        bottom: 7%;
+        left: 5%;
+    }
+    .what-is-it-header {
+        font-size: 40px;
+    }
+    .what-is-it-text-container {
+        margin-left: 50px;
+    }
+    .what-is-it-text-container > h2 {
+        font-size: 25px;
+    }
+}
+
+@media screen and (max-width: 1100px) and (min-width: 800px) {
+    .landing-page-title {
+        left: 35%;
+    }
     .landing-page-header-container {
-        /* height: 75%; */
-        /* height: 70vh; */
         height: 650px;
     }
     .landing-page-hero-text {
-        font-size: 16px;
+        font-size: 22px;
         top: 22%;
         text-align: center;
         left: 0;
@@ -97,8 +152,216 @@
         margin-top: 4%;
     }
     .landing-page-landing-graphic-wrapper {
-        top: 40%;
+        top: 53%;
+        left: 32%;
+        transform: scale(0.8);
+    }
+    .landing-page-landing-graphic {
+        height: 300px;
+        width: 300px;
+    }
+    .landing-page-landing-graphic-link {
+        font-size: 14px;
+        top: 76%;
+        left: 49%;
+    }
+    .value-proposition-text {
+        font-size: 18px;
+        font-family: "Sarabun";
+        position: absolute;
+        width: 600px;
+        bottom: -10%;
+        left: -10%;
+    }
+    .what-is-it-container {
+        height: 30vh;
+        padding-top: 10px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    .what-is-it-header {
+        font-size: 30px;
+    }
+    .what-is-it-text-container {
+        width: 70%;
+        /* height: 40%; */
+        margin-top: 18px;
+        margin-left: 0;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+    }
+    .what-is-it-text-container > h2 {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 800px) and (min-width: 700px) {
+    .landing-page-title {
+        left: 30%;
+    }
+    .landing-page-header-container {
+        height: 650px;
+    }
+    .landing-page-hero-text {
+        font-size: 22px;
+        top: 22%;
+        text-align: center;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    .landing-login-button-wrapper{
+        margin-top: 4%;
+    }
+    .landing-page-landing-graphic-wrapper {
+        top: 53%;
+        left: 28%;
+        transform: scale(0.8);
+    }
+    .landing-page-landing-graphic {
+        height: 300px;
+        width: 300px;
+    }
+    .landing-page-landing-graphic-link {
+        font-size: 14px;
+        top: 76%;
+        left: 49%;
+    }
+    .landing-page-hero-text-recruiter {
+        font-size: 20px;
+    }
+    .value-proposition-text {
+        font-size: 18px;
+        font-family: "Sarabun";
+        position: absolute;
+        width: 600px;
+        bottom: -10%;
+        left: -10%;
+    }
+    .what-is-it-container {
+        height: 30vh;
+        padding-top: 10px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    .what-is-it-header {
+        font-size: 30px;
+    }
+    .what-is-it-text-container {
+        width: 70%;
+        /* height: 40%; */
+        margin-top: 18px;
+        margin-left: 0;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+    }
+    .what-is-it-text-container > h2 {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 700px) and (min-width: 500px) {
+    .landing-page-title {
+        left: 30%;
+    }
+    .landing-page-header-container {
+        height: 650px;
+    }
+    .landing-page-hero-text {
+        font-size: 22px;
+        top: 22%;
+        text-align: center;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    .landing-login-button-wrapper{
+        margin-top: 4%;
+    }
+    .landing-page-landing-graphic-wrapper {
+        top: 53%;
+        left: 22%;
+        transform: scale(0.8);
+    }
+    .landing-page-landing-graphic {
+        height: 300px;
+        width: 300px;
+    }
+    .landing-page-landing-graphic-link {
+        font-size: 14px;
+        top: 76%;
+        left: 49%;
+    }
+    .landing-page-hero-text-recruiter {
+        font-size: 20px;
+    }
+    .value-proposition-text {
+        font-size: 18px;
+        font-family: "Sarabun";
+        position: absolute;
+        width: 600px;
+        bottom: -10%;
+        left: -10%;
+    }
+    .what-is-it-container {
+        height: 30vh;
+        padding-top: 10px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    .what-is-it-header {
+        font-size: 30px;
+    }
+    .what-is-it-text-container {
+        width: 70%;
+        /* height: 40%; */
+        margin-top: 18px;
+        margin-left: 0;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+    }
+    .what-is-it-text-container > h2 {
+        font-size: 18px;
+    }
+}
+
+
+@media screen and (max-width: 500px) {
+    .landing-page-header-container {
+        height: 650px;
+        overflow-x: hidden;
+    }
+    .landing-page-hero-text {
+        font-size: 16px;
+        top: 22%;
+        text-align: center;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    .landing-page-hero-text-recruiter {
+        font-size: 16px;
+    }
+    .landing-login-button-wrapper{
+        margin-top: 4%;
+    }
+    .landing-page-landing-graphic-wrapper {
+        top: 47%;
         left: 13%;
+        transform: scale(0.8);
+        /* background-color: green; */
     }
     .landing-page-landing-graphic {
         height: 300px;
@@ -111,11 +374,11 @@
     }
     .value-proposition-text {
         font-size: 16px;
-        position: relative;
-        top: 88%;
-        left: 0;
-        margin: auto;
-        text-align: center;
+        font-family: "Sarabun";
+        position: absolute;
+        width: 600px;
+        bottom: -10%;
+        left: -18%;
     }
     .what-is-it-container {
         height: 30vh;

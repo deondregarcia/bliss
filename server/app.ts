@@ -11,6 +11,7 @@ import { SessionType } from "./types/session";
 import { contentRouter } from "./routes/ManageContent";
 import { viewContentRouter } from "./routes/ViewContent";
 import { manageUserRouter } from "./routes/UserManagement";
+import { sampleContentRouter } from "./routes/Sample";
 
 import passport from "passport";
 import session from "express-session";
@@ -61,6 +62,7 @@ app.use(bodyParser.json());
 app.use("/content", contentRouter);
 app.use("/view", viewContentRouter);
 app.use("/user", manageUserRouter);
+app.use("/sample", sampleContentRouter);
 
 const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
   req.user ? next() : res.sendStatus(401);
@@ -75,8 +77,8 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/auth/failure" }),
   (req: Request, res: Response) => {
-    // res.redirect(`http://localhost:3001/my-profile/${req?.user?.id}`);
-    res.redirect(`https://blissely.herokuapp.com/my-profile/${req?.user?.id}`);
+    res.redirect(`http://localhost:3001/my-profile/${req?.user?.id}`);
+    // res.redirect(`https://blissely.herokuapp.com/my-profile/${req?.user?.id}`);
   }
 );
 
@@ -105,9 +107,10 @@ app.get("/verify", (req: Request, res: Response) => {
 });
 
 app.get("/recipes", (req: Request, res: Response) => {
-  const recipeSearch = req.params.query;
+  // const recipeSearch = req.params.query;
+  const recipeSearch = req.query.recipe;
   let recipeResponse;
-  const recipeOptions = {
+  let recipeOptions = {
     params: {
       query: recipeSearch,
       number: 3,

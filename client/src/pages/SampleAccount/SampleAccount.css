@@ -1,0 +1,433 @@
+.sample-account-home-container {
+    display: grid;
+    grid-template-columns: repeat(18, minmax(80px, 1fr));
+    grid-template-rows: repeat(9, 130px);
+    justify-content: center;
+    grid-gap: 15px;
+    margin-bottom: 60px;
+}
+
+.sample-account-profile-info {
+    background-color: var(--content-bg-color);
+    grid-column: 4/6;
+    grid-row: 1/4;
+    border-radius: var(--border-radius);
+    border: var(--border-style);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5px;
+}
+
+.sample-account-profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 20px;
+    margin-top: 8px;
+    object-fit: contain;
+}
+
+.sample-account-profile-info-name-container {
+    font-family: "Sarabun";
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sample-account-profile-wants-to-container {
+    width: 80%;
+    margin-top: 5px;
+    overflow-wrap: break-word;
+}
+
+.sample-account-profile-wants-to-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sample-account-profile-wants-to-container-header {
+    font-size: 20px;
+    font-family: "Sarabun";
+    color: var(--text-color);
+}
+
+.sample-account-profile-wants-to-icon:hover {
+    color: var(--main-color);
+    cursor: pointer;
+}
+
+.sample-account-profile-wants-to {
+    font-family: Arial;
+    font-size: 18px;
+}
+
+.sample-account-profile-wants-to-empty {
+    font-family: Arial;
+    font-size: 18px;
+    color: gray;
+    font-style: italic;
+}
+
+.sample-account-profile-separator {
+    width: 100%;
+    height: 2px;
+    background-color: var(--main-color);
+    margin-bottom: 8px;
+}
+
+.sample-account-content-container {
+    position: relative;
+    background-color: var(--content-bg-color);
+    grid-column: 6/13;
+    grid-row: span 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    border-radius: var(--border-radius);
+    border: var(--border-style);
+}
+
+.sample-account-content-container::-webkit-scrollbar {
+    display: none;
+}
+
+.sample-account-content-container-bucket-list-wrapper {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.sample-account-content-container-bucket-list-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.sample-account-today-i-should-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sample-account-right-column-container {
+    background-color: var(--content-bg-color);
+    grid-column: 13/16;
+    border-radius: var(--border-radius);
+    border: var(--border-style);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+}
+
+.sample-account-right-column-container::-webkit-scrollbar {
+    display: none;
+}
+
+.sample-account-friend-feed {
+    grid-row: span 1;
+}
+
+.sample-account-friend-manager {
+    grid-row: 2 / 5;
+    overflow-x: hidden;
+}
+
+.sample-account-recipe-suggestions {
+    grid-row: 5 / 8;
+}
+
+.sample-account-friend-manager-header-container {
+    width: 100%;
+    display: flex;
+    /* justify-content: center; */
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: -3px;
+}
+
+.sample-account-friend-manager-header {
+    font-family: "Sarabun";
+    font-size: 16px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: gray;
+}
+
+.sample-account-friend-manager-header:hover {
+    cursor: pointer;
+}
+
+.sample-account-friend-manager-header-clicked {
+    font-family: "Sarabun";
+    font-size: 16px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-color);
+    color: var(--content-bg-color);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.sample-account-friend-manager-header-clicked:hover {
+    cursor: pointer;
+}
+
+.sample-account-friend-manager-content-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.sample-account-friend-manager-request-tab {
+    position: absolute;
+    height: 2px;
+    transition: height 250ms ease;
+    width: 100%;
+    bottom: 0;
+    background-color: var(--content-bg-color);
+}
+
+.sample-account-request-tab-selected {
+    height: 40%;
+}
+
+.sample-account-friend-manager-request-tab-button {
+    height: 24px;
+    width: 120px;
+    margin-left: 35px;
+    position: absolute;
+    top: -23px;
+    display: flex;
+    justify-content: center;
+    border: 2px solid var(--main-color);
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-family: "Sarabun";
+    background-color: var(--main-color);
+    color: var(--content-bg-color);
+    font-size: 15px;
+}
+
+.sample-account-friend-manager-request-tab-button:hover {
+    cursor: pointer;
+}
+
+.sample-account-friend-manager-request-count {
+    background-color: var(--content-bg-color);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    color: var(--main-color);
+    font-size: 12px;
+}
+
+.sample-account-friend-manager-request-tab-bar {
+    width: 100%;
+    border-top: 2px solid var(--main-color);
+}
+
+/* these should be h2 tags */
+.sample-account-side-container-header {
+    font-family: "Sarabun";
+    color: var(--main-color);
+}
+
+.sample-account-side-container-header-separator {
+    width: 90%;
+    height: 2px;
+    margin-top: 3px;
+    background-color: var(--border-style-color);
+    flex-shrink: 0; /* randomly need this for some of the divs to show up */
+}
+
+.sample-account-recipe-separator {
+    width: 100%;
+    height: 2px;
+    background-color: var(--border-style-color);
+    margin: 15px auto;
+}
+
+.sample-account-today-i-should-container {
+    background-color: var(--content-bg-color);
+    grid-column: 4/6;
+    border-radius: var(--border-radius);
+    border: var(--border-style);
+}
+
+.sample-account-disabled-message {
+    color: var(--sample-red);
+    font-size: 15px;
+    font-family: "Sarabun";
+    position: relative;
+    top: 0;
+    left: 28%;
+    width: 800px;
+    /* background-color: green; */
+}
+
+@media screen and (max-width: 1700px) {
+    .sample-account-disabled-message {
+        left: 25%;
+    }
+}
+
+@media screen and (max-width: 1500px) {
+    .sample-account-disabled-message {
+        left: 20%;
+    }
+}
+
+@media screen and (max-width: 1300px) and (min-width: 1100px) {
+    .sample-account-home-container {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        width: 90vw;
+    }
+    .sample-account-disabled-message {
+        left: 15%;
+    }
+}
+
+@media screen and (max-width: 1100px) and (min-width: 600px) {
+    .sample-account-home-container {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(6, 300px);
+        grid-gap: 25px;
+        margin-bottom: 20px;
+    }
+    .sample-account-content-container {
+        grid-column: 1 / 4;
+        grid-row: span 1;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .sample-account-right-column-container {
+        grid-column: 1 / 4;
+        grid-row: span 1;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .sample-account-public {
+        grid-row-start: 1;
+    }
+    .sample-account-shared {
+        grid-row-start: 2;
+    }
+    .sample-account-friend-manager {
+        grid-row-start: 3;
+        overflow-x: hidden;
+    }
+    .sample-account-private {
+        grid-row-start: 4;
+    }
+    .sample-account-profile-info {
+        grid-column: 1 / 4;
+        grid-row: 5 / 6;
+        margin-left: 50px;
+        margin-right: 50px;
+        overflow-y: scroll;
+        padding-bottom: 50px;
+    }
+    .sample-account-profile-info::-webkit-scrollbar {
+        display: none;
+    }
+    .sample-account-friend-feed {
+        grid-column: 1 / 4;
+        grid-row-start: 6;
+    }
+    .sample-account-recipe-suggestions {
+        display: none;
+    }
+    .sample-account-profile-wants-to-icon {
+        height: 30px;
+        width: 30px;
+    }
+    .sample-account-content-container-bucket-list-wrapper {
+        padding-bottom: 20px;
+    }
+    .sample-account-disabled-message {
+        left: 25%;
+        width: 400px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .sample-account-home-container {
+        /* grid-template-columns: repeat(3, minmax(130px, 1fr)); */
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(5, 300px);
+        grid-gap: 25px;
+        margin-bottom: 20px;
+    }
+    .sample-account-content-container {
+        grid-column: 1 / 4;
+        grid-row: span 1;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .sample-account-right-column-container {
+        grid-column: 1 / 4;
+        grid-row: span 1;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .sample-account-public {
+        grid-row-start: 1;
+    }
+    .sample-account-shared {
+        grid-row-start: 2;
+    }
+    .sample-account-friend-manager {
+        grid-row-start: 3;
+        overflow-x: hidden;
+    }
+    .sample-account-private {
+        grid-row-start: 4;
+    }
+    .sample-account-profile-info {
+        grid-column: 1 / 4;
+        grid-row: 5 / 6;
+        margin-left: 50px;
+        margin-right: 50px;
+        overflow-y: scroll;
+        padding-bottom: 50px;
+    }
+    .sample-account-profile-info::-webkit-scrollbar {
+        display: none;
+    }
+    .sample-account-friend-feed {
+        display: none;
+    }
+    .sample-account-recipe-suggestions {
+        display: none;
+    }
+    .sample-account-profile-wants-to-icon {
+        height: 30px;
+        width: 30px;
+    }
+    .sample-account-content-container-bucket-list-wrapper {
+        padding-bottom: 20px;
+    }
+    .sample-account-disabled-message {
+        left: 20%;
+        width: 250px;
+        font-size: 12px;
+    }
+}

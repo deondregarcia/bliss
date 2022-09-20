@@ -1,4 +1,4 @@
-.add-bucket-list-wrapper {
+.sample-account-add-bucket-list-wrapper {
     height: 100%;
     width: 100%;
     background-color: var(--faded-bg-color);
@@ -9,7 +9,7 @@
     right: 0;
 }
 
-.add-bucket-list-container {
+.sample-account-add-bucket-list-container {
     position: absolute;
     border-radius: var(--border-radius);
     background-color: var(--content-bg-color);
@@ -24,39 +24,39 @@
     width: 90%;
 }
 
-.add-bucket-list-container::-webkit-scrollbar {
+.sample-account-add-bucket-list-container::-webkit-scrollbar {
     display: none;
 }
 
-.add-bucket-list-exit-button {
+.sample-account-add-bucket-list-exit-button {
     position: absolute;
     top: 5px;
     right: 10px;
 }
 
-.add-bucket-list-exit-button:hover {
+.sample-account-add-bucket-list-exit-button:hover {
     cursor: pointer;
 }
 
-.add-bucket-list-body {
+.sample-account-add-bucket-list-body {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
     align-items: center;
 }
 
-.add-bucket-list-header {
+.sample-account-add-bucket-list-header {
     text-align: center;
     margin-top: 20px;
 }
 
-.add-bucket-list-body > label {
+.sample-account-add-bucket-list-body > label {
     font-size: 20px;
     font-weight: bold;
     font-family: "Sarabun";
 }
 
-.add-bucket-list-title-input {
+.sample-account-add-bucket-list-title-input {
     width: 80%;
     margin-bottom: 30px;
     border: 2px solid transparent;
@@ -67,11 +67,11 @@
     font-family: Arial;
 }
 
-.add-bucket-list-title-input:focus {
+.sample-account-add-bucket-list-title-input:focus {
     outline: none;
 }
 
-.add-bucket-list-description-input {
+.sample-account-add-bucket-list-description-input {
     width: 80%;
     border: 2px solid transparent;
     border-bottom: 2px solid var(--main-color);
@@ -81,11 +81,11 @@
     font-family: Arial;
 }
 
-.add-bucket-list-description-input:focus {
+.sample-account-add-bucket-list-description-input:focus {
     outline: none;
 }
 
-.add-bucket-list-save-button {
+.sample-account-add-bucket-list-save-button {
     height: 30px;
     width: 100px;
     margin: 30px auto;
@@ -96,51 +96,51 @@
     align-items: center;
 }
 
-.add-bucket-list-save-button:hover {
+.sample-account-add-bucket-list-save-button:hover {
     background-color: var(--main-color);
     cursor: pointer;
 }
 
-.add-bucket-list-save-button:hover h2 {
+.sample-account-add-bucket-list-save-button:hover h2 {
     color: white;
 }
 
-.add-bucket-list-save-button > h2 {
+.sample-account-add-bucket-list-save-button > h2 {
     color: var(--main-color);
 }
 
-.add-bucket-list-public-radio-buttons-container {
+.sample-account-add-bucket-list-public-radio-buttons-container {
     display: flex;
     flex-direction: column;
     margin-top: 30px;
 }
 
-.add-bucket-list-public-radio-buttons-container > h2 {
+.sample-account-add-bucket-list-public-radio-buttons-container > h2 {
     font-size: 20px;
     font-weight: bold;
     font-family: "Sarabun";
 }
 
-.add-bucket-list-public-radio-buttons-wrapper {
+.sample-account-add-bucket-list-public-radio-buttons-wrapper {
     margin-top: 10px;
 }
 
-.add-bucket-list-public-radio-buttons-wrapper > label {
+.sample-account-add-bucket-list-public-radio-buttons-wrapper > label {
     margin-left: 10px;
 }
 
-.add-bucket-list-public-radio-buttons-wrapper > input {
+.sample-account-add-bucket-list-public-radio-buttons-wrapper > input {
     accent-color: var(--main-color);
 }
 
-.add-bucket-list-shared-container {
+.sample-account-add-bucket-list-shared-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 30px;
 }
 
-.add-bucket-list-shared-header {
+.sample-account-add-bucket-list-shared-header {
     font-size: 20px;
     font-weight: bold;
     font-family: "Sarabun";
